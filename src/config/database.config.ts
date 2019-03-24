@@ -8,5 +8,5 @@ export const DATABASE_CONFIG: TypeOrmModuleOptions = {
   password: '',
   database: 'nest-blog',
   entities: ['src/**/*.entity{.ts,.js}'],
-  synchronize: true,
+  synchronize: true, // TODO: switch to false in prod & une migration instead !
 };

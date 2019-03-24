@@ -12,9 +12,11 @@ export class ArticleService {
     private readonly articleRepo: Repository<ArticleEntity>
   ) { }
 
-  getArticles(): Promise<ArticleEntity[]> {
-    // TODO: limit the lenght
-    return this.articleRepo.find();
+  getArticles(page = 1, take = 25): Promise<ArticleEntity[]> {
+    return this.articleRepo.find({
+      skip: take * (page - 1),
+      take
+    });
   }
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {

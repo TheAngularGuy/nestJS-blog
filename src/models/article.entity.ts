@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { CommentEntity } from './comment.entity';
 
 @Entity('articles')
 export class ArticleEntity {
@@ -28,9 +30,12 @@ export class ArticleEntity {
   tag?: string;
 
   @Column({ default: 0 })
-  likes?: number;
+  claps?: number;
 
   @Column({ default: 0 })
   views?: number;
+
+  @OneToMany(type => CommentEntity, comment => comment.article)
+  comments?: CommentEntity[];
 
 }

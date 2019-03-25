@@ -30,6 +30,6 @@ export class CommentEntity {
   dislikes?: number;
 
   @ManyToOne(type => ArticleEntity, article => article.comments)
-  article: ArticleEntity;
+  article?: ArticleEntity;
 
 }

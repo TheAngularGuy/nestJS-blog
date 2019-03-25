@@ -1,16 +1,15 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, Put, Query } from '@nestjs/common';
 import { ArticleDto } from 'src/models/article.dto';
-import { ArticleEntity } from 'src/models/article.entity';
 
 import { ArticleService } from './article.service';
 
-@Controller('article')
+@Controller('api/article')
 export class ArticleController {
 
   constructor(private readonly service: ArticleService) { }
 
   @Get()
-  getAll(@Query('page') page: number, @Query('take') take: number): Promise<ArticleEntity[]> {
+  getAll(@Query('page') page: number, @Query('take') take: number) {
     Logger.log('get all articles', 'ArticleController');
     return this.service.getArticles(page, take);
   }

@@ -3,13 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArticleEntity } from 'src/models/article.entity';
 import { CommentEntity } from 'src/models/comment.entity';
 
-import { ArticleService } from '../article/article.service';
+import { ArticleModule } from '../article/article.module';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
 
 
 @Module({
   imports: [
+    ArticleModule,
     TypeOrmModule.forFeature([
       CommentEntity,
       ArticleEntity
@@ -19,8 +20,7 @@ import { CommentService } from './comment.service';
     CommentController,
   ],
   providers: [
-    CommentService,
-    ArticleService
+    CommentService
   ]
 })
 export class CommentModule { }

@@ -20,7 +20,8 @@ export class CommentService {
     const comment = new CommentEntity();
     comment.article = article;
     comment.message = commentDto.message;
-    return this.commentRepo.save(comment);
+    const createdComment = await this.commentRepo.save(comment);
+    return this.getOneComment(createdComment.id);
   }
 
   async getComments(articleId: number, page: number, take: number): Promise<CommentEntity[]> {
@@ -29,23 +30,23 @@ export class CommentService {
   }
 
   async getOneComment(commentId: number) {
-    return this.commentRepo.findOne(commentId);
+    return this.commentRepo.findOneOrFail(commentId, {
+      relations: ['article']
+    });
   }
 
   async updateComment(commentId: number, commentDto: CommentDto): Promise<CommentEntity> {
-    const comment = await this.commentRepo.findOne(commentId);
-    if (!comment) { return null; }
+    const comment = await this.commentRepo.findOneOrFail(commentId);
     const commentDtoWithPayload: CommentEntity = {
       editedAt: new Date(),
       ...commentDto
     };
     await this.commentRepo.update(commentId, commentDtoWithPayload);
-    return await this.commentRepo.findOne(commentId);
+    return await this.commentRepo.findOneOrFail(commentId);
   }
 
   async removeComment(commentId: number): Promise<CommentEntity> {
-    const comment = await this.commentRepo.findOne(commentId);
-    if (!comment) { return null; }
+    const comment = await this.commentRepo.findOneOrFail(commentId);
     return this.commentRepo.remove(comment);
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { UserService } from './user.service';
@@ -11,7 +11,11 @@ export class UserController {
 
   @Get()
   getAll(@Query('page') page: number, @Query('take') take: number) {
-    return this.userService.getUsers(page, take);
+    try {
+      return this.userService.getUsers(page, take);
+    } catch (err) {
+      throw new HttpException(null, HttpStatus.NO_CONTENT);
+    }
   }
 
 }

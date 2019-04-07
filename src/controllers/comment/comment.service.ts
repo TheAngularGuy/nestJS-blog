@@ -26,7 +26,9 @@ export class CommentService {
 
   async getComments(articleId: number, page: number, take: number): Promise<CommentEntity[]> {
     const article = await this.articleService.getOneArticle(articleId);
-    return article.comments;
+    if (article) {
+      return article.comments;
+    }
   }
 
   async getOneComment(commentId: number) {

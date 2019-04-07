@@ -32,7 +32,7 @@ export class CommentController {
   }
 
   @Get()
-  getAll(@Query('articleId') articleId: number, @Query('page') page: number, @Query('take') take: number) {
+  getAll(@Param('articleId') articleId: number, @Query('page') page: number, @Query('take') take: number) {
     try {
       return this.service.getComments(articleId, page, take);
     } catch (err) {

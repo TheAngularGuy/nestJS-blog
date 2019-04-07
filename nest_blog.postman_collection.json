@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "101178b5-16cf-4c0d-bfc1-d8315aeb01c7",
+		"name": "nest_blog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mus@email.com\",\n\t\"password\": \"mmmm\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"mus\",\n\t\"email\": \"mus@email.com\",\n\t\"password\": \"mmmm\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/auth/signin",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ2NTMwNTQsImV4cCI6MTU1NTI1Nzg1NH0.VRSjAszYJpNrP4-SkZPY4uEIIgJEGP90dSRtxYB_yPwPdwwYGO4jEqyiFhCmoBbk0Rfe3IGBauSrUqbHltCoXQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "94ec7290-24ff-4430-ace6-daf5835cb270",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9702962-0aad-4ed5-9bc3-6ba889524e77",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "articles",
+			"item": [
+				{
+					"name": "add article",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\"title\": \"ooo\",\n\t\n\t\"body\": \"pipipi\"\n\t\n}"
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "add comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"message\": \"helloooooooooo\"\n}"
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/3/comment/",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"3",
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/1/comment/",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"1",
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit one comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"message\": \"helloooooooojjjjjoo\"\n}"
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/0/comment/2",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"0",
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ2NTMwNTQsImV4cCI6MTU1NTI1Nzg1NH0.VRSjAszYJpNrP4-SkZPY4uEIIgJEGP90dSRtxYB_yPwPdwwYGO4jEqyiFhCmoBbk0Rfe3IGBauSrUqbHltCoXQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2e320c0a-2181-4d57-b7c2-e7764e1912c2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0add11e-75c1-4cf0-ae34-e7bb1e4bfd4a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e2d5daa5-07ce-457e-8ca4-821a95535d5c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7693a865-3c6c-4f7c-b5d6-47efc509b1ee",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "00a82a72-903a-4ad7-8af9-a3f25f30a5ea",
+			"key": "apiRoute",
+			"value": "localhost:3000/api",
+			"type": "string"
+		}
+	]
+}

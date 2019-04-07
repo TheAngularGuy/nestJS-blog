@@ -5,12 +5,13 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Logger,
   Param,
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ArticleDto } from 'src/models/article/article.dto';
 
 import { ArticleService } from './article.service';
@@ -22,52 +23,50 @@ export class ArticleController {
 
   @Get()
   getAll(@Query('page') page: number, @Query('take') take: number) {
-    Logger.log('get all articles', 'ArticleController');
-    return this.service.getArticles(page, take);
+    try {
+      return this.service.getArticles(page, take);
+    } catch (err) {
+      throw new HttpException('Articles not found', HttpStatus.NOT_FOUND);
+    }
   }
 
   @Get(':articleId')
   async getOne(@Param('articleId') articleId: number) {
-    Logger.log('get one article', 'ArticleController');
-    const article = await this.service.getOneArticle(articleId);
-    if (article) {
-      return article;
+    try {
+      return await this.service.getOneArticle(articleId);
+    } catch (err) {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
     }
-    throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
   }
 
   @Post()
+  @UseGuards(AuthGuard())
   async create(@Body() articleDto: ArticleDto) {
-    Logger.log('create new article', 'ArticleController');
-    if (articleDto && articleDto.body && articleDto.title) {
-      const article = await this.service.createArticle(articleDto);
-      if (article) {
-        return article;
-      }
+    try {
+      return await this.service.createArticle(articleDto);
+    } catch (err) {
+      throw new HttpException('Not created', HttpStatus.NOT_ACCEPTABLE);
     }
-    throw new HttpException('Not created', HttpStatus.NOT_ACCEPTABLE);
   }
 
   @Put(':articleId')
+  @UseGuards(AuthGuard())
   async update(@Param('articleId') articleId: number, @Body() articleDto: ArticleDto) {
-    Logger.log('edit article', 'ArticleController');
-    if (articleDto && articleDto.body && articleDto.title) {
-      const article = await this.service.updateArticle(articleId, articleDto);
-      if (article) {
-        return article;
-      }
+    try {
+      return await this.service.updateArticle(articleId, articleDto);
+    } catch (err) {
+      throw new HttpException('Not updated', HttpStatus.NOT_ACCEPTABLE);
     }
-    throw new HttpException('Not updated', HttpStatus.NOT_ACCEPTABLE);
   }
 
   @Delete(':articleId')
+  @UseGuards(AuthGuard())
   async remove(@Param('articleId') articleId: number) {
-    Logger.log('remove article', 'ArticleController');
-    const article = await this.service.removeArticle(articleId);
-    if (article) {
-      return article;
+    try {
+      return await this.service.removeArticle(articleId);
+    } catch (err) {
+      throw new HttpException('Not deleted', HttpStatus.NOT_FOUND);
     }
-    throw new HttpException('Not deleted', HttpStatus.NOT_FOUND);
   }
 
 }

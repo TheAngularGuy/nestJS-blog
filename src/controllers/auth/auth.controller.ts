@@ -21,8 +21,7 @@ export class AuthController {
   @Post('login')
   async logIn(@Body() user: LoginDto): Promise<JwtToken> {
     try {
-      const token = await this.authService.logIn(user);
-      return token;
+      return await this.authService.logIn(user);
     } catch (err) {
       throw new UnauthorizedException();
     }

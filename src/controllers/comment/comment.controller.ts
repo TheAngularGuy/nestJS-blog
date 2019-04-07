@@ -9,7 +9,9 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CommentDto } from 'src/models/comment/comment.dto';
 
 import { CommentService } from './comment.service';
@@ -21,15 +23,6 @@ export class CommentController {
   constructor(
     private readonly service: CommentService,
   ) { }
-
-  @Post()
-  async create(@Param('articleId') articleId: number, @Body() commentDto: CommentDto) {
-    try {
-      return await this.service.createComment(articleId, commentDto);
-    } catch (err) {
-      throw new HttpException('Not created', HttpStatus.NOT_ACCEPTABLE);
-    }
-  }
 
   @Get()
   getAll(@Param('articleId') articleId: number, @Query('page') page: number, @Query('take') take: number) {
@@ -49,7 +42,18 @@ export class CommentController {
     }
   }
 
+  @Post()
+  @UseGuards(AuthGuard())
+  async create(@Param('articleId') articleId: number, @Body() commentDto: CommentDto) {
+    try {
+      return await this.service.createComment(articleId, commentDto);
+    } catch (err) {
+      throw new HttpException('Not created', HttpStatus.NOT_ACCEPTABLE);
+    }
+  }
+
   @Put(':commentId')
+  @UseGuards(AuthGuard())
   async update(@Param('commentId') commentId: number, @Body() commentDto: CommentDto) {
     try {
       return await this.service.updateComment(commentId, commentDto);
@@ -59,6 +63,7 @@ export class CommentController {
   }
 
   @Delete(':commentId')
+  @UseGuards(AuthGuard())
   async remove(@Param('commentId') commentId: number) {
     try {
       return await this.service.removeComment(commentId);

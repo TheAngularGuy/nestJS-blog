@@ -20,7 +20,7 @@ export class ArticleService {
   }
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {
-    return this.articleRepo.findOne(articleId, {
+    return this.articleRepo.findOneOrFail(articleId, {
       relations: ['comments'],
     });
   }
@@ -30,19 +30,17 @@ export class ArticleService {
   }
 
   async updateArticle(articleId: number, articleDto: ArticleDto): Promise<ArticleEntity> {
-    const article = await this.articleRepo.findOne(articleId);
-    if (!article) { return null; }
+    const article = await this.articleRepo.findOneOrFail(articleId);
     const articleDtoWithPayload: ArticleEntity = {
       editedAt: new Date(),
       ...articleDto
     };
     await this.articleRepo.update(articleId, articleDtoWithPayload);
-    return await this.articleRepo.findOne(articleId);
+    return await this.articleRepo.findOneOrFail(articleId);
   }
 
   async removeArticle(articleId: number): Promise<ArticleEntity> {
-    const article = await this.articleRepo.findOne(articleId);
-    if (!article) { return null; }
+    const article = await this.articleRepo.findOneOrFail(articleId);
     return this.articleRepo.remove(article);
   }
 

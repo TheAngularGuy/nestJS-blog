@@ -5,6 +5,7 @@
         "no-unused-expression": true
     },
     "rules": {
+        "triple-equals": false,
         "no-consecutive-blank-lines": false,
         "no-empty": false,
         "trailing-comma": [false],

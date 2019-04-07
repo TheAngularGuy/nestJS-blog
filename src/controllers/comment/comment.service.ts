@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CommentDto } from 'src/models/comment.dto';
-import { CommentEntity } from 'src/models/comment.entity';
+import { CommentDto } from 'src/models/comment/comment.dto';
+import { CommentEntity } from 'src/models/comment/comment.entity';
 import { Repository } from 'typeorm';
 
 import { ArticleService } from '../article/article.service';

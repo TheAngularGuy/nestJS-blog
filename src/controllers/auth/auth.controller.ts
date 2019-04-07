@@ -1,6 +1,14 @@
-import { Body, Controller, HttpException, HttpStatus, Post, UnauthorizedException } from '@nestjs/common';
-import { UserDto } from 'src/models/user.dto';
-import { UserEntity } from 'src/models/user.entity';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtToken } from 'src/models/auth/jwt.token';
+import { LoginDto } from 'src/models/auth/login.dto';
+import { SigninDto } from 'src/models/auth/signin.dto';
 
 import { AuthService } from './auth.service';
 
@@ -11,21 +19,22 @@ export class AuthController {
 
 
   @Post('login')
-  async logIn(@Body() user: UserDto): Promise<any> {
-    const ret = await this.authService.logIn(user);
-    if (ret) {
-      return ret;
+  async logIn(@Body() user: LoginDto): Promise<JwtToken> {
+    try {
+      const token = await this.authService.logIn(user);
+      return token;
+    } catch (err) {
+      throw new UnauthorizedException();
     }
-    throw new UnauthorizedException();
   }
 
   @Post('signin')
-  async signIn(@Body() user: UserDto): Promise<UserEntity> {
-    const ret = await this.authService.signIn(user);
-    if (ret) {
-      return ret;
+  async signIn(@Body() user: SigninDto): Promise<JwtToken> {
+    try {
+      return await this.authService.signIn(user);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }
-    throw new HttpException('Not registred', HttpStatus.NOT_ACCEPTABLE);
   }
 
 }

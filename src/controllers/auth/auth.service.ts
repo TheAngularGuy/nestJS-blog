@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as crypto from 'crypto';
-import { UserDto } from 'src/models/user.dto';
-import { UserEntity } from 'src/models/user.entity';
+import * as bcrypt from 'bcrypt';
+import { APP_CONFIG } from 'src/config/app.config';
+import { JwtPayload } from 'src/models/auth/jwt.payload';
+import { JwtToken } from 'src/models/auth/jwt.token';
+import { LoginDto } from 'src/models/auth/login.dto';
+import { SigninDto } from 'src/models/auth/signin.dto';
+import { UserEntity } from 'src/models/user/user.entity';
 
 import { UserService } from '../user/user.service';
 
@@ -11,51 +15,48 @@ export class AuthService {
 
   constructor(
     private readonly userService: UserService,
-    private readonly jwtService: JwtService
+    private jwtService: JwtService
   ) { }
 
-  public async signIn(user: UserDto): Promise<UserEntity> {
-    user.password = crypto.createHmac('sha256', user.password).digest('hex');
-    return this.userService.createUser(user);
+  public async signIn(user: SigninDto): Promise<JwtToken> {
+    const newUser: UserEntity = {
+      ...user
+    };
+    newUser.salt = await bcrypt.genSalt();
+    newUser.password = await bcrypt.hash(user.password, newUser.salt);
+    const createdUser = await this.userService.createUser(newUser);
+    return this.createJwtPayload(createdUser);
   }
 
-  public async logIn(user: UserDto): Promise<any> {
+  public async logIn(user: LoginDto): Promise<JwtToken> {
     const userFound = await this.validateUserByPassword(user);
-    if (userFound) {
-      return this.createJwtPayload(user);
-    } else {
-      return null;
-    }
+    return this.createJwtPayload(userFound);
   }
 
-  private validateUserByPassword(user: UserDto): Promise<UserEntity> {
-    return this.userService.getOneUserByEmailAndPassword(
-      user.email,
-      crypto.createHmac('sha256', user.password).digest('hex')
-    );
+  private async validateUserByPassword(user: LoginDto): Promise<UserEntity> {
+    const userToCheck = await this.userService.getOneUserByEmail(user.email);
+    const hashedPassword = await bcrypt.hash(user.password, userToCheck.salt);
+    return await this.userService.getOneUserByEmailAndPassword(user.email, hashedPassword);
   }
 
-  async validateUserByJwt(payload: { email: string }) {
-    // This will be used when the user has already logged in and has a JWT
+  async validateUserByJwt(payload: JwtPayload) {
     const user = await this.userService.getOneUserByEmail(payload.email);
-    if (user) {
-      return this.createJwtPayload(user);
-    } else {
-      return null;
-    }
-
+    return this.createJwtPayload(user);
   }
 
-  createJwtPayload(user) {
-    const data = {
+  createJwtPayload(user: UserEntity): JwtToken {
+    const data: JwtPayload = {
       email: user.email
     };
     const jwt = this.jwtService.sign(data);
     return {
-      expiresIn: 3600,
-      token: jwt
+      token: jwt,
+      expireDate: new Date(Date.now() + APP_CONFIG.expiresIn * 1000).valueOf()
     };
   }
+
+
+
   // https://www.joshmorony.com/adding-jwt-authentication-to-an-ionic-application-with-mongodb-and-nestjs/
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserDto } from 'src/models/user.dto';
-import { UserEntity } from 'src/models/user.entity';
+import { UserDto } from 'src/models/user/user.dto';
+import { UserEntity } from 'src/models/user/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class UserService {
   }
 
   async getOneUserByEmail(email: string): Promise<UserEntity> {
-    return await this.userRepo.findOne({
+    return await this.userRepo.findOneOrFail({
       where: {
         email
       }
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   async getOneUserByEmailAndPassword(email: string, password: string): Promise<UserEntity> {
-    return await this.userRepo.findOne({
+    return await this.userRepo.findOneOrFail({
       where: {
         email,
         password
@@ -37,7 +37,7 @@ export class UserService {
   }
 
   async getOneUserById(id: number): Promise<UserEntity> {
-    return await this.userRepo.findOne({
+    return await this.userRepo.findOneOrFail({
       where: {
         id,
       }

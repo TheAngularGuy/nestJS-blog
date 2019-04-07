@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
@@ -12,15 +12,13 @@ export class UserEntity {
   @Column({ default: '' })
   avatar?: string;
 
-  @Column()
+  @Column({ unique: true })
   email?: string;
+
+  @Column()
+  salt?: string;
 
   @Column({ select: false })
   password?: string;
-
-  @BeforeInsert()
-  hashPassword() {
-    // TODO: add salt !
-  }
 
 }

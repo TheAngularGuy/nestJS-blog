@@ -1,5 +1,17 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, Put, Query } from '@nestjs/common';
-import { CommentDto } from 'src/models/comment.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Logger,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { CommentDto } from 'src/models/comment/comment.dto';
 
 import { CommentService } from './comment.service';
 

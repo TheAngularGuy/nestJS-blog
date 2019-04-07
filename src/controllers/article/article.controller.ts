@@ -1,5 +1,17 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Post, Put, Query } from '@nestjs/common';
-import { ArticleDto } from 'src/models/article.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Logger,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { ArticleDto } from 'src/models/article/article.dto';
 
 import { ArticleService } from './article.service';
 

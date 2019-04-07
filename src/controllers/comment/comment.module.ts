@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArticleEntity } from 'src/models/article.entity';
-import { CommentEntity } from 'src/models/comment.entity';
+import { ArticleEntity } from 'src/models/article/article.entity';
+import { CommentEntity } from 'src/models/comment/comment.entity';
 
 import { ArticleModule } from '../article/article.module';
 import { CommentController } from './comment.controller';

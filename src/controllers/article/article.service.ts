@@ -13,15 +13,18 @@ export class ArticleService {
 
   getArticles(page = 1, take = 25): Promise<ArticleEntity[]> {
     return this.articleRepo.find({
-      relations: ['comments'],
+      relations: ['comments', 'categories'],
       skip: take * (page - 1),
       take,
+      order: {
+        createdAt: 'DESC'
+      }
     });
   }
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {
     return this.articleRepo.findOneOrFail(articleId, {
-      relations: ['comments'],
+      relations: ['comments', 'categories'],
     });
   }
 

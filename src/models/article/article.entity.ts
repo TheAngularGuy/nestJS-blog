@@ -1,5 +1,14 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
+import { CategoryEntity } from '../category/category.entity';
 import { CommentEntity } from '../comment/comment.entity';
 
 @Entity('articles')
@@ -37,5 +46,9 @@ export class ArticleEntity {
 
   @OneToMany(type => CommentEntity, comment => comment.article)
   comments?: CommentEntity[];
+
+  @ManyToMany(type => CategoryEntity, category => category.Articles)
+  @JoinTable({ name: 'article_categories' })
+  categories?: CategoryEntity[];
 
 }

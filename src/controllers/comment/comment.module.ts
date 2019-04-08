@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArticleEntity } from 'src/models/article/article.entity';
 import { CommentEntity } from 'src/models/comment/comment.entity';
+import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
 import { ArticleModule } from '../article/article.module';
 import { AuthModule } from '../auth/auth.module';
+import { UserModule } from '../user/user.module';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
 
@@ -16,13 +18,15 @@ import { CommentService } from './comment.service';
       ArticleEntity
     ]),
     ArticleModule,
-    AuthModule
+    AuthModule,
+    UserModule
   ],
   controllers: [
     CommentController,
   ],
   providers: [
-    CommentService
+    UtilitiesService,
+    CommentService,
   ]
 })
 export class CommentModule { }

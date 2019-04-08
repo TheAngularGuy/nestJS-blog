@@ -5,21 +5,25 @@ import { CommentEntity } from 'src/models/comment/comment.entity';
 import { Repository } from 'typeorm';
 
 import { ArticleService } from '../article/article.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CommentService {
 
   constructor(
     @InjectRepository(CommentEntity) private readonly commentRepo: Repository<CommentEntity>,
-    private readonly articleService: ArticleService
+    private readonly articleService: ArticleService,
+    private readonly userService: UserService,
   ) { }
 
 
-  async createComment(articleId: number, commentDto: CommentDto): Promise<CommentEntity> {
+  async createComment(articleId: number, commentDto: CommentDto, userEmail: string): Promise<CommentEntity> {
+
     const article = await this.articleService.getOneArticle(articleId);
     const comment = new CommentEntity();
     comment.article = article;
     comment.message = commentDto.message;
+    comment.author = (await this.userService.getOneUserByEmail(userEmail)).name;
     const createdComment = await this.commentRepo.save(comment);
     return this.getOneComment(createdComment.id);
   }

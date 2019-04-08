@@ -8,6 +8,7 @@ import { CommentModule } from './controllers/comment/comment.module';
 import { UserModule } from './controllers/user/user.module';
 
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(DATABASE_CONFIG),
@@ -16,12 +17,6 @@ import { UserModule } from './controllers/user/user.module';
     UserModule,
     ArticleModule,
     CommentModule,
-  ],
-  providers: [
-
-  ],
-  controllers: [
-
-  ],
+  ]
 })
 export class AppModule { }

@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { JwtPayload } from 'src/models/auth/jwt.payload';
 import { CommentDto } from 'src/models/comment/comment.dto';
+import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
 import { CommentService } from './comment.service';
 
@@ -10,6 +12,7 @@ export class CommentController {
 
   constructor(
     private readonly service: CommentService,
+    private readonly utils: UtilitiesService
   ) { }
 
   @Get()
@@ -32,9 +35,10 @@ export class CommentController {
 
   @Post()
   @UseGuards(AuthGuard())
-  async create(@Param('articleId') articleId: number, @Body() commentDto: CommentDto) {
+  async create(@Param('articleId') articleId: number, @Body() commentDto: CommentDto, @Headers() headers: any) {
     try {
-      return await this.service.createComment(articleId, commentDto);
+      const token: JwtPayload = await this.utils.headersToJwtDecoded(headers);
+      return await this.service.createComment(articleId, commentDto, token.email);
     } catch (err) {
       throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }

@@ -4,6 +4,7 @@ import { ArticleEntity } from 'src/models/article/article.entity';
 import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
 import { AuthModule } from '../auth/auth.module';
+import { CategoryModule } from '../category/category.module';
 import { UserModule } from '../user/user.module';
 import { ArticleController } from './article.controller';
 import { ArticleService } from './article.service';
@@ -14,7 +15,8 @@ import { ArticleService } from './article.service';
       ArticleEntity
     ]),
     AuthModule,
-    UserModule
+    UserModule,
+    CategoryModule
   ],
   controllers: [
     ArticleController

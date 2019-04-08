@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "101178b5-16cf-4c0d-bfc1-d8315aeb01c7",
+		"_postman_id": "9a76d214-ca4d-4b34-8fa5-8b2dca9c677a",
 		"name": "nest_blog",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -53,7 +53,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"mus\",\n\t\"email\": \"mus@email.com\",\n\t\"password\": \"mmmm\"\n}"
+							"raw": "{\n\t\"username\": \"marco_p\",\n\t\"email\": \"pollo@email.com\",\n\t\"password\": \"mmmm\",\n\t\"firstname\": \"pollo\",\n\t\"lastname\": \"marco\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/auth/signin",
@@ -149,7 +149,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\n\t\"title\": \"ooo\",\n\t\n\t\"body\": \"pipipi\"\n\t\n}"
+							"raw": "{\n\t\n\t\"title\": \"qzqzqqzz\",\n\t\n\t\"body\": \"pipipi\",\n\t\n\t\"categoryIds\": [2]\n\t\n}"
 						},
 						"url": {
 							"raw": "{{apiRoute}}/article",
@@ -183,6 +183,67 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update one article",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\"title\": \"edit de l'espaceuh !!!\",\n\t\n\t\"body\": \"pipipi\",\n\t\n\t\"categoryIds\": [2]\n\t\n}"
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/8",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ3MTA2MTYsImV4cCI6MTU1NTMxNTQxNn0.uEhurAaBGx9Yb59qh-d2U7_y3iSWzr6FSKKkq2ote96zbfFzXCqTWZyM5XuT0DxE72xT8KrIMtjj7xXK-uXk4g",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "305665d3-7187-44d9-b4e0-3a18074c984a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3eaa8fba-539f-4aa8-a692-141558fb5369",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -206,13 +267,13 @@
 							"raw": "{\n\t\"message\": \"helloooooooooo\"\n}"
 						},
 						"url": {
-							"raw": "{{apiRoute}}/article/3/comment/",
+							"raw": "{{apiRoute}}/article/6/comment/",
 							"host": [
 								"{{apiRoute}}"
 							],
 							"path": [
 								"article",
-								"3",
+								"6",
 								"comment",
 								""
 							]
@@ -230,13 +291,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{apiRoute}}/article/1/comment/",
+							"raw": "{{apiRoute}}/article/6/comment/",
 							"host": [
 								"{{apiRoute}}"
 							],
 							"path": [
 								"article",
-								"1",
+								"6",
 								"comment",
 								""
 							]
@@ -258,10 +319,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"message\": \"helloooooooojjjjjoo\"\n}"
+							"raw": "{\n\t\"message\": \"poooooooower\"\n}"
 						},
 						"url": {
-							"raw": "{{apiRoute}}/article/0/comment/2",
+							"raw": "{{apiRoute}}/article/0/comment/3",
 							"host": [
 								"{{apiRoute}}"
 							],
@@ -269,7 +330,7 @@
 								"article",
 								"0",
 								"comment",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -301,6 +362,114 @@
 					"listen": "test",
 					"script": {
 						"id": "d0add11e-75c1-4cf0-ae34-e7bb1e4bfd4a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "add categoriy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"games\"\n}"
+						},
+						"url": {
+							"raw": "{{apiRoute}}/category",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/category",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get one category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/category/1",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ3MTA2MTYsImV4cCI6MTU1NTMxNTQxNn0.uEhurAaBGx9Yb59qh-d2U7_y3iSWzr6FSKKkq2ote96zbfFzXCqTWZyM5XuT0DxE72xT8KrIMtjj7xXK-uXk4g",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ba0284e4-e42b-4b34-907f-ac829b955cc6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "20c9fcb2-130a-4c0b-aadf-6ec5fe7bea8f",
 						"type": "text/javascript",
 						"exec": [
 							""

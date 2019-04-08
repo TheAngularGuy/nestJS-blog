@@ -21,4 +21,10 @@ export class UserEntity {
   @Column({ select: false })
   password?: string;
 
+  @Column()
+  firstname?: string;
+
+  @Column()
+  lastname?: string;
+
 }

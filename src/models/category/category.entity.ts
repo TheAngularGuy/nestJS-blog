@@ -11,10 +11,10 @@ export class CategoryEntity {
   @Column({ unique: true })
   title?: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', default: '' })
   body?: string;
 
   @ManyToMany(type => ArticleEntity, article => article.categories)
-  Articles?: ArticleEntity[];
+  articles?: ArticleEntity[];
 
 }

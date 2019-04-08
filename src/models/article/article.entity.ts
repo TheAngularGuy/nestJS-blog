@@ -36,7 +36,7 @@ export class ArticleEntity {
   @OneToMany(type => CommentEntity, comment => comment.article)
   comments?: CommentEntity[];
 
-  @ManyToMany(type => CategoryEntity, category => category.Articles)
+  @ManyToMany(type => CategoryEntity, category => category.articles)
   @JoinTable({ name: 'article_categories' })
   categories?: CategoryEntity[];
 

@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsDefined, IsNotEmpty } from 'class-validator';
 
 export class ArticleDto {
 
@@ -7,5 +7,8 @@ export class ArticleDto {
 
   @IsNotEmpty()
   body: string;
+
+  @IsDefined()
+  categoryIds: number[];
 
 }

@@ -33,6 +33,7 @@
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "pg": "^7.9.0",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",

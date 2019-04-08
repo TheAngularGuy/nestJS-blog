@@ -14,7 +14,7 @@ export class CommentEntity {
   @CreateDateColumn()
   createdAt?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   editedAt?: Date;
 
   @Column({ default: false })

@@ -18,7 +18,7 @@ export class ArticleEntity {
   @CreateDateColumn()
   createdAt?: Date;
 
-  @Column()
+  @Column({ nullable: true })
   editedAt?: Date;
 
   @Column({ default: true })
@@ -26,9 +26,6 @@ export class ArticleEntity {
 
   @Column({ default: 'Mustapha AOUAS' })
   author?: string;
-
-  @Column()
-  tag?: string;
 
   @Column({ default: 0 })
   claps?: number;

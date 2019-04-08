@@ -1,16 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Post,
-  Put,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ArticleDto } from 'src/models/article/article.dto';
 
@@ -26,7 +14,7 @@ export class ArticleController {
     try {
       return this.service.getArticles(page, take);
     } catch (err) {
-      throw new HttpException('Articles not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -35,7 +23,7 @@ export class ArticleController {
     try {
       return await this.service.getOneArticle(articleId);
     } catch (err) {
-      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -45,7 +33,7 @@ export class ArticleController {
     try {
       return await this.service.createArticle(articleDto);
     } catch (err) {
-      throw new HttpException('Not created', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }
   }
 
@@ -55,7 +43,7 @@ export class ArticleController {
     try {
       return await this.service.updateArticle(articleId, articleDto);
     } catch (err) {
-      throw new HttpException('Not updated', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }
   }
 
@@ -65,7 +53,7 @@ export class ArticleController {
     try {
       return await this.service.removeArticle(articleId);
     } catch (err) {
-      throw new HttpException('Not deleted', HttpStatus.NOT_FOUND);
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
 

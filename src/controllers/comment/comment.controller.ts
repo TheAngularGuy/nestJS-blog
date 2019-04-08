@@ -1,16 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Post,
-  Put,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CommentDto } from 'src/models/comment/comment.dto';
 
@@ -29,7 +17,7 @@ export class CommentController {
     try {
       return this.service.getComments(articleId, page, take);
     } catch (err) {
-      throw new HttpException('Comments not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -38,7 +26,7 @@ export class CommentController {
     try {
       return await this.service.getOneComment(commentId);
     } catch (err) {
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
 
@@ -48,7 +36,7 @@ export class CommentController {
     try {
       return await this.service.createComment(articleId, commentDto);
     } catch (err) {
-      throw new HttpException('Not created', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }
   }
 
@@ -58,7 +46,7 @@ export class CommentController {
     try {
       return await this.service.updateComment(commentId, commentDto);
     } catch (err) {
-      throw new HttpException('Not updated', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }
   }
 
@@ -68,7 +56,7 @@ export class CommentController {
     try {
       return await this.service.removeComment(commentId);
     } catch (err) {
-      throw new HttpException('Not deleted', HttpStatus.NOT_FOUND);
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
 

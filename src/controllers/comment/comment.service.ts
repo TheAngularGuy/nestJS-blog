@@ -22,7 +22,7 @@ export class CommentService {
     const comment = new CommentEntity();
     comment.article = article;
     comment.message = commentDto.message;
-    comment.author = (await this.userService.getOneUserByEmail(userEmail)).name;
+    comment.author = (await this.userService.getOneUserByEmail(userEmail)).username;
     const createdComment = await this.commentRepo.save(comment);
     return this.getOneComment(createdComment.id);
   }

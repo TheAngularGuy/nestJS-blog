@@ -33,7 +33,7 @@ export class ArticleService {
 
   async createArticle(articleDto: ArticleDto, userEmail: string): Promise<ArticleEntity> {
     const articleToCreate: ArticleEntity = { ...articleDto };
-    articleToCreate.author = (await this.userService.getOneUserByEmail(userEmail)).name;
+    articleToCreate.author = (await this.userService.getOneUserByEmail(userEmail)).username;
     return this.articleRepo.save(articleToCreate);
   }
 

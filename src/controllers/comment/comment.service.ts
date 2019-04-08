@@ -18,7 +18,6 @@ export class CommentService {
 
 
   async createComment(articleId: number, commentDto: CommentDto, userEmail: string): Promise<CommentEntity> {
-
     const article = await this.articleService.getOneArticle(articleId);
     const comment = new CommentEntity();
     comment.article = article;

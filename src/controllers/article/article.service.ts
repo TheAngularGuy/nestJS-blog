@@ -4,11 +4,14 @@ import { ArticleDto } from 'src/models/article/article.dto';
 import { ArticleEntity } from 'src/models/article/article.entity';
 import { Repository } from 'typeorm';
 
+import { UserService } from '../user/user.service';
+
 @Injectable()
 export class ArticleService {
 
   constructor(
     @InjectRepository(ArticleEntity) private readonly articleRepo: Repository<ArticleEntity>,
+    private readonly userService: UserService,
   ) { }
 
   getArticles(page = 1, take = 25): Promise<ArticleEntity[]> {
@@ -28,8 +31,10 @@ export class ArticleService {
     });
   }
 
-  createArticle(articleDto: ArticleDto): Promise<ArticleEntity> {
-    return this.articleRepo.save(articleDto);
+  async createArticle(articleDto: ArticleDto, userEmail: string): Promise<ArticleEntity> {
+    const articleToCreate: ArticleEntity = { ...articleDto };
+    articleToCreate.author = (await this.userService.getOneUserByEmail(userEmail)).name;
+    return this.articleRepo.save(articleToCreate);
   }
 
   async updateArticle(articleId: number, articleDto: ArticleDto): Promise<ArticleEntity> {

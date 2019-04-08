@@ -24,7 +24,7 @@ export class ArticleEntity {
   @Column({ default: true })
   published?: boolean;
 
-  @Column({ default: 'Mustapha AOUAS' })
+  @Column({ default: 'n/a' })
   author?: string;
 
   @Column({ default: 0 })

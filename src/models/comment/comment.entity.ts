@@ -20,7 +20,7 @@ export class CommentEntity {
   @Column({ default: false })
   offensive?: boolean;
 
-  @Column({ default: 'John DOE' })
+  @Column({ default: 'n/a' })
   author?: string;
 
   @Column({ default: 0 })

@@ -6,6 +6,10 @@
     </div>
 
     <div class="user-panel">
+      <p style="line-height: initial; padding-right: 1rem;">
+        <span class="user-panel-name">Name</span>
+        <span class="user-panel-email">m@m.com</span>
+      </p>
       <nz-badge nzDot>
         <nz-avatar nzIcon="user" [nzShape]="'square'"></nz-avatar>
       </nz-badge>
@@ -15,7 +19,8 @@
   <nz-layout>
 
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="background: #fff;">
-      <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" style="min-height: 100%">
+      <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed"
+        style="height: 100%; border: 0; overflow-y: auto; overflow-x: hidden">
         <li nz-submenu>
           <span title>
             <i nz-icon type="user"></i>
@@ -36,7 +41,7 @@
       </ul>
     </nz-sider>
 
-    <nz-content style="padding:0 1rem; overflow: auto">
+    <nz-content class="content">
       <nz-back-top nzTarget="nz-content"></nz-back-top>
 
       <nz-breadcrumb style="margin:16px 0;">

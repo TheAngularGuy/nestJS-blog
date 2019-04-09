@@ -15,5 +15,24 @@
 }
 
 .user-panel {
+  cursor: pointer;
   padding: 0 24px;
+  display: flex;
+  align-items: center;
+
+  .user-panel-name {
+    padding-top: 1rem;
+    font-weight: bold;
+    display: block;
+  }
+
+  .user-panel-email {
+    font-style: italic;
+  }
+}
+
+.content {
+  padding: 0 1rem;
+  overflow: auto;
+  color: var(--text-color);
 }

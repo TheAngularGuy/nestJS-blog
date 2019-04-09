@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+
+// https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/scripts/site/_site/doc/theme.less
+// https://github.com/ant-design/ant-design/blob/master/components/style/color/colors.less
+:root {
+
+  --primary-color: #1890ff;
+  --info-color: #1890ff;
+  --success-color: #52c41a;
+  --processing-color: #1890ff;
+  --error-color: #f5222d;
+  --highlight-color: #f5222d;
+  --warning-color: #faad14;
+  --normal-color: #d9d9d9;
+  --body-background: #ffffff;
+
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: var(--normal-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 1rem;
+}
+
+.footer {
+  text-align: right;
+  padding: .5rem 1rem;
+  transition: color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

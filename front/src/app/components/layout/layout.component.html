@@ -1,0 +1,68 @@
+<nz-layout style="height: 100vh; color: #fff">
+  <nz-header style=" padding:0; display: flex; align-items: center; justify-content: space-between;">
+    <div>
+      <i nz-icon class="trigger" [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="toggleSideBar()"></i>
+      <span class="brand" (click)="goToHome()">NestJS Blog</span>
+    </div>
+
+    <div class="user-panel">
+      <nz-badge nzDot>
+        <nz-avatar nzIcon="user" [nzShape]="'square'"></nz-avatar>
+      </nz-badge>
+    </div>
+
+  </nz-header>
+  <nz-layout>
+
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="background: #fff;">
+      <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" style="min-height: 100%">
+        <li nz-submenu>
+          <span title>
+            <i nz-icon type="user"></i>
+            <span class="nav-text">User</span>
+          </span>
+          <ul>
+            <li nz-menu-item>Tom</li>
+            <li nz-menu-item>Bill</li>
+            <li nz-menu-item>Alex</li>
+          </ul>
+        </li>
+        <li nz-menu-item>
+          <span>
+            <i nz-icon type="file"></i>
+            <span class="nav-text">File</span>
+          </span>
+        </li>
+      </ul>
+    </nz-sider>
+
+    <nz-content style="padding:0 1rem; overflow: auto">
+      <nz-back-top nzTarget="nz-content"></nz-back-top>
+
+      <nz-breadcrumb style="margin:16px 0;">
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+
+
+      <div style="padding:24px; background: #fff; min-height: 360px;">
+        Bill is a cat.
+      </div>
+      <br>
+      <div style="padding:24px; background: #fff; min-height: 360px;">
+        Bill is a cat.
+      </div>
+      <br>
+      <div style="padding:24px; background: #fff; min-height: 360px;">
+        Bill is a cat.
+      </div>
+      <br>
+      <div style="padding:24px; background: #fff; min-height: 360px;">
+        Bill is a cat.
+      </div>
+
+
+      <nz-footer class="footer" (click)="goToLinkedIn()"> @ Mustapha AOUAS</nz-footer>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

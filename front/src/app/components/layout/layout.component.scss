@@ -1,0 +1,19 @@
+.trigger {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 24px;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: var(--primary-color);
+}
+
+.brand {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.user-panel {
+  padding: 0 24px;
+}

@@ -1,19 +1,23 @@
 import { AppPage } from './app.po';
+import { browser, logging } from 'protractor';
 
-describe('new App', () => {
+describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
-  describe('default screen', () => {
-    beforeEach(() => {
-      page.navigateTo('/home');
-    });
-    it('should have a title saying Home', () => {
-      page.getPageOneTitleText().then(title => {
-        expect(title).toEqual('Home');
-      });
-    });
+
+  it('should display welcome message', () => {
+    page.navigateTo();
+    expect(page.getTitleText()).toEqual('Welcome to front!');
+  });
+
+  afterEach(async () => {
+    // Assert that there are no errors emitted from the browser
+    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
+    expect(logs).not.toContain(jasmine.objectContaining({
+      level: logging.Level.SEVERE,
+    } as logging.Entry));
   });
 });

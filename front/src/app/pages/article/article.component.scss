@@ -1,0 +1,18 @@
+.page {
+  --imageHeight: 340px;
+  position: relative;
+
+  .image-wrapper {
+    position: absolute;
+    height: var(--imageHeight);
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: var(--normal-color);
+  }
+
+  .article {
+    padding: 1rem;
+    margin-top: calc(var(--imageHeight) - 90px);
+  }
+}

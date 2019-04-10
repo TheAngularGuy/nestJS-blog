@@ -12,7 +12,7 @@
   --highlight-color: #f5222d;
   --warning-color: #faad14;
   --normal-color: #d9d9d9;
-  --body-background: #ffffff;
+  --body-background: #f0f2f5;
 
   --heading-color: rgba(0, 0, 0, .85);
   --text-color: rgba(0, 0, 0, .65);
@@ -28,13 +28,27 @@
   background: var(--primary-color);
 }
 
-.footer {
+.ant-layout-footer {
   text-align: right;
   padding: .5rem 1rem;
-  transition: color 0.3s;
-  cursor: pointer;
 
-  &:hover {
+  span:hover {
+    cursor: pointer;
+    transition: color 0.3s;
     color: var(--primary-color);
   }
+}
+
+.ant-page-header {
+  background-color: transparent; // var(--body-background);
+
+  .ant-divider-vertical {
+    background: var(--text-color);
+  }
+}
+
+.card {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
 }

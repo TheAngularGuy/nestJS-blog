@@ -4,6 +4,7 @@
     "codelyzer"
   ],
   "rules": {
+    "forin": false,
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {

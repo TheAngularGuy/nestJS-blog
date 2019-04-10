@@ -27,4 +27,7 @@ export class UserEntity {
   @Column()
   lastname?: string;
 
+  @Column({ default: false })
+  isAuthor?: boolean;
+
 }

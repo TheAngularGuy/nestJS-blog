@@ -13,7 +13,7 @@
 .card {
   margin: auto;
   width: 400px;
-  height: 100vh;
+  height: calc(100vh - 90px);
   display: flex;
   align-items: center;
 

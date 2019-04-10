@@ -1,44 +1,54 @@
-<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
-<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+<section class="page">
+  <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+  <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
 
 
-<div class="card">
-  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+  <nz-page-header nzBackIcon nzTitle="Log in"> </nz-page-header>
 
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group [nzPrefix]="prefixUser">
-          <input type="text" nz-input formControlName="userName" placeholder="Username" />
-        </nz-input-group>
-        <nz-form-explain *ngIf="validateForm.get('userName')?.dirty && validateForm.get('userName')?.errors">
-          Please input your username
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group [nzPrefix]="prefixLock">
-          <input type="password" nz-input formControlName="password" placeholder="Password" />
-        </nz-input-group>
-        <nz-form-explain *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">
-          Please input your Password
-        </nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <div class="card">
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
 
-    <nz-form-item>
-      <nz-form-control>
-        <label nz-checkbox formControlName="remember">
-          <span>Remember me</span>
-        </label>
-        <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-        <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
-        Or
-        <a>register now</a>
-      </nz-form-control>
-    </nz-form-item>
+      <p style="text-align: center">
+        <img src="https://img.icons8.com/bubbles/2x/user.png" alt="">
+      </p>
 
-  </form>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="prefixUser">
+            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+          </nz-input-group>
+          <nz-form-explain *ngIf="validateForm.get('userName')?.dirty && validateForm.get('userName')?.errors">
+            Please input your username
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
 
-</div>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="prefixLock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+          <nz-form-explain *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">
+            Please input your Password
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox formControlName="remember">
+            <span>Remember me</span>
+          </label>
+          <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
+          <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
+          Or
+          <a [routerLink]="['/', 'signin']">register now</a>
+        </nz-form-control>
+      </nz-form-item>
+
+    </form>
+
+  </div>
+
+</section>

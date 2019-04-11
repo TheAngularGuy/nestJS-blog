@@ -18,4 +18,7 @@ export class UserDto {
   @IsNotEmpty()
   lastname?: string;
 
+  @Allow()
+  isAuthor?: boolean;
+
 }

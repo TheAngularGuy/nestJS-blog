@@ -6,7 +6,8 @@
        <span class="brand" (click)="goToHome()">NestJS Blog</span>
      </div>
 
-     <div class="user-panel" nz-popover nzTrigger="click" [nzContent]="userPanelPopOverTemplate">
+     <div class="user-panel" nz-popover nzTrigger="click" [nzContent]="userPanelPopOverTemplate"
+       *ngIf="isLoggedIn$ | async">
        <p style="line-height: initial; padding-right: 1rem;">
          <span class="user-panel-name">Name</span>
          <span class="user-panel-email">m@m.com</span>

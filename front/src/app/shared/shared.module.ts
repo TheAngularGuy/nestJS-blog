@@ -1,11 +1,10 @@
-import { CommonModule, registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { en_US, NgZorroAntdModule, NZ_I18N } from 'ng-zorro-antd';
+
+import { NgZorroModule } from './ngz.module';
 
 
-registerLocaleData(en);
 
 @NgModule({
   declarations: [],
@@ -13,16 +12,15 @@ registerLocaleData(en);
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
+    NgZorroModule,
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US },
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
+    NgZorroModule,
   ]
 })
 export class SharedModule { }

@@ -10,7 +10,7 @@
     <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
 
       <p style="text-align: center">
-        <img src="https://img.icons8.com/bubbles/2x/user.png" alt="">
+        <img src="assets/images/user.png" alt="">
       </p>
 
       <nz-form-item>
@@ -41,7 +41,7 @@
             <span>Remember me</span>
           </label>
           <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-          <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
+          <button nz-button class="login-form-button" nzType="primary" (click)="login()">Log in</button>
           Or
           <a [routerLink]="['/', 'signin']">register now</a>
         </nz-form-control>

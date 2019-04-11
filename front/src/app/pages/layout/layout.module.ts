@@ -10,14 +10,11 @@ const routes: Routes = [{
   path: '',
   component: LayoutComponent,
   children: [{
-    path: '',
-    redirectTo: 'articles'
-  }, {
-    path: 'articles',
-    loadChildren: '../articles/articles.module#ArticlesModule'
-  }, {
-    path: 'articles/article',
+    path: 'article',
     loadChildren: '../article/article.module#ArticleModule'
+  }, {
+    path: '',
+    redirectTo: 'article'
   }]
 }];
 

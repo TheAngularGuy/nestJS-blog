@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NzI18nService } from 'ng-zorro-antd';
 import { SharedModule } from 'src/app/shared/shared.module';
 
+import { AuthEffects } from './auth.effects';
 import * as fromAuth from './auth.reducer';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
@@ -34,7 +37,11 @@ const routes: Routes = [{
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    StoreModule.forFeature('auth', fromAuth.authReducer)
+    StoreModule.forFeature('auth', fromAuth.authReducer),
+    EffectsModule.forFeature([AuthEffects])
+  ],
+  providers: [
+    NzI18nService,
   ]
 })
 export class AuthModule { }

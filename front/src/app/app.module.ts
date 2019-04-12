@@ -9,6 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { AuthGuard } from './guards/auth.guard';
 import { metaReducers, reducers } from './ngrx/reducers';
 
 
@@ -19,6 +20,7 @@ const routes: Routes = [{
 {
   path: '',
   loadChildren: './pages/layout/layout.module#LayoutModule',
+  canActivate: [AuthGuard]
 }];
 
 @NgModule({
@@ -33,6 +35,9 @@ const routes: Routes = [{
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+  ],
+  providers: [
+    AuthGuard
   ],
   bootstrap: [
     AppComponent,

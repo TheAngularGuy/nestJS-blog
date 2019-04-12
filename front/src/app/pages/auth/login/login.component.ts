@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { UserModel } from 'src/app/models/user.model';
 import { LoginAction } from 'src/app/ngrx/actions/auth.actions';
-
-import { AuthState } from '../auth.reducer';
+import { AppState } from 'src/app/ngrx/reducers';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly message: NzMessageService,
     private readonly fb: FormBuilder,
-    private readonly store: Store<AuthState>
+    private readonly store: Store<AppState>
   ) { }
 
   submitForm(): void {

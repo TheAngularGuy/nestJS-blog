@@ -4,15 +4,12 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../../environments/environment';
 
 
-
-
 export class AppState {
-  // NOTE: this will be filled by the lazy loaded modules
+  // NOTE: this is filled by the lazy loaded modules
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-
+  // NOTE: this is filled by the lazy loaded modules
 };
-
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];

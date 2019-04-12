@@ -14,6 +14,8 @@ export class LoadArticlesAction implements Action {
 
 export class RequestArticlesAction implements Action {
   readonly type = ArticleActionTypes.RequestArticles;
+
+  constructor(public payload?: { page: number, take: number }) { }
 }
 
 

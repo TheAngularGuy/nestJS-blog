@@ -14,8 +14,10 @@ export class ArticleEffects {
   @Effect()
   request$: Observable<any> = this.actions$.pipe(
     ofType((new RequestArticlesAction()).type),
-    mergeMap(() => {
-      return this.articleService.getAll()
+    mergeMap((action: RequestArticlesAction) => {
+      const page = action.payload ? action.payload.page : undefined;
+      const take = action.payload ? action.payload.take : undefined;
+      return this.articleService.getAll(page, take)
         .pipe(
           map((articles: ArticleModel[]) => new LoadArticlesAction({ articles }))
         );

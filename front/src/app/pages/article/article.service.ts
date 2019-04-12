@@ -13,8 +13,8 @@ export class ArticleService {
     private readonly httpClient: HttpClient
   ) { }
 
-  getAll(): Observable<ArticleModel[]> {
-    return (this.httpClient.get(environment.apiRoute + 'article') as Observable<ArticleModel[]>);
+  getAll(page = 1, take = 25): Observable<ArticleModel[]> {
+    return (this.httpClient.get(environment.apiRoute + `article?page=${page}&take=${take}`) as Observable<ArticleModel[]>);
   }
 
 }

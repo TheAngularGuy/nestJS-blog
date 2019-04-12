@@ -1,5 +1,5 @@
 import { UserModel } from 'src/app/models/user.model';
-import { AuthActions, LoginAction, LogoutAction } from 'src/app/ngrx/actions/auth.actions';
+import { AuthActions, LoginAction, LogoutAction } from 'src/app/pages/auth/auth.actions';
 
 
 export interface AuthState {

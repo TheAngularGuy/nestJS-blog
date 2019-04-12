@@ -3,7 +3,7 @@
 
      <div>
        <i nz-icon class="trigger" [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="toggleSideBar()"></i>
-       <span class="brand" (click)="goToHome()">NestJS Blog</span>
+       <span class="brand" [routerLink]="['/']">NestJS Blog</span>
      </div>
 
      <div class="user-panel" nz-popover nzTrigger="click" [nzContent]="userPanelPopOverTemplate"

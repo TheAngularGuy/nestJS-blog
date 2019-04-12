@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiRoute: 'https://xxx.com/api/',
 };

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { UserModel } from 'src/app/models/user.model';
-import { LoginAction } from 'src/app/ngrx/actions/auth.actions';
 import { AppState } from 'src/app/ngrx/reducers';
+import { LoginAction } from 'src/app/pages/auth/auth.actions';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
   validateForm: FormGroup;

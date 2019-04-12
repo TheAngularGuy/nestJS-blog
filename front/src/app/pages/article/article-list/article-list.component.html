@@ -3,19 +3,36 @@
   <nz-page-header nzTitle="Articles">
   </nz-page-header>
 
+  <!-- <a >read more</a> -->
 
-  <div style="padding: 0 1rem 1rem">
+  <div style="padding: 0 1rem 1rem" *ngIf="!(articleList$ | async)">
     <div class="card">
-      111
-      <a [routerLink]="['/', 'article', '111']">read more</a>
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
     </div>
     <br>
     <div class="card">
-      222
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
     </div>
     <br>
     <div class="card">
-      333
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
+    </div>
+    <br>
+    <div class="card">
+      <nz-skeleton [nzActive]="true"></nz-skeleton>
     </div>
   </div>
+
+
+  <div style="padding: 0 1rem 1rem" *ngIf="(articleList$ | async)">
+    <ng-container *ngFor="let article of (articleList$ | async)">
+      <div class="card" [routerLink]="['/', 'article', '111']">
+        <h3> {{ article.title }} </h3>
+        <p> {{ article.body }} </p>
+      </div>
+      <br>
+    </ng-container>
+  </div>
+
+
 </section>

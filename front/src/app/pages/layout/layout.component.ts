@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/ngrx/reducers';
@@ -8,7 +8,8 @@ import { isLoggedInSelector } from '../auth/auth.selectors';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = false;
@@ -28,10 +29,6 @@ export class LayoutComponent implements OnInit {
 
   goToLinkedIn() {
     window.open('https://www.linkedin.com/in/mustapha-aouas-7918a214b/', '_blank');
-  }
-
-  goToHome() {
-
   }
 
 }

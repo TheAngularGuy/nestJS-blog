@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { defer, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthActions, LoginAction, LogoutAction } from 'src/app/ngrx/actions/auth.actions';
+import { AuthActions, LoginAction, LogoutAction } from 'src/app/pages/auth/auth.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -41,7 +41,7 @@ export class AuthEffects {
 
   constructor(
     private readonly actions$: Actions<AuthActions>,
-    private readonly router: Router
+    private readonly router: Router,
   ) { }
 
 }

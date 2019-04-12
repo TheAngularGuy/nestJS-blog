@@ -6,32 +6,53 @@
   <!-- <a >read more</a> -->
 
   <div style="padding: 0 1rem 1rem" *ngIf="!(articleList$ | async)">
-    <div class="card">
-      <nz-skeleton [nzActive]="true"></nz-skeleton>
-    </div>
-    <br>
-    <div class="card">
-      <nz-skeleton [nzActive]="true"></nz-skeleton>
-    </div>
-    <br>
-    <div class="card">
-      <nz-skeleton [nzActive]="true"></nz-skeleton>
-    </div>
-    <br>
-    <div class="card">
-      <nz-skeleton [nzActive]="true"></nz-skeleton>
-    </div>
+
+    <nz-list [nzDataSource]="[0,0,0,0]" nzItemLayout="vertical" [nzRenderItem]="skelet"
+      style="background: #fff; padding: 1rem">
+
+      <ng-template #skelet>
+        <nz-list-item [nzContent]="skeletItem">
+          <ng-template #skeletItem>
+            <div class="card">
+              <nz-skeleton [nzActive]="true"></nz-skeleton>
+            </div>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+
+    </nz-list>
   </div>
 
 
   <div style="padding: 0 1rem 1rem" *ngIf="(articleList$ | async)">
-    <ng-container *ngFor="let article of (articleList$ | async)">
-      <div class="card" [routerLink]="['/', 'article', '111']">
-        <h3> {{ article.title }} </h3>
-        <p> {{ article.body }} </p>
-      </div>
-      <br>
-    </ng-container>
+
+    <nz-list [nzDataSource]="(articleList$ | async)" nzItemLayout="vertical" [nzRenderItem]="item"
+      [nzPagination]="pagination" style="background: #fff; padding: 1rem">
+
+      <ng-template #item let-article>
+        <nz-list-item [nzContent]="contentItem" [nzActions]="[viewAction, likeAction, msgAction]" [nzExtra]="extra">
+          <ng-template #contentItem>
+            <p style="height: 65px; overflow: hidden;">{{article.body}}</p>
+          </ng-template>
+          <ng-template #viewAction><i nz-icon type="eye-o" style="margin-right: 8px;"></i> 156</ng-template>
+          <ng-template #likeAction><i nz-icon type="heart-o" style="margin-right: 8px;"></i> 156</ng-template>
+          <ng-template #msgAction><i nz-icon type="message" style="margin-right: 8px;"></i> 2</ng-template>
+          <nz-list-item-meta [nzTitle]="title" [nzAvatar]="'assets/images/user.png'" [nzDescription]="desc">
+            <ng-template #title><a [routerLink]="[article.id]">{{ article.title }}</a></ng-template>
+            <ng-template #desc> {{ article.author }} — {{ article.createdAt | date }} </ng-template>
+          </nz-list-item-meta>
+          <ng-template #extra>
+            <img width="272" alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+
+      <ng-template #pagination>
+        <nz-pagination [nzPageIndex]="1" [nzPageSize]="25" [nzTotal]="250" (nzPageIndexChange)="changePage($event)">
+        </nz-pagination>
+      </ng-template>
+
+    </nz-list>
   </div>
 
 

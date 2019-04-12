@@ -32,4 +32,8 @@ export class ArticleListComponent implements OnInit {
 
   }
 
+  changePage(page: number) {
+    console.log(page);
+  }
+
 }

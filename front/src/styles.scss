@@ -29,7 +29,9 @@
 }
 
 .ant-layout-footer {
-  text-align: right;
+  min-height: 100px;
+  display: flex;
+  align-items: flex-end;
   padding: .5rem 1rem;
 
   span:hover {

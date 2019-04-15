@@ -12,33 +12,30 @@ import { ArticleEffects } from './article.effects';
 import * as fromArticle from './article.reducer';
 import { ArticleService } from './article.service';
 
-
-const routes: Routes = [{
-  path: 'list',
-  component: ArticleListComponent,
-}, {
-  path: 'list/:id',
-  component: ArticleSingleComponent,
-}, {
-  path: '',
-  redirectTo: 'list'
-}];
+const routes: Routes = [
+  {
+    path: 'list',
+    component: ArticleListComponent
+  },
+  {
+    path: 'list/:id',
+    component: ArticleSingleComponent
+  },
+  {
+    path: '',
+    redirectTo: 'list'
+  }
+];
 
 @NgModule({
-  declarations: [
-    ArticleListComponent,
-    ArticleSingleComponent,
-  ],
+  declarations: [ArticleListComponent, ArticleSingleComponent],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('article', fromArticle.reducer),
-    EffectsModule.forFeature([ArticleEffects]),
+    EffectsModule.forFeature([ArticleEffects])
   ],
-  providers: [
-    ArticleService,
-    NzI18nService,
-  ]
+  providers: [ArticleService, NzI18nService]
 })
-export class ArticleModule { }
+export class ArticleModule {}

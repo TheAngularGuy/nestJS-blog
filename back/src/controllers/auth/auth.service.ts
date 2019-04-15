@@ -12,11 +12,7 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-
-  constructor(
-    private readonly userService: UserService,
-    private jwtService: JwtService
-  ) { }
+  constructor(private readonly userService: UserService, private jwtService: JwtService) {}
 
   public async signIn(user: SigninDto): Promise<JwtToken> {
     const newUser: UserEntity = {
@@ -51,12 +47,10 @@ export class AuthService {
     const jwt = this.jwtService.sign(data);
     return {
       token: jwt,
-      expireDate: new Date(Date.now() + APP_CONFIG.expiresIn * 1000).valueOf()
+      expireDate: new Date(Date.now() + APP_CONFIG.expiresIn * 1000).valueOf(),
+      user
     };
   }
 
-
-
   // https://www.joshmorony.com/adding-jwt-authentication-to-an-ionic-application-with-mongodb-and-nestjs/
-
 }

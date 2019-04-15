@@ -1,24 +1,23 @@
 <section class="page">
-  <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+  <ng-template #prefixUser><i nz-icon type="mail"></i></ng-template>
   <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
-
 
   <nz-page-header nzBackIcon nzTitle="Log in"> </nz-page-header>
 
-
   <div class="card">
     <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-
       <p style="text-align: center">
-        <img src="assets/images/user.png" alt="">
+        <img src="assets/images/user.png" alt="" />
       </p>
 
       <nz-form-item>
         <nz-form-control>
           <nz-input-group [nzPrefix]="prefixUser">
-            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+            <input type="text" nz-input formControlName="email" placeholder="Email" />
           </nz-input-group>
-          <nz-form-explain *ngIf="validateForm.get('userName')?.dirty && validateForm.get('userName')?.errors">
+          <nz-form-explain
+            *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors"
+          >
             Please input your username
           </nz-form-explain>
         </nz-form-control>
@@ -27,9 +26,16 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group [nzPrefix]="prefixLock">
-            <input type="password" nz-input formControlName="password" placeholder="Password" />
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+            />
           </nz-input-group>
-          <nz-form-explain *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors">
+          <nz-form-explain
+            *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors"
+          >
             Please input your Password
           </nz-form-explain>
         </nz-form-control>
@@ -41,14 +47,13 @@
             <span>Remember me</span>
           </label>
           <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-          <button nz-button class="login-form-button" nzType="primary" (click)="login()">Log in</button>
+          <button nz-button class="login-form-button" nzType="primary" (click)="login()">
+            Log in
+          </button>
           Or
           <a [routerLink]="['/auth', 'signin']">register now</a>
         </nz-form-control>
       </nz-form-item>
-
     </form>
-
   </div>
-
 </section>

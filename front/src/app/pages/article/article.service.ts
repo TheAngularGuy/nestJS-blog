@@ -8,13 +8,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ArticleService {
-
-  constructor(
-    private readonly httpClient: HttpClient
-  ) { }
+  constructor(private readonly httpClient: HttpClient) {}
 
   getAll(page = 1, take = 25): Observable<ArticleModel[]> {
-    return (this.httpClient.get(environment.apiRoute + `article?page=${page}&take=${take}`) as Observable<ArticleModel[]>);
+    return this.httpClient.get(
+      environment.apiRoute + `article?page=${page}&take=${take}`
+    ) as Observable<ArticleModel[]>;
   }
-
 }

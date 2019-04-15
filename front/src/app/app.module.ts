@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,23 +11,24 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AppHttpInterceptor } from './interceptors/http.interceptor';
 import { metaReducers, reducers } from './ngrx/reducers';
 import { CustomRouteSerializer } from './ngrx/serializers/custom-oute-serializer';
 
-const routes: Routes = [{
-  path: 'auth',
-  loadChildren: './pages/auth/auth.module#AuthModule',
-},
-{
-  path: '',
-  loadChildren: './pages/layout/layout.module#LayoutModule',
-  canActivate: [AuthGuard]
-}];
+const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: './pages/auth/auth.module#AuthModule'
+  },
+  {
+    path: '',
+    loadChildren: './pages/layout/layout.module#LayoutModule',
+    canActivate: [AuthGuard]
+  }
+];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -35,14 +36,20 @@ const routes: Routes = [{
     RouterModule.forRoot(routes, { useHash: true, preloadingStrategy: PreloadAllModules }),
     StoreModule.forRoot({ router: routerReducer, ...reducers }, { metaReducers }),
     EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot({ stateKey: 'router', serializer: CustomRouteSerializer }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule.forRoot({
+      stateKey: 'router',
+      serializer: CustomRouteSerializer
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+    }
   ],
-  bootstrap: [
-    AppComponent,
-  ]
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

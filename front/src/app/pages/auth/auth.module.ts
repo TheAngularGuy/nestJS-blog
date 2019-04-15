@@ -8,31 +8,32 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { AuthEffects } from './auth.effects';
 import * as fromAuth from './auth.reducer';
+import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { RegisterComponent } from './register/register.component';
 
-
-const routes: Routes = [{
-  path: 'login',
-  component: LoginComponent,
-}, {
-  path: 'logout',
-  component: LogoutComponent,
-}, {
-  path: 'signin',
-  component: RegisterComponent
-}, {
-  path: '',
-  redirectTo: 'login'
-}];
+const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent
+  },
+  {
+    path: 'signin',
+    component: RegisterComponent
+  },
+  {
+    path: '',
+    redirectTo: 'login'
+  }
+];
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent,
-    LogoutComponent,
-  ],
+  declarations: [LoginComponent, RegisterComponent, LogoutComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -40,8 +41,6 @@ const routes: Routes = [{
     StoreModule.forFeature('auth', fromAuth.authReducer),
     EffectsModule.forFeature([AuthEffects])
   ],
-  providers: [
-    NzI18nService,
-  ]
+  providers: [AuthService, NzI18nService]
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -10,12 +10,15 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ArticleService {
-
   constructor(
     @InjectRepository(ArticleEntity) private readonly articleRepo: Repository<ArticleEntity>,
     private readonly userService: UserService,
-    private readonly catService: CategoryService,
-  ) { }
+    private readonly catService: CategoryService
+  ) {}
+
+  getCount(): Promise<number> {
+    return this.articleRepo.count({});
+  }
 
   getArticles(page = 1, take = 25): Promise<ArticleEntity[]> {
     return this.articleRepo.find({
@@ -30,7 +33,7 @@ export class ArticleService {
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {
     return this.articleRepo.findOneOrFail(articleId, {
-      relations: ['comments', 'categories'],
+      relations: ['comments', 'categories']
     });
   }
 
@@ -70,5 +73,4 @@ export class ArticleService {
     }
     return entities;
   }
-
 }

@@ -1,21 +1,36 @@
 import { ArticleModel } from 'src/app/models/article.model';
 
-import { ArticleActions, LoadArticlesAction } from './article.actions';
-
+import { ArticleActions, ArticleActionTypes } from './article.actions';
 
 export interface ArticleState {
-  articles: ArticleModel[];
+  list: ArticleModel[];
+  page: number;
+  take: number;
+  count: number;
 }
 
 export const initialArticleState: ArticleState = {
-  articles: null,
+  list: undefined,
+  page: undefined,
+  take: undefined,
+  count: undefined
 };
 
 export function reducer(state = initialArticleState, action: ArticleActions): ArticleState {
   switch (action.type) {
-    case (new LoadArticlesAction()).type:
+    case ArticleActionTypes.LoadArticles:
       return {
-        articles: action.payload.articles,
+        list: action.payload.list,
+        page: action.payload.page,
+        take: action.payload.take,
+        count: undefined
+      };
+    case ArticleActionTypes.CountArticles:
+      return {
+        list: [...state.list],
+        page: state.page,
+        take: state.take,
+        count: action.payload.count
       };
     default:
       return state;

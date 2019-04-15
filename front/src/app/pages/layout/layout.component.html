@@ -1,86 +1,100 @@
- <nz-layout style="height: 100vh; color: #fff">
-   <nz-header style=" padding:0; display: flex; align-items: center; justify-content: space-between;">
+<nz-layout style="height: 100vh; color: #fff">
+  <nz-header
+    style=" padding:0; display: flex; align-items: center; justify-content: space-between;"
+  >
+    <div>
+      <i
+        nz-icon
+        class="trigger"
+        [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="toggleSideBar()"
+      ></i>
+      <span class="brand" [routerLink]="['/']">NestJS Blog</span>
+    </div>
 
-     <div>
-       <i nz-icon class="trigger" [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="toggleSideBar()"></i>
-       <span class="brand" [routerLink]="['/']">NestJS Blog</span>
-     </div>
+    <div
+      class="user-panel"
+      nz-popover
+      nzTrigger="click"
+      [nzContent]="userPanelPopOverTemplate"
+      *ngIf="(isLoggedIn$ | async)"
+    >
+      <p style="line-height: initial; padding-right: 1rem;">
+        <span class="user-panel-name">Name</span>
+        <span class="user-panel-email">m@m.com</span>
+      </p>
+      <nz-badge nzDot>
+        <nz-avatar nzIcon="user" [nzShape]="'square'"></nz-avatar>
+      </nz-badge>
+    </div>
+    <ng-template #userPanelPopOverTemplate>
+      <div style="padding: 1rem 0">
+        <a>
+          <i nz-icon nzType="user"></i>
+          &nbsp; My account
+        </a>
+        <nz-divider></nz-divider>
+        <a [routerLink]="['/auth/logout']">
+          <i nz-icon nzType="logout"></i>
+          &nbsp; Log out
+        </a>
+      </div>
+    </ng-template>
+  </nz-header>
+  <nz-layout>
+    <nz-sider
+      nzCollapsible
+      [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null"
+      style="background: #fff;"
+    >
+      <ul
+        nz-menu
+        nzMode="inline"
+        [nzInlineCollapsed]="isCollapsed"
+        style="height: 100%; border: 0; overflow-y: auto; overflow-x: hidden"
+      >
+        <li nz-menu-item>
+          <span>
+            <i nz-icon nzType="font-colors"></i>
+            <span class="nav-text">All articles</span>
+          </span>
+        </li>
 
-     <div class="user-panel" nz-popover nzTrigger="click" [nzContent]="userPanelPopOverTemplate"
-       *ngIf="isLoggedIn$ | async">
-       <p style="line-height: initial; padding-right: 1rem;">
-         <span class="user-panel-name">Name</span>
-         <span class="user-panel-email">m@m.com</span>
-       </p>
-       <nz-badge nzDot>
-         <nz-avatar nzIcon="user" [nzShape]="'square'"></nz-avatar>
-       </nz-badge>
-     </div>
-     <ng-template #userPanelPopOverTemplate>
-       <div style="padding: 1rem 0">
-         <a>
-           <i nz-icon nzType="user"></i>
-           &nbsp; My account
-         </a>
-         <nz-divider></nz-divider>
-         <a [routerLink]="['/auth/logout']">
-           <i nz-icon nzType="logout"></i>
-           &nbsp; Log out
-         </a>
-       </div>
-     </ng-template>
+        <li nz-submenu>
+          <span title>
+            <i nz-icon nzType="book"></i>
+            <span class="nav-text">Categories</span>
+          </span>
+          <ul>
+            <li nz-menu-item>Tom</li>
+            <li nz-menu-item>Bill</li>
+            <li nz-menu-item>Alex</li>
+          </ul>
+        </li>
 
-   </nz-header>
-   <nz-layout>
+        <li nz-submenu>
+          <span title>
+            <i nz-icon nzType="team"></i>
+            <span class="nav-text">Authors</span>
+          </span>
+          <ul>
+            <li nz-menu-item>Tom</li>
+            <li nz-menu-item>Bill</li>
+            <li nz-menu-item>Alex</li>
+          </ul>
+        </li>
+      </ul>
+    </nz-sider>
 
-     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="background: #fff;">
-       <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed"
-         style="height: 100%; border: 0; overflow-y: auto; overflow-x: hidden">
+    <nz-content class="content" id="content">
+      <nz-back-top nzTarget="nz-content"></nz-back-top>
 
-         <li nz-menu-item>
-           <span>
-             <i nz-icon nzType="font-colors"></i>
-             <span class="nav-text">All articles</span>
-           </span>
-         </li>
+      <router-outlet></router-outlet>
 
-         <li nz-submenu>
-           <span title>
-             <i nz-icon nzType="book"></i>
-             <span class="nav-text">Categories</span>
-           </span>
-           <ul>
-             <li nz-menu-item>Tom</li>
-             <li nz-menu-item>Bill</li>
-             <li nz-menu-item>Alex</li>
-           </ul>
-         </li>
-
-         <li nz-submenu>
-           <span title>
-             <i nz-icon nzType="team"></i>
-             <span class="nav-text">Authors</span>
-           </span>
-           <ul>
-             <li nz-menu-item>Tom</li>
-             <li nz-menu-item>Bill</li>
-             <li nz-menu-item>Alex</li>
-           </ul>
-         </li>
-
-       </ul>
-     </nz-sider>
-
-     <nz-content class="content">
-       <nz-back-top nzTarget="nz-content"></nz-back-top>
-
-
-       <router-outlet></router-outlet>
-
-
-       <nz-footer (click)="goToLinkedIn()">
-         <span> @ Mustapha AOUAS </span>
-       </nz-footer>
-     </nz-content>
-   </nz-layout>
- </nz-layout>
+      <nz-footer (click)="goToLinkedIn()">
+        <span> @ Mustapha AOUAS </span>
+      </nz-footer>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

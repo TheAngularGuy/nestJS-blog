@@ -8,6 +8,27 @@ export const articleStateSelector = (state: any) =>
 export const articleListSelector = createSelector(
   articleStateSelector,
   articleState => {
-    return articleState.articles;
+    return articleState.list;
+  }
+);
+
+export const articlePageSelector = createSelector(
+  articleStateSelector,
+  articleState => {
+    return articleState.page;
+  }
+);
+
+export const articleCountSelector = createSelector(
+  articleStateSelector,
+  articleState => {
+    return articleState.count;
+  }
+);
+
+export const articleTakeSelector = createSelector(
+  articleStateSelector,
+  articleState => {
+    return articleState.take;
   }
 );

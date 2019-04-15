@@ -10,9 +10,13 @@ import { environment } from 'src/environments/environment';
 export class ArticleService {
   constructor(private readonly httpClient: HttpClient) {}
 
-  getAll(page = 1, take = 25): Observable<ArticleModel[]> {
+  getCount(): Observable<number> {
+    return this.httpClient.get(environment.apiRoute + 'article/count') as any;
+  }
+
+  getAll(page: number, take: number): Observable<ArticleModel[]> {
     return this.httpClient.get(
       environment.apiRoute + `article?page=${page}&take=${take}`
-    ) as Observable<ArticleModel[]>;
+    ) as any;
   }
 }

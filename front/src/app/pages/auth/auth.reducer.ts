@@ -23,7 +23,10 @@ export function authReducer(
     case new LoginAction().type:
       newState.loggedIn = true;
       newState.user = action.payload.jwtToken.user;
-      newState.jwtToken = action.payload.jwtToken;
+      newState.jwtToken = {
+        token: action.payload.jwtToken.token,
+        expireDate: action.payload.jwtToken.expireDate
+      };
       break;
     case new LogoutAction().type:
       newState.loggedIn = false;

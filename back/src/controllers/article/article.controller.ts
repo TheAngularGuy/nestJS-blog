@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, Headers, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ArticleDto } from 'src/models/article/article.dto';
 import { JwtPayload } from 'src/models/auth/jwt.payload';
@@ -8,11 +21,19 @@ import { ArticleService } from './article.service';
 
 @Controller('api/article')
 export class ArticleController {
-
   constructor(
     private readonly service: ArticleService,
-    private readonly utils: UtilitiesService,
-  ) { }
+    private readonly utils: UtilitiesService
+  ) {}
+
+  @Get('/count')
+  async getCount() {
+    try {
+      return await this.service.getCount();
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NO_CONTENT);
+    }
+  }
 
   @Get()
   getAll(@Query('page') page: number, @Query('take') take: number) {
@@ -62,5 +83,4 @@ export class ArticleController {
       throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
-
 }

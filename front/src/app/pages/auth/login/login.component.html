@@ -2,7 +2,7 @@
   <ng-template #prefixUser><i nz-icon type="mail"></i></ng-template>
   <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
 
-  <nz-page-header nzBackIcon nzTitle="Log in"> </nz-page-header>
+  <nz-page-header nzBackIcon (nzBack)="onBack()" nzTitle="Log in"> </nz-page-header>
 
   <div class="card">
     <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">

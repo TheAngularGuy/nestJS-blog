@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UploadFile } from 'ng-zorro-antd';
-
 
 @Component({
   selector: 'app-register',
@@ -12,9 +12,7 @@ export class RegisterComponent implements OnInit {
   validateForm: FormGroup;
   fileList: UploadFile[] = [];
 
-  constructor(
-    private fb: FormBuilder,
-  ) { }
+  constructor(private readonly fb: FormBuilder, private readonly router: Router) {}
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {
@@ -29,7 +27,7 @@ export class RegisterComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       firstname: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required]]
     });
   }
 
@@ -37,6 +35,9 @@ export class RegisterComponent implements OnInit {
     this.fileList = this.fileList = [file];
     console.log(this.fileList);
     return false;
-  }
+  };
 
+  onBack() {
+    this.router.navigateByUrl('/auth');
+  }
 }

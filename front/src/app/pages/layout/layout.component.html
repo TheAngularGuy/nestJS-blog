@@ -1,14 +1,7 @@
 <nz-layout style="height: 100vh; color: #fff">
-  <nz-header
-    style=" padding:0; display: flex; align-items: center; justify-content: space-between;"
-  >
+  <nz-header style=" padding:0; display: flex; align-items: center; justify-content: space-between;">
     <div>
-      <i
-        nz-icon
-        class="trigger"
-        [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="toggleSideBar()"
-      ></i>
+      <i nz-icon class="trigger" [type]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="toggleSideBar()"></i>
       <span class="brand" [routerLink]="['/']">NestJS Blog</span>
     </div>
 
@@ -17,37 +10,38 @@
       nz-popover
       nzTrigger="click"
       [nzContent]="userPanelPopOverTemplate"
-      *ngIf="(isLoggedIn$ | async)"
+      *ngIf="(isLoggedIn$ | async); else registerTemplate"
     >
       <p style="line-height: initial; padding-right: 1rem;">
         <span class="user-panel-name">Name</span>
         <span class="user-panel-email">m@m.com</span>
       </p>
       <nz-badge nzDot>
-        <nz-avatar nzIcon="user" [nzShape]="'square'"></nz-avatar>
+        <nz-avatar nzIcon="user" nzShape="square"></nz-avatar>
       </nz-badge>
+      <ng-template #userPanelPopOverTemplate>
+        <div style="padding: 1rem 0">
+          <a>
+            <i nz-icon nzType="user"></i>
+            &nbsp; My account
+          </a>
+          <nz-divider></nz-divider>
+          <a [routerLink]="['/auth/logout']">
+            <i nz-icon nzType="logout"></i>
+            &nbsp; Log out
+          </a>
+        </div>
+      </ng-template>
     </div>
-    <ng-template #userPanelPopOverTemplate>
-      <div style="padding: 1rem 0">
-        <a>
-          <i nz-icon nzType="user"></i>
-          &nbsp; My account
-        </a>
-        <nz-divider></nz-divider>
-        <a [routerLink]="['/auth/logout']">
-          <i nz-icon nzType="logout"></i>
-          &nbsp; Log out
-        </a>
+    <ng-template #registerTemplate>
+      <div style="line-height: 64px; padding:0 1rem; cursor: pointer;" [routerLink]="['/auth']">
+        <!-- * if not logged in -->
+        <span>My account</span>
       </div>
     </ng-template>
   </nz-header>
   <nz-layout>
-    <nz-sider
-      nzCollapsible
-      [(nzCollapsed)]="isCollapsed"
-      [nzTrigger]="null"
-      style="background: #fff;"
-    >
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="background: #fff;">
       <ul
         nz-menu
         nzMode="inline"

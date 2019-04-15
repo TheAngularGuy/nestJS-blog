@@ -10,7 +10,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './guards/auth.guard';
 import { AppHttpInterceptor } from './interceptors/http.interceptor';
 import { metaReducers, reducers } from './ngrx/reducers';
 import { CustomRouteSerializer } from './ngrx/serializers/custom-oute-serializer';
@@ -22,8 +21,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: './pages/layout/layout.module#LayoutModule',
-    canActivate: [AuthGuard]
+    loadChildren: './pages/layout/layout.module#LayoutModule'
   }
 ];
 
@@ -43,7 +41,6 @@ const routes: Routes = [
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
-    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,

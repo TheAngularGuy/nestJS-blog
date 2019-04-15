@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { JwtTokenModel } from 'src/app/models/jwt.token.model';
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
     private readonly message: NzMessageService,
     private readonly fb: FormBuilder,
     private readonly store: Store<AppState>,
+    private readonly router: Router,
     private readonly authService: AuthService
   ) {}
 
@@ -56,5 +58,9 @@ export class LoginComponent implements OnInit {
           this.message.create('error', 'Bad email or password.');
         }
       );
+  }
+
+  onBack() {
+    this.router.navigateByUrl('');
   }
 }

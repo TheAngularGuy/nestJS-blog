@@ -11,7 +11,6 @@ export class AuthEffects {
   login$: Observable<any> = this.actions$.pipe(
     ofType(new LoginAction().type),
     tap((action: LoginAction) => {
-      // NOTE: effect implementation here
       localStorage.setItem('jwtToken', JSON.stringify(action.payload.jwtToken));
       this.router.navigate(['/']); // TODO: go to the last visited page
     })
@@ -21,10 +20,9 @@ export class AuthEffects {
   logout$: Observable<any> = this.actions$.pipe(
     ofType(new LogoutAction().type),
     tap((action: LogoutAction) => {
-      // NOTE: effect implementation here
       console.log('storing:', action);
       localStorage.removeItem('jwtToken');
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/']);
     })
   );
 
@@ -34,7 +32,7 @@ export class AuthEffects {
     if (userData) {
       return of(new LoginAction({ jwtToken: JSON.parse(userData) }) as any);
     }
-    return of(new LogoutAction() as any);
+    // return of(new LogoutAction() as any);
   });
 
   constructor(

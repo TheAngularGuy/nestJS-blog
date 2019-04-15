@@ -6,12 +6,7 @@ import { ArticleModel } from 'src/app/models/article.model';
 import { AppState } from 'src/app/ngrx/reducers';
 
 import { RequestArticlesAction } from '../article.actions';
-import {
-  articleCountSelector,
-  articleListSelector,
-  articlePageSelector,
-  articleTakeSelector,
-} from '../article.selector';
+import { articleCountSelector, articleListSelector, articlePageSelector, articleTakeSelector } from '../article.selector';
 
 @Component({
   selector: 'app-article-list',
@@ -43,7 +38,7 @@ export class ArticleListComponent implements OnInit {
 
   async changePage(page: number) {
     console.log(page);
-    document.getElementById('content').scroll(0, 0); // ! maybe put this in a utilities service
+    document.getElementById('content').scroll(0, 0); // TODO: maybe put this in a utilities service
     this.store.dispatch(
       new RequestArticlesAction({
         page,

@@ -48,6 +48,7 @@
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "ngrx-store-freeze": "^0.2.4",
+    "ngrx-store-logger": "^0.2.3",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",

@@ -17,3 +17,10 @@ export const jwtTokenSelector = createSelector(
     return authState.jwtToken;
   }
 );
+
+export const userSelector = createSelector(
+  authStateSelector,
+  authState => {
+    return authState.user;
+  }
+);

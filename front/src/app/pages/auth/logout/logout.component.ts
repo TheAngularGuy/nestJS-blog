@@ -9,13 +9,9 @@ import { LogoutAction } from 'src/app/pages/auth/auth.actions';
   styles: ['']
 })
 export class LogoutComponent implements OnInit {
-
-  constructor(
-    private readonly store: Store<AppState>,
-  ) { }
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new LogoutAction());
+    this.store.dispatch(new LogoutAction({ redirect: true }));
   }
-
 }

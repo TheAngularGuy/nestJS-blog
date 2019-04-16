@@ -21,7 +21,7 @@
       </nz-badge>
       <ng-template #userPanelPopOverTemplate>
         <div style="padding: 1rem 0">
-          <a>
+          <a [routerLink]="['/my-account']">
             <i nz-icon nzType="user"></i>
             &nbsp; My account
           </a>
@@ -86,8 +86,8 @@
 
       <router-outlet></router-outlet>
 
-      <nz-footer (click)="goToLinkedIn()">
-        <span> @ Mustapha AOUAS </span>
+      <nz-footer>
+        <span (click)="goToLinkedIn()"> @ Mustapha AOUAS </span>
       </nz-footer>
     </nz-content>
   </nz-layout>

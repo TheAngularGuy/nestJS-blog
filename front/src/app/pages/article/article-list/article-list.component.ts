@@ -37,7 +37,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async changePage(page: number) {
-    console.log(page);
+    console.log(`page: ${page}`);
     document.getElementById('content').scroll(0, 0); // TODO: maybe put this in a utilities service
     this.store.dispatch(
       new RequestArticlesAction({

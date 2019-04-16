@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { JwtTokenModel } from 'src/app/models/jwt.token.model';
 
-enum AuthActionTypes {
+export enum AuthActionTypes {
   LoginAction = '[Auth] Login',
   LogoutAction = '[Auth] Logout'
 }
@@ -9,11 +9,13 @@ enum AuthActionTypes {
 export class LoginAction implements Action {
   readonly type = AuthActionTypes.LoginAction;
 
-  constructor(public payload?: { jwtToken: JwtTokenModel }) {}
+  constructor(public payload: { jwtToken: JwtTokenModel; redirect?: boolean }) {}
 }
 
 export class LogoutAction implements Action {
   readonly type = AuthActionTypes.LogoutAction;
+
+  constructor(public payload?: { redirect: boolean }) {}
 }
 
 export type AuthActions = LoginAction | LogoutAction;

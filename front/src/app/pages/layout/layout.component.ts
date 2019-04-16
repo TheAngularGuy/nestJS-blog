@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from 'src/app/ngrx/reducers';
 
 import { isLoggedInSelector } from '../auth/auth.selectors';
 
@@ -15,9 +14,7 @@ export class LayoutComponent implements OnInit {
   isCollapsed = false;
   isLoggedIn$: Observable<boolean>;
 
-  constructor(
-    private readonly store: Store<AppState>,
-  ) { }
+  constructor(private readonly store: Store<any>) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.store.select(isLoggedInSelector);
@@ -30,5 +27,4 @@ export class LayoutComponent implements OnInit {
   goToLinkedIn() {
     window.open('https://www.linkedin.com/in/mustapha-aouas-7918a214b/', '_blank');
   }
-
 }

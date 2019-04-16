@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first, take, tap } from 'rxjs/operators';
@@ -20,7 +21,7 @@ export class ArticleListComponent implements OnInit {
   take$: Observable<number>;
   max$: Observable<number>;
 
-  constructor(private readonly store: Store<AppState>) {}
+  constructor(private readonly store: Store<AppState>, private readonly route: ActivatedRoute) {}
 
   ngOnInit() {
     this.page$ = this.store.select(articlePageSelector);
@@ -30,14 +31,18 @@ export class ArticleListComponent implements OnInit {
       tap((list: ArticleModel[]) => {
         // * if it's null we request
         if (list == null) {
-          this.store.dispatch(new RequestArticlesAction({ page: 1, take: 5 }));
+          this.store.dispatch(
+            new RequestArticlesAction({
+              page: this.route.snapshot.queryParams.page || 1,
+              take: this.route.snapshot.queryParams.take || 5
+            })
+          );
         }
       })
     );
   }
 
   async changePage(page: number) {
-    console.log(`page: ${page}`);
     document.getElementById('content').scroll(0, 0); // TODO: maybe put this in a utilities service
     this.store.dispatch(
       new RequestArticlesAction({

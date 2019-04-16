@@ -23,7 +23,6 @@ export class AuthEffects {
   logout$: Observable<any> = this.actions$.pipe(
     ofType(AuthActionTypes.LogoutAction),
     tap((action: LogoutAction) => {
-      console.log('storing:', action);
       localStorage.removeItem('jwtToken');
       if (action.payload && action.payload.redirect) {
         this.router.navigate(['/']);

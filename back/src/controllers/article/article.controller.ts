@@ -21,10 +21,7 @@ import { ArticleService } from './article.service';
 
 @Controller('api/article')
 export class ArticleController {
-  constructor(
-    private readonly service: ArticleService,
-    private readonly utils: UtilitiesService
-  ) {}
+  constructor(private readonly service: ArticleService, private readonly utils: UtilitiesService) {}
 
   @Get('/count')
   async getCount() {

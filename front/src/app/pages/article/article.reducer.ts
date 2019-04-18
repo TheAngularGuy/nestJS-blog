@@ -7,13 +7,14 @@ export interface ArticleState {
   page: number;
   take: number;
   count: number;
+  focusedOn?: ArticleModel;
 }
 
 export const initialArticleState: ArticleState = {
-  list: undefined,
-  page: undefined,
-  take: undefined,
-  count: undefined
+  list: null,
+  page: null,
+  take: null,
+  count: null,
 };
 
 export function reducer(state = initialArticleState, action: ArticleActions): ArticleState {
@@ -23,14 +24,24 @@ export function reducer(state = initialArticleState, action: ArticleActions): Ar
         list: action.payload.list,
         page: action.payload.page,
         take: action.payload.take,
-        count: undefined
+        count: null,
+        focusedOn: { ...state.focusedOn },
       };
     case ArticleActionTypes.CountArticles:
       return {
-        list: [...state.list],
+        list: [...(state.list || [])],
         page: state.page,
         take: state.take,
-        count: action.payload.count
+        count: action.payload.count,
+        focusedOn: { ...state.focusedOn },
+      };
+    case ArticleActionTypes.LoadOneArticle:
+      return {
+        list: [...(state.list || [])],
+        page: state.page,
+        take: state.take,
+        count: state.count,
+        focusedOn: action.payload.article,
       };
     default:
       return state;

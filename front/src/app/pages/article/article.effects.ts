@@ -10,12 +10,21 @@ import {
   ArticleActionTypes,
   CountArticlesAction,
   LoadArticlesAction,
+  LoadOneArticleAction,
   RequestArticlesAction,
+  RequestOneArticleAction,
 } from './article.actions';
 import { ArticleService } from './article.service';
 
 @Injectable()
 export class ArticleEffects {
+  constructor(
+    private readonly actions$: Actions<ArticleActions>,
+    private readonly articleService: ArticleService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+  ) {}
+
   @Effect()
   requestToLoad$: Observable<any> = this.actions$.pipe(
     ofType(ArticleActionTypes.RequestArticles),
@@ -28,9 +37,9 @@ export class ArticleEffects {
             relativeTo: this.route,
             queryParams: {
               page,
-              take
+              take,
             },
-            queryParamsHandling: 'merge'
+            queryParamsHandling: 'merge',
           });
         }),
         map(
@@ -38,11 +47,11 @@ export class ArticleEffects {
             new LoadArticlesAction({
               list: articlesList,
               page,
-              take
-            })
-        )
+              take,
+            }),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -52,15 +61,20 @@ export class ArticleEffects {
       return this.articleService.getCount().pipe(
         map((count: number) => {
           return new CountArticlesAction({ count });
-        })
+        }),
       );
-    })
+    }),
   );
 
-  constructor(
-    private readonly actions$: Actions<ArticleActions>,
-    private readonly articleService: ArticleService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {}
+  @Effect()
+  requestOneToLoadOne$: Observable<any> = this.actions$.pipe(
+    ofType(ArticleActionTypes.RequestOneArticle),
+    mergeMap((action: RequestOneArticleAction) => {
+      return this.articleService.getOne(action.payload.id).pipe(
+        map((article: ArticleModel) => {
+          return new LoadOneArticleAction({ article });
+        }),
+      );
+    }),
+  );
 }

@@ -5,7 +5,7 @@ import { ArticleModel } from 'src/app/models/article.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ArticleService {
   constructor(private readonly httpClient: HttpClient) {}
@@ -15,8 +15,10 @@ export class ArticleService {
   }
 
   getAll(page: number, take: number): Observable<ArticleModel[]> {
-    return this.httpClient.get(
-      environment.apiRoute + `article?page=${page}&take=${take}`
-    ) as any;
+    return this.httpClient.get(environment.apiRoute + `article?page=${page}&take=${take}`) as any;
+  }
+
+  getOne(id: number): Observable<ArticleModel> {
+    return this.httpClient.get(environment.apiRoute + `article/${id}`) as any;
   }
 }

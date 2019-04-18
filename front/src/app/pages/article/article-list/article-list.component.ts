@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first, take, tap } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
@@ -9,11 +9,14 @@ import { AppState } from 'src/app/ngrx/reducers';
 import { RequestArticlesAction } from '../article.actions';
 import { articleCountSelector, articleListSelector, articlePageSelector, articleTakeSelector } from '../article.selector';
 
+const DEFAULT_PAGE = 1;
+const DEFAULT_TAKE = 5;
+
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleListComponent implements OnInit {
   articleList$: Observable<ArticleModel[]>;
@@ -24,22 +27,28 @@ export class ArticleListComponent implements OnInit {
   constructor(private readonly store: Store<AppState>, private readonly route: ActivatedRoute) {}
 
   ngOnInit() {
+    console.log('pppppppp');
+
     this.page$ = this.store.select(articlePageSelector);
     this.take$ = this.store.select(articleTakeSelector);
     this.max$ = this.store.select(articleCountSelector);
-    this.articleList$ = this.store.select(articleListSelector).pipe(
+    this.articleList$ = this.store.pipe(
+      select(articleListSelector),
       tap((list: ArticleModel[]) => {
         // * if it's null we request
         if (list == null) {
+          console.log('Debbug log: ArticleListComponent -> ngOnInit -> list', list);
           this.store.dispatch(
             new RequestArticlesAction({
-              page: this.route.snapshot.queryParams.page || 1,
-              take: this.route.snapshot.queryParams.take || 5
-            })
+              page: this.route.snapshot.queryParams.page || DEFAULT_PAGE,
+              take: this.route.snapshot.queryParams.take || DEFAULT_TAKE,
+            }),
           );
         }
-      })
+      }),
     );
+
+    this.articleList$.subscribe();
   }
 
   async changePage(page: number) {
@@ -47,8 +56,8 @@ export class ArticleListComponent implements OnInit {
     this.store.dispatch(
       new RequestArticlesAction({
         page,
-        take: await this.take$.pipe(first()).toPromise()
-      })
+        take: (await this.take$.pipe(first()).toPromise()) || DEFAULT_TAKE,
+      }),
     );
   }
 }

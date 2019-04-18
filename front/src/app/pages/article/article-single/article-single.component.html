@@ -1,25 +1,18 @@
 <section class="page">
-  <div class="image-wrapper">
-  </div>
+  <div class="image-wrapper"></div>
 
-
-  <nz-page-header nzBackIcon nzTitle="Title">
-
+  <nz-page-header nzBackIcon [nzTitle]="(article$ | async)?.title">
     <nz-breadcrumb nz-page-header-breadcrumb>
       <nz-breadcrumb-item>
         <a>Articles</a>
       </nz-breadcrumb-item>
-      <nz-breadcrumb-item>Article name</nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{ (article$ | async)?.title }}</nz-breadcrumb-item>
     </nz-breadcrumb>
-
   </nz-page-header>
-
-
-
 
   <div class="article">
     <p>
-      article works!
+      {{ (article$ | async)?.body }}
     </p>
   </div>
 </section>

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiRoute: 'http://localhost:3000/api/',
-  stateLogger: false
+  stateLogger: !false,
 };
 
 /*

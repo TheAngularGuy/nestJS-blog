@@ -5,16 +5,16 @@ import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { JwtTokenModel } from 'src/app/models/jwt.token.model';
 import { AppState } from 'src/app/ngrx/reducers';
-import { LoginAction } from 'src/app/pages/auth/auth.actions';
+import { LoginAction } from 'src/app/pages/auth/state/auth.actions';
 
-import { isLoggedInSelector } from '../auth.selectors';
 import { AuthService } from '../auth.service';
+import { isLoggedInSelector } from '../state/auth.selectors';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
   validateForm: FormGroup;
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     private readonly store: Store<AppState>,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.validateForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
-      remember: [true]
+      remember: [true],
     });
   }
 
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
         (err: any) => {
           console.error(err);
           this.message.create('error', 'Bad email or password.');
-        }
+        },
       );
   }
 

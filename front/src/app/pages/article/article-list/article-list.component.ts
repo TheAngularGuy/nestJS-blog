@@ -6,8 +6,13 @@ import { first, take } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 import { AppState } from 'src/app/ngrx/reducers';
 
-import { RequestArticlesAction } from '../article.actions';
-import { articleCountSelector, articleListSelector, articlePageSelector, articleTakeSelector } from '../article.selector';
+import { RequestArticlesAction } from '../state/article.actions';
+import {
+  articleCountSelector,
+  articleListSelector,
+  articlePageSelector,
+  articleTakeSelector,
+} from '../state/article.selectors';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_TAKE = 5;

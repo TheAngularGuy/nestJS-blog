@@ -6,7 +6,7 @@ import { first, map, mergeMap } from 'rxjs/operators';
 
 import { JwtTokenModel } from '../models/jwt.token.model';
 import { AppState } from '../ngrx/reducers';
-import { jwtTokenSelector } from '../pages/auth/auth.selectors';
+import { jwtTokenSelector } from '../pages/auth/state/auth.selectors';
 
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
@@ -21,11 +21,11 @@ export class AppHttpInterceptor implements HttpInterceptor {
       mergeMap((jwtToken: JwtTokenModel) => {
         request = request.clone({
           setHeaders: {
-            Authorization: `Bearer ${jwtToken.token}`
-          }
+            Authorization: `Bearer ${jwtToken.token}`,
+          },
         });
         return next.handle(request);
-      })
+      }),
     );
   }
 }

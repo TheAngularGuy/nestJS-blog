@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/ngrx/reducers';
-import { LogoutAction } from 'src/app/pages/auth/auth.actions';
+import { LogoutAction } from 'src/app/pages/auth/state/auth.actions';
 
 @Component({
   selector: 'app-logout',
   template: '',
-  styles: ['']
+  styles: [''],
 })
 export class LogoutComponent implements OnInit {
   constructor(private readonly store: Store<AppState>) {}

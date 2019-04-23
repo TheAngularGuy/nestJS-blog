@@ -1,6 +1,6 @@
 import { JwtTokenModel } from 'src/app/models/jwt.token.model';
 import { UserModel } from 'src/app/models/user.model';
-import { AuthActions, AuthActionTypes } from 'src/app/pages/auth/auth.actions';
+import { AuthActions, AuthActionTypes } from 'src/app/pages/auth/state/auth.actions';
 
 export interface AuthState {
   loggedIn: boolean;
@@ -11,7 +11,7 @@ export interface AuthState {
 export const initialAuthState: AuthState = {
   loggedIn: false,
   user: undefined,
-  jwtToken: undefined
+  jwtToken: undefined,
 };
 
 export function authReducer(state: AuthState = initialAuthState, action: AuthActions): AuthState {
@@ -22,7 +22,7 @@ export function authReducer(state: AuthState = initialAuthState, action: AuthAct
       newState.user = action.payload.jwtToken.user;
       newState.jwtToken = {
         token: action.payload.jwtToken.token,
-        expireDate: action.payload.jwtToken.expireDate
+        expireDate: action.payload.jwtToken.expireDate,
       };
       break;
     case AuthActionTypes.LogoutAction:

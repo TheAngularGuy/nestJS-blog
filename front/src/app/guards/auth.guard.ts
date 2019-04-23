@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 
-import { isLoggedInSelector } from '../pages/auth/auth.selectors';
+import { isLoggedInSelector } from '../pages/auth/state/auth.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -15,11 +15,11 @@ export class AuthGuard implements CanActivate {
         if (!isLogged) {
           this.router.navigate(['/auth'], {
             queryParams: {
-              referer: state.url
-            }
+              referer: state.url,
+            },
           });
         }
-      })
+      }),
     );
   }
 }

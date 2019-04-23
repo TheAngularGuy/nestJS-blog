@@ -4,8 +4,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ArticleModel } from 'src/app/models/article.model';
 
-import { RequestOneArticleAction } from '../article.actions';
-import { articleByIdSelector } from '../article.selector';
+import { RequestOneArticleAction } from '../state/article.actions';
+import { articleByIdSelector } from '../state/article.selectors';
 
 @Component({
   selector: 'app-article-single',

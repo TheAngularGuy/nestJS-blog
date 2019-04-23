@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { isLoggedInSelector } from '../auth/auth.selectors';
+import { isLoggedInSelector } from '../auth/state/auth.selectors';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = false;

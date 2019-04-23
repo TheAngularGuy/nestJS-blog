@@ -8,23 +8,23 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleSingleComponent } from './article-single/article-single.component';
-import { ArticleEffects } from './article.effects';
-import * as fromArticle from './article.reducer';
 import { ArticleService } from './article.service';
+import { ArticleEffects } from './state/article.effects';
+import * as fromArticle from './state/article.reducer';
 
 const routes: Routes = [
   {
     path: 'list',
-    component: ArticleListComponent
+    component: ArticleListComponent,
   },
   {
     path: 'list/:id',
-    component: ArticleSingleComponent
+    component: ArticleSingleComponent,
   },
   {
     path: '',
-    redirectTo: 'list'
-  }
+    redirectTo: 'list',
+  },
 ];
 
 @NgModule({
@@ -34,8 +34,8 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('article', fromArticle.reducer),
-    EffectsModule.forFeature([ArticleEffects])
+    EffectsModule.forFeature([ArticleEffects]),
   ],
-  providers: [ArticleService, NzI18nService]
+  providers: [ArticleService, NzI18nService],
 })
 export class ArticleModule {}

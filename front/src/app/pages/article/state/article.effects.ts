@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 
+import { ArticleService } from '../article.service';
 import {
   ArticleActions,
   ArticleActionTypes,
@@ -14,7 +15,6 @@ import {
   RequestArticlesAction,
   RequestOneArticleAction,
 } from './article.actions';
-import { ArticleService } from './article.service';
 
 @Injectable()
 export class ArticleEffects {

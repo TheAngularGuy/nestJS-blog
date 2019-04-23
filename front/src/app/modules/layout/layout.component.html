@@ -45,6 +45,8 @@
       </div>
     </ng-template>
   </nz-header>
+
+  <!-- * side list -->
   <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="background: #fff;">
       <ul
@@ -66,9 +68,9 @@
             <span class="nav-text">Categories</span>
           </span>
           <ul>
-            <li nz-menu-item>Tom</li>
-            <li nz-menu-item>Bill</li>
-            <li nz-menu-item>Alex</li>
+            <li nz-menu-item *ngFor="let item of (categories$ | async)">
+              {{ item?.title }}
+            </li>
           </ul>
         </li>
 

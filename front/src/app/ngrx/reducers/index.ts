@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 function appLogger(reducer: ActionReducer<State<any>>): any {
   // default, no options
   return storeLogger({
-    collapsed: true
+    collapsed: true,
   })(reducer);
 }
 

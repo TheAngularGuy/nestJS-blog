@@ -36,7 +36,7 @@ export const articleTakeSelector = createSelector(
 export const articleByIdSelector = createSelector(
   articleStateSelector,
   (articleState: ArticleState, prop: { id: number }) => {
-    return articleState.list
+    return articleState.list && articleState.list.length
       ? [...articleState.list].filter(a => a.id == prop.id)[0]
       : null || articleState.focusedOn
       ? [articleState.focusedOn].filter(a => a.id == prop.id)[0]

@@ -1,7 +1,7 @@
 <section class="page">
   <div class="image-wrapper"></div>
 
-  <nz-page-header nzBackIcon [nzTitle]="(article$ | async)?.title">
+  <nz-page-header nzBackIcon [nzTitle]="(article$ | async)?.title" (nzBack)="onGoBack()">
     <nz-breadcrumb nz-page-header-breadcrumb>
       <nz-breadcrumb-item>
         <a>Articles</a>

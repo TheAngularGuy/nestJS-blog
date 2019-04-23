@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { first, take, tap } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 import { AppState } from 'src/app/ngrx/reducers';
 
@@ -27,28 +27,16 @@ export class ArticleListComponent implements OnInit {
   constructor(private readonly store: Store<AppState>, private readonly route: ActivatedRoute) {}
 
   ngOnInit() {
-    console.log('pppppppp');
-
     this.page$ = this.store.select(articlePageSelector);
     this.take$ = this.store.select(articleTakeSelector);
     this.max$ = this.store.select(articleCountSelector);
-    this.articleList$ = this.store.pipe(
-      select(articleListSelector),
-      tap((list: ArticleModel[]) => {
-        // * if it's null we request
-        if (list == null) {
-          console.log('Debbug log: ArticleListComponent -> ngOnInit -> list', list);
-          this.store.dispatch(
-            new RequestArticlesAction({
-              page: this.route.snapshot.queryParams.page || DEFAULT_PAGE,
-              take: this.route.snapshot.queryParams.take || DEFAULT_TAKE,
-            }),
-          );
-        }
+    this.articleList$ = this.store.select(articleListSelector);
+    this.store.dispatch(
+      new RequestArticlesAction({
+        page: this.route.snapshot.queryParams.page || DEFAULT_PAGE,
+        take: this.route.snapshot.queryParams.take || DEFAULT_TAKE,
       }),
     );
-
-    this.articleList$.subscribe();
   }
 
   async changePage(page: number) {

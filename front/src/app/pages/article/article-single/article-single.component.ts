@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 
 import { RequestOneArticleAction } from '../article.actions';
@@ -24,15 +23,11 @@ export class ArticleSingleComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
-    this.article$ = this.store.pipe(
-      select(articleByIdSelector, { id }),
-      tap(article => {
-        console.log('Debbug log: ArticleSingleComponent -> ngOnInit -> article', article);
+    this.article$ = this.store.pipe(select(articleByIdSelector, { id }));
+    this.store.dispatch(new RequestOneArticleAction({ id }));
+  }
 
-        if (article == null) {
-          this.store.dispatch(new RequestOneArticleAction({ id }));
-        }
-      }),
-    );
+  onGoBack() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

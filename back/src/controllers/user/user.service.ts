@@ -6,11 +6,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-
   constructor(
     @InjectRepository(UserEntity)
     private userRepo: Repository<UserEntity>,
-  ) { }
+  ) {}
 
   getUsers(page = 1, take = 25): Promise<UserEntity[]> {
     return this.userRepo.find({
@@ -22,17 +21,25 @@ export class UserService {
   async getOneUserByEmail(email: string): Promise<UserEntity> {
     return await this.userRepo.findOneOrFail({
       where: {
-        email
-      }
+        email,
+      },
     });
+  }
+
+  async getOneUserSaltByEmail(email: string): Promise<UserEntity> {
+    return await this.userRepo
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .select(['user.salt'])
+      .getOne();
   }
 
   async getOneUserByEmailAndPassword(email: string, password: string): Promise<UserEntity> {
     return await this.userRepo.findOneOrFail({
       where: {
         email,
-        password
-      }
+        password,
+      },
     });
   }
 
@@ -40,12 +47,11 @@ export class UserService {
     return await this.userRepo.findOneOrFail({
       where: {
         id,
-      }
+      },
     });
   }
 
   async createUser(user: UserDto): Promise<UserEntity> {
     return await this.userRepo.save(user);
   }
-
 }

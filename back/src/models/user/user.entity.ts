@@ -2,7 +2,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
-
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -15,7 +14,7 @@ export class UserEntity {
   @Column({ unique: true })
   email?: string;
 
-  @Column()
+  @Column({ select: false })
   salt?: string;
 
   @Column({ select: false })
@@ -29,5 +28,4 @@ export class UserEntity {
 
   @Column({ default: false })
   isAuthor?: boolean;
-
 }

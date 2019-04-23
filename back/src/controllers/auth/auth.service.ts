@@ -16,7 +16,7 @@ export class AuthService {
 
   public async signIn(user: SigninDto): Promise<JwtToken> {
     const newUser: UserEntity = {
-      ...user
+      ...user,
     };
     newUser.salt = await bcrypt.genSalt();
     newUser.password = await bcrypt.hash(user.password, newUser.salt);
@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   private async validateUserByPassword(user: LoginDto): Promise<UserEntity> {
-    const userToCheck = await this.userService.getOneUserByEmail(user.email);
+    const userToCheck = await this.userService.getOneUserSaltByEmail(user.email);
     const hashedPassword = await bcrypt.hash(user.password, userToCheck.salt);
     return await this.userService.getOneUserByEmailAndPassword(user.email, hashedPassword);
   }
@@ -42,13 +42,13 @@ export class AuthService {
 
   createJwtPayload(user: UserEntity): JwtToken {
     const data: JwtPayload = {
-      email: user.email
+      email: user.email,
     };
     const jwt = this.jwtService.sign(data);
     return {
       token: jwt,
       expireDate: new Date(Date.now() + APP_CONFIG.expiresIn * 1000).valueOf(),
-      user
+      user,
     };
   }
 

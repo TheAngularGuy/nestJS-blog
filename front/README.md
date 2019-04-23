@@ -1,6 +1,6 @@
-# Front
+# Blog front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
+Creating a blog with NestJS in the backend and Angular + NgRx in the frontend
 
 ## Development server
 
@@ -8,20 +8,14 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+ng g store State --root --module app.module.ts
 
-## Build
+ng g action modules/xxx/state/xxx
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+ng g reducer modules/xxx/state/xxx --spec=false --flat=false --module modules/xxx/xxx.module.ts
 
-## Running unit tests
+ng g effect modules/xxx/state/xxx --spec=false --flat=false --module modules/xxx/xxx.module.ts
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Info
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The Layout module is the modules that wraps all of the pages except the ones relative to authentication. So most of the routes are located in there.

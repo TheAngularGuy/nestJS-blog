@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { LayoutComponent } from './layout.component';
 
 const routes: Routes = [
@@ -13,24 +13,24 @@ const routes: Routes = [
     children: [
       {
         path: 'article',
-        loadChildren: '../article/article.module#ArticleModule'
+        loadChildren: '../article/article.module#ArticleModule',
       },
       {
         path: 'my-account',
         loadChildren: '../user/user.module#UserModule',
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: '',
-        redirectTo: 'article'
-      }
-    ]
-  }
+        redirectTo: 'article',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   declarations: [LayoutComponent],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
-  providers: [AuthGuard]
+  providers: [AuthGuard],
 })
 export class LayoutModule {}

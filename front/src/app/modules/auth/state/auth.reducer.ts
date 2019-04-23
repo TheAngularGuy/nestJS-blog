@@ -1,6 +1,6 @@
 import { JwtTokenModel } from 'src/app/models/jwt.token.model';
 import { UserModel } from 'src/app/models/user.model';
-import { AuthActions, AuthActionTypes } from 'src/app/pages/auth/state/auth.actions';
+import { AuthActions, AuthActionTypes } from 'src/app/modules/auth/state/auth.actions';
 
 export interface AuthState {
   loggedIn: boolean;

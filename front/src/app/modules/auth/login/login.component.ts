@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd';
 import { JwtTokenModel } from 'src/app/models/jwt.token.model';
+import { LoginAction } from 'src/app/modules/auth/state/auth.actions';
 import { AppState } from 'src/app/ngrx/reducers';
-import { LoginAction } from 'src/app/pages/auth/state/auth.actions';
 
 import { AuthService } from '../auth.service';
 import { isLoggedInSelector } from '../state/auth.selectors';

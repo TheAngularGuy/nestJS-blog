@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { defer, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthActions, AuthActionTypes, LoginAction, LogoutAction } from 'src/app/pages/auth/state/auth.actions';
+import { AuthActions, AuthActionTypes, LoginAction, LogoutAction } from 'src/app/modules/auth/state/auth.actions';
 
 @Injectable()
 export class AuthEffects {

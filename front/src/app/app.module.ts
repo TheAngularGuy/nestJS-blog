@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
@@ -10,19 +10,20 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { AppHttpInterceptor } from './interceptors/http.interceptor';
+import { AppErrorsHandeler } from './helpers/error.handeler';
+import { AppHttpInterceptor } from './helpers/http.interceptor';
 import { metaReducers, reducers } from './ngrx/reducers';
 import { CustomRouteSerializer } from './ngrx/serializers/custom-oute-serializer';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: './pages/auth/auth.module#AuthModule'
+    loadChildren: './modules/auth/auth.module#AuthModule',
   },
   {
     path: '',
-    loadChildren: './pages/layout/layout.module#LayoutModule'
-  }
+    loadChildren: './modules/layout/layout.module#LayoutModule',
+  },
 ];
 
 @NgModule({
@@ -36,17 +37,21 @@ const routes: Routes = [
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',
-      serializer: CustomRouteSerializer
+      serializer: CustomRouteSerializer,
     }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorsHandeler,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

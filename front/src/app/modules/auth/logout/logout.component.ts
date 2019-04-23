@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { LogoutAction } from 'src/app/modules/auth/state/auth.actions';
 import { AppState } from 'src/app/ngrx/reducers';
-import { LogoutAction } from 'src/app/pages/auth/state/auth.actions';
 
 @Component({
   selector: 'app-logout',

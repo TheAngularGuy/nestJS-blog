@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NzI18nService } from 'ng-zorro-antd';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';

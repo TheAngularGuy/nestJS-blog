@@ -14,7 +14,7 @@ import { layoutCategoriesSelector } from './state/layout.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-  isCollapsed = false;
+  isCollapsed = true;
   isLoggedIn$: Observable<boolean>;
   categories$: Observable<CategoryModel[]>;
 

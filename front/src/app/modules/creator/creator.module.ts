@@ -1,0 +1,36 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { EditorComponent } from './editor/editor.component';
+import { CreatorEffects } from './state/creator.effects';
+import * as fromCreator from './state/creator.reducer';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: DashboardComponent,
+  },
+  {
+    path: 'create',
+    component: EditorComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: EditorComponent,
+  },
+];
+
+@NgModule({
+  declarations: [DashboardComponent, EditorComponent],
+  imports: [
+    CommonModule,
+    StoreModule.forFeature('creator', fromCreator.reducer),
+    EffectsModule.forFeature([CreatorEffects]),
+    RouterModule.forChild(routes),
+  ],
+})
+export class CreatorModule {}

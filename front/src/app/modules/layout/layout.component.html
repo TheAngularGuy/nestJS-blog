@@ -1,5 +1,7 @@
-<nz-layout style="height: 100vh; color: #fff">
-  <nz-header style=" padding:0; display: flex; align-items: center; justify-content: space-between;">
+<nz-layout style="height: 100vh">
+  <nz-header
+    style="color: white; padding:0; display: flex; align-items: center; justify-content: space-between;"
+  >
     <div>
       <i
         nz-icon
@@ -48,7 +50,7 @@
 
   <!-- * side list -->
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" style="background: #fff;">
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzTheme="light">
       <ul
         nz-menu
         nzMode="inline"
@@ -67,11 +69,18 @@
             <i nz-icon nzType="book"></i>
             <span class="nav-text">Categories</span>
           </span>
-          <ul>
+          <ul *ngIf="(categories$ | async)?.length; else noCategoryTemplate">
             <li nz-menu-item *ngFor="let item of (categories$ | async)">
               {{ item?.title }}
             </li>
           </ul>
+          <ng-template #noCategoryTemplate>
+            <ul>
+              <li nz-menu-item>
+                No category available yet
+              </li>
+            </ul>
+          </ng-template>
         </li>
 
         <li nz-submenu>

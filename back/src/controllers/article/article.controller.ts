@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   HttpException,
   HttpStatus,
   Param,
@@ -14,9 +13,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ArticleDto } from 'src/models/article/article.dto';
-import { JwtPayload } from 'src/models/auth/jwt.payload';
 import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
+import { User } from '../auth/decorators/user.decorator';
 import { ArticleService } from './article.service';
 
 @Controller('api/article')
@@ -52,10 +51,9 @@ export class ArticleController {
 
   @Post()
   @UseGuards(AuthGuard())
-  async create(@Body() articleDto: ArticleDto, @Headers() headers: any) {
+  async create(@Body() articleDto: ArticleDto, @User() user: any) {
     try {
-      const token: JwtPayload = await this.utils.headersToJwtDecoded(headers);
-      return await this.service.createArticle(articleDto, token.email);
+      return await this.service.createArticle(articleDto, user.email);
     } catch (err) {
       throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }

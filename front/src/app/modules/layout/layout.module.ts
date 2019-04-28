@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 
 import { SharedModule } from '../shared/shared.module';
+import { InfoComponent } from './info/info.component';
 import { LayoutComponent } from './layout.component';
 import { LayoutService } from './layout.service';
 import { LayoutEffects } from './state/layout.effects';
@@ -26,6 +27,15 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'creator',
+        loadChildren: '../creator/creator.module#CreatorModule',
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'info',
+        component: InfoComponent,
+      },
+      {
         path: '',
         redirectTo: 'article',
       },
@@ -34,7 +44,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [LayoutComponent, InfoComponent],
   imports: [
     CommonModule,
     SharedModule,

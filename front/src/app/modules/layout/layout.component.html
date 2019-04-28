@@ -15,7 +15,7 @@
     <div style="display: flex; align-items: center">
       <i nz-icon type="home" style="font-size: 1.3rem" [routerLink]="['/']"></i>
       <span style="width: 1rem"></span>
-      <i nz-icon type="info-circle" style="font-size: 1.3rem" [routerLink]="['/']"></i>
+      <i nz-icon type="info-circle" style="font-size: 1.3rem" [routerLink]="['/info']"></i>
 
       <div
         class="user-panel"
@@ -25,8 +25,8 @@
         *ngIf="isLoggedIn$ | async; else registerTemplate"
       >
         <p style="line-height: initial; padding-right: 1rem;">
-          <span class="user-panel-name">Name</span>
-          <span class="user-panel-email">m@m.com</span>
+          <span class="user-panel-name">{{ (user$ | async).firstname }}</span>
+          <span class="user-panel-email">{{ (user$ | async).email }}</span>
         </p>
         <nz-badge nzDot>
           <nz-avatar nzIcon="user" nzShape="square"></nz-avatar>
@@ -60,11 +60,21 @@
       <ul
         nz-menu
         nzMode="inline"
+        [nzSelectable]="false"
         [nzInlineCollapsed]="isCollapsed"
         style="height: 100%; border: 0; overflow-y: auto; overflow-x: hidden"
       >
-        <li nz-menu-item>
-          <span>
+        <ng-container *ngIf="(isLoggedIn$ | async) && (user$ | async).isAuthor">
+          <li nz-menu-item [routerLink]="['/creator']">
+            <span title>
+              <i nz-icon nzType="edit"></i>
+              <span class="nav-text">Author space</span>
+            </span>
+          </li>
+        </ng-container>
+
+        <li nz-menu-item [routerLink]="['/']">
+          <span title>
             <i nz-icon nzType="font-colors"></i>
             <span class="nav-text">All articles</span>
           </span>

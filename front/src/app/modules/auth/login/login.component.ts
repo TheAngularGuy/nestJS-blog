@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NzMessageService } from 'ng-zorro-antd';
-import { JwtTokenModel } from 'src/app/models/jwt.token.model';
-import { LoginAction } from 'src/app/modules/auth/state/auth.actions';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthActionTypes, LoginAction, LoginActionKO } from 'src/app/modules/auth/state/auth.actions';
 import { AppState } from 'src/app/ngrx/reducers';
 
-import { AuthService } from '../auth.service';
+import { UtilitiesService } from '../../shared/utilities.service';
 import { isLoggedInSelector } from '../state/auth.selectors';
 
 @Component({
@@ -16,17 +17,23 @@ import { isLoggedInSelector } from '../state/auth.selectors';
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   validateForm: FormGroup;
+  loading$ = new BehaviorSubject(false);
+  destroyed$ = new Subject();
 
   constructor(
-    private readonly message: NzMessageService,
+    private readonly utils: UtilitiesService,
     private readonly fb: FormBuilder,
     private readonly store: Store<AppState>,
+    private readonly Actions$: Actions,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly authService: AuthService,
   ) {}
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+  }
 
   ngOnInit(): void {
     this.store.select(isLoggedInSelector).subscribe(bool => {
@@ -34,7 +41,11 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl(this.route.snapshot.queryParams.referer);
       }
     });
+    this.listeToRes();
+    this.setForm();
+  }
 
+  setForm() {
     this.validateForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
@@ -51,21 +62,29 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.validateForm.invalid) {
-      this.message.create('error', 'Form invalid, please complete it then retry.');
+      this.utils.toastError('Form invalid, please complete it then retry.');
       return;
     }
-    this.authService
-      .login(this.validateForm.value)
-      .pipe() // ! take only first maybe
-      .subscribe(
-        (jwtToken: JwtTokenModel) => {
-          this.store.dispatch(new LoginAction({ jwtToken, redirect: true }));
-        },
-        (err: any) => {
-          console.error(err);
-          this.message.create('error', 'Bad email or password.');
-        },
-      );
+    this.loading$.next(true);
+    this.store.dispatch(
+      new LoginAction({
+        form: this.validateForm.value,
+        redirect: true,
+        redirectTo: this.route.snapshot.queryParams.referer,
+      }),
+    );
+  }
+
+  listeToRes() {
+    this.Actions$.pipe(
+      takeUntil(this.destroyed$),
+      ofType(AuthActionTypes.LoginActionKO),
+    ).subscribe((action: LoginActionKO) => {
+      setTimeout(() => {
+        this.utils.toastError(action.payload.errorMessage);
+        this.loading$.next(false);
+      }, 250);
+    });
   }
 
   onBack() {

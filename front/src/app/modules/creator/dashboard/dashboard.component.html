@@ -1,3 +1,57 @@
-<p>
-  dashboard works!
-</p>
+<section class="page" style="padding: 1rem">
+  <div class="card-with-header">
+    <nz-page-header>
+      <nz-page-header-title>Your articles</nz-page-header-title>
+      <nz-page-header-subtitle>You have written 0 articles and have 0 claps</nz-page-header-subtitle>
+      <nz-page-header-extra>
+        <button nz-button nzType="primary" [routerLink]="['create']">
+          Write something !
+        </button>
+      </nz-page-header-extra>
+    </nz-page-header>
+
+    <div class="card-with-header-content">
+      <nz-list
+        [nzDataSource]="userArticles$ | async"
+        [nzItemLayout]="'horizontal'"
+        [nzRenderItem]="item"
+        [nzPagination]="paginationTemplate"
+      >
+        <ng-template #paginationTemplate>
+          <nz-pagination
+            [nzPageIndex]="1"
+            [nzPageSize]="5"
+            [nzTotal]="0"
+            (nzPageIndexChange)="changePage($event)"
+          >
+          </nz-pagination>
+        </ng-template>
+        <ng-template #item let-item>
+          <nz-list-item [nzActions]="item.loading ? [] : [editAction, moreAction]">
+            <nz-skeleton
+              [nzActive]="true"
+              [nzTitle]="false"
+              [nzAvatar]="false"
+              [nzLoading]="item.loading"
+            >
+              <ng-template #editAction>
+                <a [routerLink]="['/note', 'edit', item.id]"><i nz-icon type="edit"></i></a>
+              </ng-template>
+              <ng-template #moreAction>
+                <a (click)="delete(item)"><i nz-icon type="delete"></i></a>
+              </ng-template>
+              <nz-list-item-meta [nzTitle]="titleTemplate" [nzDescription]="descTemplate">
+                <ng-template #titleTemplate>
+                  <a [routerLink]="['/note', 'edit', item.id]" [innerHTML]="item.title"> </a>
+                </ng-template>
+                <ng-template #descTemplate>
+                  <span [innerHTML]="item.description"> </span>
+                </ng-template>
+              </nz-list-item-meta>
+            </nz-skeleton>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
+  </div>
+</section>

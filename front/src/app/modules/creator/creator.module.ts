@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditorComponent } from './editor/editor.component';
 import { CreatorEffects } from './state/creator.effects';
@@ -28,6 +29,7 @@ const routes: Routes = [
   declarations: [DashboardComponent, EditorComponent],
   imports: [
     CommonModule,
+    SharedModule,
     StoreModule.forFeature('creator', fromCreator.reducer),
     EffectsModule.forFeature([CreatorEffects]),
     RouterModule.forChild(routes),

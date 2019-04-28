@@ -17,7 +17,7 @@ export const initialAuthState: AuthState = {
 export function authReducer(state: AuthState = initialAuthState, action: AuthActions): AuthState {
   const newState = { ...state };
   switch (action.type) {
-    case AuthActionTypes.LoginAction:
+    case AuthActionTypes.LoginActionOK:
       newState.loggedIn = true;
       newState.user = action.payload.jwtToken.user;
       newState.jwtToken = {
@@ -28,6 +28,9 @@ export function authReducer(state: AuthState = initialAuthState, action: AuthAct
     case AuthActionTypes.LogoutAction:
       newState.loggedIn = false;
       newState.user = null;
+      break;
+    case AuthActionTypes.UpdateUser:
+      newState.user = { ...newState.user, ...action.payload.user };
       break;
   }
   return newState;

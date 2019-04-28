@@ -15,9 +15,7 @@
           <nz-input-group [nzPrefix]="prefixUser">
             <input type="text" nz-input formControlName="email" placeholder="Email" />
           </nz-input-group>
-          <nz-form-explain
-            *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors"
-          >
+          <nz-form-explain *ngIf="validateForm.get('email')?.dirty && validateForm.get('email')?.errors">
             Please input your username
           </nz-form-explain>
         </nz-form-control>
@@ -26,12 +24,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group [nzPrefix]="prefixLock">
-            <input
-              type="password"
-              nz-input
-              formControlName="password"
-              placeholder="Password"
-            />
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
           </nz-input-group>
           <nz-form-explain
             *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors"
@@ -47,7 +40,13 @@
             <span>Remember me</span>
           </label>
           <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
-          <button nz-button class="login-form-button" nzType="primary" (click)="login()">
+          <button
+            nz-button
+            class="login-form-button"
+            nzType="primary"
+            (click)="login()"
+            [nzLoading]="loading$ | async"
+          >
             Log in
           </button>
           Or

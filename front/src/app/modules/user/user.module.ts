@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { NzI18nService } from 'ng-zorro-antd';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { ChangePwdComponent } from './change-pwd/change-pwd.component';
@@ -28,6 +27,6 @@ const routes: Routes = [
     StoreModule.forFeature('user', fromUser.reducer),
     EffectsModule.forFeature([UserEffects]),
   ],
-  providers: [NzI18nService],
+  providers: [],
 })
 export class UserModule {}

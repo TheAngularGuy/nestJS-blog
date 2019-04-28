@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { NzI18nService } from 'ng-zorro-antd';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 
 import { AuthService } from './auth.service';
@@ -41,6 +40,6 @@ const routes: Routes = [
     StoreModule.forFeature('auth', fromAuth.authReducer),
     EffectsModule.forFeature([AuthEffects]),
   ],
-  providers: [AuthService, NzI18nService],
+  providers: [AuthService],
 })
 export class AuthModule {}

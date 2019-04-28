@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
+import { UserModel } from 'src/app/models/user.model';
 
-import { isLoggedInSelector } from '../auth/state/auth.selectors';
+import { isLoggedInSelector, userSelector } from '../auth/state/auth.selectors';
 import { RequestCategoriesAction } from './state/layout.actions';
 import { layoutCategoriesSelector } from './state/layout.selectors';
 
@@ -15,12 +16,14 @@ import { layoutCategoriesSelector } from './state/layout.selectors';
 })
 export class LayoutComponent implements OnInit {
   isCollapsed = true;
+  user$: Observable<UserModel>;
   isLoggedIn$: Observable<boolean>;
   categories$: Observable<CategoryModel[]>;
 
   constructor(private readonly store: Store<any>) {}
 
   ngOnInit() {
+    this.user$ = this.store.select(userSelector);
     this.isLoggedIn$ = this.store.select(isLoggedInSelector);
     this.categories$ = this.store.select(layoutCategoriesSelector);
     this.store.dispatch(new RequestCategoriesAction());

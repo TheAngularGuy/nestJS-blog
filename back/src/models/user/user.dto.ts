@@ -1,7 +1,6 @@
-import { Allow, IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { Allow, IsEmail, IsNotEmpty } from 'class-validator';
 
 export class UserDto {
-
   @Allow()
   avatar?: string;
 
@@ -9,7 +8,7 @@ export class UserDto {
   @IsEmail()
   email?: string;
 
-  @MinLength(4)
+  @Allow()
   password?: string;
 
   @IsNotEmpty()
@@ -20,5 +19,4 @@ export class UserDto {
 
   @Allow()
   isAuthor?: boolean;
-
 }

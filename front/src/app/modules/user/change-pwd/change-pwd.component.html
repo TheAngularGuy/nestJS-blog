@@ -1,0 +1,30 @@
+<ng-container *ngIf="user && userForm">
+  <form nz-form [formGroup]="userForm" class="login-form" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">Actual password</nz-form-label>
+      <nz-form-control [nzSpan]="19" [nzValidateStatus]="null" nzHasFeedback>
+        <input type="password" nz-input formControlName="password" placeholder="Actual password" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">New password</nz-form-label>
+      <nz-form-control [nzSpan]="19" [nzValidateStatus]="null" nzHasFeedback>
+        <input type="password" nz-input formControlName="password1" placeholder="New password" />
+        <nz-form-explain>Should be combination of numbers & alphabets</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5">New password</nz-form-label>
+      <nz-form-control [nzSpan]="19" [nzValidateStatus]="null" nzHasFeedback>
+        <input type="password" nz-input formControlName="password2" placeholder="New password" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <br />
+    <div style="display: flex; justify-content: flex-end">
+      <button nz-button nzType="default">Cancel</button>
+      <span style="width: 12px"></span>
+      <button nz-button nzType="primary" [nzLoading]="false">Save</button>
+    </div>
+  </form>
+</ng-container>

@@ -12,40 +12,46 @@
       <span class="brand" [routerLink]="['/']">NestJS Blog</span>
     </div>
 
-    <div
-      class="user-panel"
-      nz-popover
-      nzTrigger="click"
-      [nzContent]="userPanelPopOverTemplate"
-      *ngIf="(isLoggedIn$ | async); else registerTemplate"
-    >
-      <p style="line-height: initial; padding-right: 1rem;">
-        <span class="user-panel-name">Name</span>
-        <span class="user-panel-email">m@m.com</span>
-      </p>
-      <nz-badge nzDot>
-        <nz-avatar nzIcon="user" nzShape="square"></nz-avatar>
-      </nz-badge>
-      <ng-template #userPanelPopOverTemplate>
-        <div style="padding: 1rem 0">
-          <a [routerLink]="['/my-account']">
-            <i nz-icon nzType="user"></i>
-            &nbsp; My account
-          </a>
-          <nz-divider></nz-divider>
-          <a [routerLink]="['/auth/logout']">
-            <i nz-icon nzType="logout"></i>
-            &nbsp; Log out
-          </a>
+    <div style="display: flex; align-items: center">
+      <i nz-icon type="home" style="font-size: 1.3rem" [routerLink]="['/']"></i>
+      <span style="width: 1rem"></span>
+      <i nz-icon type="info-circle" style="font-size: 1.3rem" [routerLink]="['/']"></i>
+
+      <div
+        class="user-panel"
+        nz-popover
+        nzTrigger="hover"
+        [nzContent]="userPanelPopOverTemplate"
+        *ngIf="isLoggedIn$ | async; else registerTemplate"
+      >
+        <p style="line-height: initial; padding-right: 1rem;">
+          <span class="user-panel-name">Name</span>
+          <span class="user-panel-email">m@m.com</span>
+        </p>
+        <nz-badge nzDot>
+          <nz-avatar nzIcon="user" nzShape="square"></nz-avatar>
+        </nz-badge>
+        <ng-template #userPanelPopOverTemplate>
+          <div style="padding: 1rem 0">
+            <a [routerLink]="['/my-account']">
+              <i nz-icon nzType="user"></i>
+              &nbsp; My account
+            </a>
+            <nz-divider></nz-divider>
+            <a [routerLink]="['/auth/logout']">
+              <i nz-icon nzType="logout"></i>
+              &nbsp; Log out
+            </a>
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #registerTemplate>
+        <div style="line-height: 64px; padding:0 1rem; cursor: pointer;" [routerLink]="['/auth']">
+          <!-- * if not logged in -->
+          <span>My account</span>
         </div>
       </ng-template>
     </div>
-    <ng-template #registerTemplate>
-      <div style="line-height: 64px; padding:0 1rem; cursor: pointer;" [routerLink]="['/auth']">
-        <!-- * if not logged in -->
-        <span>My account</span>
-      </div>
-    </ng-template>
   </nz-header>
 
   <!-- * side list -->
@@ -70,7 +76,7 @@
             <span class="nav-text">Categories</span>
           </span>
           <ul *ngIf="(categories$ | async)?.length; else noCategoryTemplate">
-            <li nz-menu-item *ngFor="let item of (categories$ | async)">
+            <li nz-menu-item *ngFor="let item of categories$ | async">
               {{ item?.title }}
             </li>
           </ul>

@@ -14,7 +14,7 @@ import { userSelector } from '../../auth/state/auth.selectors';
 export class ProfileComponent implements OnInit {
   user$: Observable<UserModel>;
 
-  constructor(private store: Store<any>) {}
+  constructor(private readonly store: Store<any>) {}
 
   ngOnInit() {
     this.user$ = this.store.select(userSelector);

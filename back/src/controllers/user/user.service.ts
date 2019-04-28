@@ -54,4 +54,10 @@ export class UserService {
   async createUser(user: UserDto): Promise<UserEntity> {
     return await this.userRepo.save(user);
   }
+
+  async editUser(userId: number, user: UserDto): Promise<UserEntity> {
+    await this.userRepo.findOneOrFail(userId);
+    await this.userRepo.update(userId, user);
+    return this.userRepo.findOneOrFail(userId);
+  }
 }

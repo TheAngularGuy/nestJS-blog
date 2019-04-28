@@ -1,5 +1,6 @@
-import { Controller, Get, HttpException, HttpStatus, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { UserDto } from 'src/models/user/user.dto';
 
 import { User } from '../auth/decorators/user.decorator';
 import { UserService } from './user.service';
@@ -23,6 +24,16 @@ export class UserController {
     try {
       const userOwnInfo = this.userService.getOneUserByEmail(user.email);
       return userOwnInfo;
+    } catch (err) {
+      throw new HttpException(null, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Put(':userId')
+  async edit(@Param('userId') userId: number, @Body() userDto: UserDto) {
+    try {
+      const ret = await this.userService.editUser(userId, userDto);
+      return ret;
     } catch (err) {
       throw new HttpException(null, HttpStatus.NO_CONTENT);
     }

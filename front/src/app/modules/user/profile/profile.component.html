@@ -1,3 +1,13 @@
-<p>
-  profile works!
-</p>
+<section class="page" style="padding: 1rem 1rem">
+  <div class="card" style="padding-top: 0">
+    <nz-tabset>
+      <nz-tab nzTitle="Your information">
+        <app-edit-profile [user]="user$ | async"></app-edit-profile>
+      </nz-tab>
+
+      <nz-tab nzTitle="Change password">
+        <app-change-pwd [user]="user$ | async"></app-change-pwd>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</section>

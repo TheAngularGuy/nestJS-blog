@@ -3,34 +3,41 @@
     <nz-page-header (nzBack)="onBack()" nzBackIcon>
       <nz-page-header-title>Write an article</nz-page-header-title>
       <nz-page-header-extra>
-        <button nz-button nzType="primary">
+        <button nz-button nzType="primary" (click)="save()">
           Save
         </button>
       </nz-page-header-extra>
     </nz-page-header>
 
     <div class="card-with-header-content">
-      <nz-form-item>
-        <nz-form-label>Title</nz-form-label>
-        <br />
-        <nz-form-control>
-          <input nz-input type="text" placeholder="Title" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>Title</nz-form-label>
-        <br />
-        <nz-form-control>
-          <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="Category">
-            <nz-option
-              *ngFor="let option of categories$ | async"
-              [nzLabel]="option.title"
-              [nzValue]="option.id"
+      <form *ngIf="articleForm" [formGroup]="articleForm">
+        <nz-form-item>
+          <nz-form-label>Title</nz-form-label>
+          <br />
+          <nz-form-control [nzValidateStatus]="formFieldStatus('title')">
+            <input nz-input type="text" placeholder="Title" formControlName="title" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Categories</nz-form-label>
+          <br />
+          <nz-form-control [nzValidateStatus]="formFieldStatus('categories')">
+            <nz-select
+              nzMode="tags"
+              style="width: 100%;"
+              nzPlaceHolder="Category"
+              formControlName="categories"
             >
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
+              <nz-option
+                *ngFor="let option of categories$ | async"
+                [nzLabel]="option.title"
+                [nzValue]="option.id"
+              >
+              </nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
 
       <nz-divider nzText="Article content" nzOrientation="left"></nz-divider>
       <div id="editor"></div>

@@ -50,9 +50,10 @@ export class AuthEffects {
     tap((action: LoginActionOK) => {
       localStorage.setItem('jwtToken', JSON.stringify(action.payload.jwtToken));
       if (action.payload.redirect) {
-        const redirectTo = !action.payload.redirectTo.includes('auth')
-          ? action.payload.redirectTo
-          : null;
+        const redirectTo =
+          action.payload.redirectTo && !action.payload.redirectTo.includes('auth')
+            ? action.payload.redirectTo
+            : null;
         this.router.navigateByUrl(redirectTo || '/');
       }
     }),

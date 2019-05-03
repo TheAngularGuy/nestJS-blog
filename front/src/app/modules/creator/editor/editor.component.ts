@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Checklist from '@editorjs/checklist';
 import EditorJS from '@editorjs/editorjs';
@@ -33,14 +34,17 @@ const NEW_NOTE_INIT = {
 export class EditorComponent implements OnInit {
   categories$: Observable<CategoryModel[]>;
   editor: EditorJS;
+  articleForm: FormGroup;
 
   constructor(
     private readonly store: Store<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit() {
+    this.setForm();
     this.categories$ = this.store.select(layoutCategoriesSelector);
 
     setTimeout(() => {
@@ -49,7 +53,7 @@ export class EditorComponent implements OnInit {
         new EditorJS({
           onReady: () => this.formChanged(),
           onChange: () => this.formChanged(),
-          holderId: 'editor',
+          holder: 'editor',
           autofocus: true,
           data: NEW_NOTE_INIT,
           tools: {
@@ -63,7 +67,27 @@ export class EditorComponent implements OnInit {
     }, 250);
   }
 
+  setForm() {
+    this.articleForm = this.fb.group({
+      title: [null, [Validators.required]],
+      categories: [[], [Validators.required]],
+    });
+  }
+
   formChanged() {}
+
+  formFieldStatus(field: string) {
+    return !this.articleForm.get(field).valid && this.articleForm.get(field).touched ? 'error' : 'null';
+  }
+
+  async save() {
+    const ob = {
+      title: this.articleForm.value.title,
+      categoryIds: this.articleForm.value.categories,
+      body: await this.editor.saver.save(),
+    };
+    console.log('Debbug log: EditorComponent -> save -> ob', ob);
+  }
 
   onBack() {
     this.router.navigate(['../'], {

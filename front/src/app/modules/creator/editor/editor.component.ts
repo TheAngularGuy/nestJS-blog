@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
 
 import { layoutCategoriesSelector } from '../../layout/state/layout.selectors';
+import { SendArticleAction } from '../state/creator.actions';
 
 const NEW_NOTE_INIT = {
   time: Date.now(),
@@ -84,8 +85,9 @@ export class EditorComponent implements OnInit {
     const ob = {
       title: this.articleForm.value.title,
       categoryIds: this.articleForm.value.categories,
-      body: await this.editor.saver.save(),
+      body: JSON.stringify(await this.editor.saver.save()),
     };
+    this.store.dispatch(new SendArticleAction({ article: ob }));
     console.log('Debbug log: EditorComponent -> save -> ob', ob);
   }
 

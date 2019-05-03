@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { SharedModule } from '../shared/shared.module';
+import { CreatorService } from './creator.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditorComponent } from './editor/editor.component';
 import { CreatorEffects } from './state/creator.effects';
@@ -34,5 +35,6 @@ const routes: Routes = [
     EffectsModule.forFeature([CreatorEffects]),
     RouterModule.forChild(routes),
   ],
+  providers: [CreatorService],
 })
 export class CreatorModule {}

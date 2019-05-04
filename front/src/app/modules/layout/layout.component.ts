@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
 import { UserModel } from 'src/app/models/user.model';
 
+import { categoriesSelector } from '../admin/state/admin.selectors';
 import { isLoggedInSelector, userSelector } from '../auth/state/auth.selectors';
-import { RequestCategoriesAction } from './state/layout.actions';
-import { layoutCategoriesSelector } from './state/layout.selectors';
 
 @Component({
   selector: 'app-layout',
@@ -15,7 +14,7 @@ import { layoutCategoriesSelector } from './state/layout.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-  isCollapsed = true;
+  isCollapsed = !true;
   user$: Observable<UserModel>;
   isLoggedIn$: Observable<boolean>;
   categories$: Observable<CategoryModel[]>;
@@ -25,8 +24,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.store.select(userSelector);
     this.isLoggedIn$ = this.store.select(isLoggedInSelector);
-    this.categories$ = this.store.select(layoutCategoriesSelector);
-    this.store.dispatch(new RequestCategoriesAction());
+    this.categories$ = this.store.select(categoriesSelector);
   }
 
   toggleSideBar(): void {

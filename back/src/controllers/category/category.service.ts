@@ -6,17 +6,16 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-
   constructor(
     @InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
-  ) { }
+  ) {}
 
   getCategories(page = 1, take = 25): Promise<CategoryEntity[]> {
     return this.categoryRepo.find({
-      skip: take * (page - 1),
-      take,
+      /* skip: take * (page - 1),
+      take, */
       order: {
-        id: 'DESC'
+        id: 'DESC',
       },
       relations: ['articles'],
     });
@@ -32,5 +31,4 @@ export class CategoryService {
     const catToCreate: CategoryEntity = { ...categoryDto };
     return this.categoryRepo.save(catToCreate);
   }
-
 }

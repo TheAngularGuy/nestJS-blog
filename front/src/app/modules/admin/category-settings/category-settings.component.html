@@ -1,0 +1,46 @@
+<div class="page" style="padding: 1rem">
+  <div class="card-with-header">
+    <nz-page-header>
+      <nz-page-header-title>Categories</nz-page-header-title>
+    </nz-page-header>
+
+    <div class="card-with-header-content">
+      <!-- ! add form -->
+      <form *ngIf="categoryForm" [formGroup]="categoryForm" (submit)="addCategory()">
+        <div style="display: flex">
+          <nz-form-item style="width:100%">
+            <nz-form-control [nzValidateStatus]="formFieldStatus('title')">
+              <input nz-input type="text" placeholder="Category title" formControlName="title" />
+            </nz-form-control>
+          </nz-form-item>
+          &nbsp;
+          <nz-form-item style="width:100%">
+            <nz-form-control [nzValidateStatus]="formFieldStatus('body')">
+              <input nz-input type="text" placeholder="Category description" formControlName="body" />
+            </nz-form-control>
+          </nz-form-item>
+          &nbsp;
+          <button
+            type="submit"
+            nz-button
+            nzType="primary"
+            style="margin-top: 3.5px"
+            [disabled]="!categoryForm.valid || categoryForm.pristine"
+          >
+            Add to the list !
+          </button>
+        </div>
+      </form>
+      <!-- ! list -->
+      <nz-list [nzDataSource]="categories$ | async" [nzRenderItem]="item">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="contentTemplate" [nzActions]="[editAction, deleteAction]">
+            <ng-template #editAction><a>edit</a></ng-template>
+            <ng-template #deleteAction><a class="danger">delete</a></ng-template>
+            <ng-template #contentTemplate> {{ item.title }}</ng-template>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
+  </div>
+</div>

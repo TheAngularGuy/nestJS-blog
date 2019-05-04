@@ -6,4 +6,5 @@ export interface UserModel {
   firstname: string;
   lastname: string;
   isAuthor: boolean;
+  isAdmin: boolean;
 }

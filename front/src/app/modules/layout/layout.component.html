@@ -64,8 +64,22 @@
         [nzInlineCollapsed]="isCollapsed"
         style="height: 100%; border: 0; overflow-y: auto; overflow-x: hidden"
       >
-        <ng-container *ngIf="(isLoggedIn$ | async) && (user$ | async).isAuthor">
-          <li nz-menu-item [routerLink]="['/creator']">
+        <ng-container *ngIf="isLoggedIn$ | async">
+          <li nz-submenu *ngIf="(user$ | async).isAdmin">
+            <span title>
+              <i nz-icon nzType="setting"></i>
+              <span class="nav-text">Admin space</span>
+            </span>
+            <ul>
+              <li nz-menu-item [routerLink]="['/admin']">
+                Categories
+              </li>
+              <li nz-menu-item [routerLink]="['/admin/users']">
+                Users
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item [routerLink]="['/creator']" *ngIf="(user$ | async).isAuthor">
             <span title>
               <i nz-icon nzType="edit"></i>
               <span class="nav-text">Author space</span>

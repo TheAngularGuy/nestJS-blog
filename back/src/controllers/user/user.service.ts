@@ -18,6 +18,16 @@ export class UserService {
     });
   }
 
+  getUsersAuthors(page = 1, take = 25): Promise<UserEntity[]> {
+    return this.userRepo.find({
+      /* skip: take * (page - 1),
+      take, */
+      where: {
+        isAuthor: true,
+      },
+    });
+  }
+
   async getOneUserByEmail(email: string): Promise<UserEntity> {
     return await this.userRepo.findOneOrFail({
       where: {

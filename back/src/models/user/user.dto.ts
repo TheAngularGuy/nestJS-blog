@@ -19,4 +19,7 @@ export class UserDto {
 
   @Allow()
   isAuthor?: boolean;
+
+  @Allow()
+  isAdmin?: boolean;
 }

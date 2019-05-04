@@ -28,4 +28,7 @@ export class UserEntity {
 
   @Column({ default: false })
   isAuthor?: boolean;
+
+  @Column({ default: false })
+  isAdmin?: boolean;
 }

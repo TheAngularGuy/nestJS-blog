@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
 
-import { layoutCategoriesSelector } from '../../layout/state/layout.selectors';
+import { categoriesSelector } from '../../admin/state/admin.selectors';
 import { SendArticleAction } from '../state/creator.actions';
 
 const NEW_NOTE_INIT = {
@@ -46,7 +46,7 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     this.setForm();
-    this.categories$ = this.store.select(layoutCategoriesSelector);
+    this.categories$ = this.store.select(categoriesSelector);
 
     setTimeout(() => {
       this.editor =

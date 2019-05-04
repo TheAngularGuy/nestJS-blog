@@ -27,6 +27,14 @@
   background: var(--primary-color);
 }
 
+*:focus {
+  outline: none !important;
+}
+
+.danger {
+  color: var(--error-color);
+}
+
 .ant-layout-footer {
   min-height: 100px;
   display: flex;
@@ -66,5 +74,10 @@
 
 .page {
   max-width: 1000px;
+  margin: auto;
+}
+
+.page {
+  max-width: 90%;
   margin: auto;
 }

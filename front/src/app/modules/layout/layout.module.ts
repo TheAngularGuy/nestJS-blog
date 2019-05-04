@@ -1,16 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 
 import { SharedModule } from '../shared/shared.module';
 import { InfoComponent } from './info/info.component';
 import { LayoutComponent } from './layout.component';
-import { LayoutService } from './layout.service';
-import { LayoutEffects } from './state/layout.effects';
-import * as fromLayout from './state/layout.reducer';
 
 const routes: Routes = [
   {
@@ -32,6 +27,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'admin',
+        loadChildren: '../admin/admin.module#AdminModule',
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'info',
         component: InfoComponent,
       },
@@ -45,13 +45,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [LayoutComponent, InfoComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes),
-    StoreModule.forFeature('layout', fromLayout.reducer),
-    EffectsModule.forFeature([LayoutEffects]),
-  ],
-  providers: [AuthGuard, LayoutService],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
+  providers: [AuthGuard],
 })
 export class LayoutModule {}

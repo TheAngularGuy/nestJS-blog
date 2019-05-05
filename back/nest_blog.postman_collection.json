@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9a76d214-ca4d-4b34-8fa5-8b2dca9c677a",
+		"_postman_id": "f9b4c07c-ef6d-4ab7-887d-b1ce7de30d0a",
 		"name": "nest_blog",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -53,7 +53,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"marco_p\",\n\t\"email\": \"pollo@email.com\",\n\t\"password\": \"mmmm\",\n\t\"firstname\": \"pollo\",\n\t\"lastname\": \"marco\"\n}"
+							"raw": "{\n\t\"username\": \"muss\",\n\t\"email\": \"mus@email.com\",\n\t\"password\": \"mmmm\",\n\t\"firstname\": \"mustapha\",\n\t\"lastname\": \"aouas\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/auth/signin",
@@ -65,6 +65,38 @@
 								"api",
 								"auth",
 								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\":\"mmmm\",\n\t\"password1\":\"mmmmm\",\n\t\"password2\":\"mmmm\"\n\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/auth/1/password",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"1",
+								"password"
 							]
 						}
 					},
@@ -97,6 +129,61 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get own info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/own",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"own"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"username\": \"muss\",\n    \"avatar\": \"\",\n    \"email\": \"mus@email.com\",\n    \"firstname\": \"mustapha\",\n    \"lastname\": \"aouas\",\n    \"isAuthor\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -104,7 +191,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ2NTMwNTQsImV4cCI6MTU1NTI1Nzg1NH0.VRSjAszYJpNrP4-SkZPY4uEIIgJEGP90dSRtxYB_yPwPdwwYGO4jEqyiFhCmoBbk0Rfe3IGBauSrUqbHltCoXQ",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTcwMDk5NDQsImV4cCI6MTU1NzYxNDc0NH0.ylCmcNKKf4xlAfgn8IRIP1gFUSGW_Aq66lGAIj6Y3JtczS3vLD64zw_ZnJXdEZrovbBiOrIc4HZgz60lHGX9bg",
 						"type": "string"
 					}
 				]

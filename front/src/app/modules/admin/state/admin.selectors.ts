@@ -10,3 +10,24 @@ export const usersSelector = createSelector(
     return adminState.users;
   },
 );
+
+export const usersPageSelector = createSelector(
+  adminStateSelector,
+  adminState => {
+    return adminState.page;
+  },
+);
+
+export const usersTakeSelector = createSelector(
+  adminStateSelector,
+  adminState => {
+    return adminState.take;
+  },
+);
+
+export const usersCountSelector = createSelector(
+  adminStateSelector,
+  adminState => {
+    return adminState.total;
+  },
+);

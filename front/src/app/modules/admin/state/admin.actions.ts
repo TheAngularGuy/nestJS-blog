@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CategoryModel } from 'src/app/models/category.model';
+import { UserModel } from 'src/app/models/user.model';
 
 export enum AdminActionTypes {
   LoadUsers = '[Admin] Load users',
@@ -10,10 +10,11 @@ export enum AdminActionTypes {
 // ! user
 export class LoadUsersAction implements Action {
   readonly type = AdminActionTypes.LoadUsers;
+  constructor(public payload: { page: number; take: number }) {}
 }
 export class LoadUsersActionOK implements Action {
   readonly type = AdminActionTypes.LoadUsersOK;
-  constructor(public payload: { authors: CategoryModel[] }) {}
+  constructor(public payload: { users: UserModel[]; page: number; take: number }) {}
 }
 export class LoadUsersActionKO implements Action {
   readonly type = AdminActionTypes.LoadUsersKO;

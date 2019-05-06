@@ -20,6 +20,15 @@ import { CategoryService } from './category.service';
 export class CategoryController {
   constructor(private readonly service: CategoryService) {}
 
+  @Get('/count')
+  async getCount() {
+    try {
+      return await this.service.getCount();
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NO_CONTENT);
+    }
+  }
+
   @Get()
   getAll(@Query('page') page: number, @Query('take') take: number) {
     try {

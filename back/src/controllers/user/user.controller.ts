@@ -10,6 +10,15 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Get('/count')
+  getCount() {
+    try {
+      return this.userService.getCount();
+    } catch (err) {
+      throw new HttpException(null, HttpStatus.NO_CONTENT);
+    }
+  }
+
   @Get()
   getAll(@Query('page') page: number, @Query('take') take: number) {
     try {

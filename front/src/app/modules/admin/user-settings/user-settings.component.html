@@ -1,3 +1,75 @@
-<p>
-  user-settings works!
-</p>
+<div class="page" style="padding: 1rem">
+  <div class="card-with-header">
+    <nz-page-header>
+      <nz-page-header-title>Users</nz-page-header-title>
+      <nz-page-header-subtitle>
+        <ng-container *ngIf="numberOfChecked"> Selected {{ numberOfChecked }} items </ng-container>
+        <ng-container *ngIf="!numberOfChecked">
+          Select a user to see the action panel
+        </ng-container>
+      </nz-page-header-subtitle>
+      <nz-page-header-extra *ngIf="numberOfChecked">
+        <button nz-button nzType="primary">
+          Set as Author
+        </button>
+        <button nz-button>
+          Set as Admin
+        </button>
+        <button nz-button nzType="danger">
+          Delete
+        </button>
+      </nz-page-header-extra>
+    </nz-page-header>
+
+    <div class="card-with-header-content" style="padding: 0">
+      <div class="operate" style="padding: 0 1rem"></div>
+      <!-- ! list -->
+      <nz-table
+        #table
+        nzShowPagination
+        nzShowSizeChanger
+        nzSize="midle"
+        [nzLoading]="false"
+        [nzTotal]="total$ | async"
+        [nzData]="users$ | async"
+        [nzFrontPagination]="false"
+        (nzPageIndexChange)="onPageChanged($event)"
+        (nzPageSizeChange)="onPageSizeChanged($event)"
+      >
+        <thead>
+          <tr>
+            <th
+              nzShowCheckbox
+              [(nzChecked)]="isAllDisplayDataChecked"
+              (nzCheckedChange)="checkAllToggle($event)"
+            ></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>is Admin</th>
+            <th>is Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of table.data">
+            <td
+              nzShowCheckbox
+              [(nzChecked)]="mapOfCheckedId[item.id]"
+              (nzCheckedChange)="refreshStatus()"
+            ></td>
+            <td>{{ item.firstname }} {{ item.lastname }}</td>
+            <td>{{ item.email }}</td>
+            <td>
+              <nz-tag *ngIf="!item.isAdmin"> No </nz-tag>
+              <nz-tag nzColor="blue" *ngIf="item.isAdmin"> Yes </nz-tag>
+            </td>
+            <td>
+              <nz-tag *ngIf="!item.isAuthor"> No </nz-tag>
+              <nz-tag nzColor="blue" *ngIf="item.isAuthor"> Yes </nz-tag>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <!-- ! end list -->
+    </div>
+  </div>
+</div>

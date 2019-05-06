@@ -117,13 +117,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/user",
+							"raw": "{{apiRoute}}/user",
 							"host": [
-								"localhost"
+								"{{apiRoute}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"user"
 							]
 						}
@@ -140,13 +138,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/user/own",
+							"raw": "{{apiRoute}}/user/own",
 							"host": [
-								"localhost"
+								"{{apiRoute}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"user",
 								"own"
 							]
@@ -171,15 +167,35 @@
 							"raw": "{\n    \"id\": 1,\n    \"username\": \"muss\",\n    \"avatar\": \"\",\n    \"email\": \"mus@email.com\",\n    \"firstname\": \"mustapha\",\n    \"lastname\": \"aouas\",\n    \"isAuthor\": true\n}"
 						},
 						"url": {
-							"raw": "localhost:3000/api/user/1",
+							"raw": "{{apiRoute}}/user/1",
 							"host": [
-								"localhost"
+								"{{apiRoute}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
 								"user",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get users count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/user/count",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"user",
+								"count"
 							]
 						}
 					},
@@ -295,6 +311,28 @@
 							"path": [
 								"article",
 								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/count",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"count"
 							]
 						}
 					},
@@ -526,6 +564,28 @@
 							"path": [
 								"category",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/category/count",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"category",
+								"count"
 							]
 						}
 					},

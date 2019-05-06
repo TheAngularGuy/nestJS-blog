@@ -11,6 +11,10 @@ export class UserService {
     private userRepo: Repository<UserEntity>,
   ) {}
 
+  getCount(): Promise<number> {
+    return this.userRepo.count({});
+  }
+
   getUsers(page = 1, take = 25): Promise<UserEntity[]> {
     return this.userRepo.find({
       skip: take * (page - 1),

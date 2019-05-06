@@ -47,8 +47,17 @@
               <a class="danger" (click)="deleteCategory(item)">delete</a>
             </ng-template>
             <ng-template #contentTemplate>
-              <span *ngIf="!editing[item.id]">{{ item.title }}</span>
-              <!-- ! edit -->
+              <!-- ! display category info -->
+              <ng-container *ngIf="!editing[item.id]">
+                <h4>
+                  {{ item.title }}
+                </h4>
+                &nbsp;
+                <span class="secondary-text">
+                  {{ item.body }}
+                </span>
+              </ng-container>
+              <!-- ! edit category -->
               <div style="display: flex" *ngIf="editing[item.id]">
                 <nz-form-item style="width:100%; margin-bottom: 0">
                   <nz-form-control>

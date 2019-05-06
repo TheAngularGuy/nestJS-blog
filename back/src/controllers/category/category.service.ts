@@ -10,6 +10,10 @@ export class CategoryService {
     @InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
   ) {}
 
+  getCount(): Promise<number> {
+    return this.categoryRepo.count({});
+  }
+
   getCategories(page = 1, take = 25): Promise<CategoryEntity[]> {
     return this.categoryRepo.find({
       /* skip: take * (page - 1),

@@ -10,8 +10,8 @@ import SimpleImage from '@editorjs/simple-image';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
+import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
 
-import { categoriesSelector } from '../../admin/state/admin.selectors';
 import { SendArticleAction } from '../state/creator.actions';
 
 const NEW_NOTE_INIT = {

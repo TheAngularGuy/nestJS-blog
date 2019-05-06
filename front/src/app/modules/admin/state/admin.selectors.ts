@@ -4,9 +4,9 @@ import { AdminState, initialAdminState } from './admin.reducer';
 
 export const adminStateSelector = (state: any) => (state.admin as AdminState) || initialAdminState;
 
-export const categoriesSelector = createSelector(
+export const usersSelector = createSelector(
   adminStateSelector,
   adminState => {
-    return adminState.categories;
+    return adminState.users;
   },
 );

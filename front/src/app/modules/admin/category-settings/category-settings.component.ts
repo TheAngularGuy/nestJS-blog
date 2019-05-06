@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
-
-import { AddCategorieAction, LoadCategoriesAction } from '../state/admin.actions';
-import { categoriesSelector } from '../state/admin.selectors';
+import { AddCategorieAction, DeleteCategorieAction, EditCategorieAction } from 'src/app/ngrx/actions/category.actions';
+import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
 
 @Component({
   selector: 'app-category-settings',
@@ -25,7 +24,6 @@ export class CategorySettingsComponent implements OnInit {
 
   getData() {
     this.categories$ = this.store.pipe(select(categoriesSelector));
-    this.store.dispatch(new LoadCategoriesAction());
   }
 
   setForm() {
@@ -43,11 +41,33 @@ export class CategorySettingsComponent implements OnInit {
 
   addCategory() {
     if (!this.categoryForm.valid || this.categoryForm.pristine) {
-      return;
+      return console.error('invalid');
     }
     this.store.dispatch(
       new AddCategorieAction({
         category: this.categoryForm.value,
+      }),
+    );
+  }
+
+  editCategory(c: CategoryModel) {
+    if (!c && !c.id) {
+      return console.error('invalid');
+    }
+    this.store.dispatch(
+      new EditCategorieAction({
+        category: c,
+      }),
+    );
+  }
+
+  deleteCategory(c: CategoryModel) {
+    if (!c && !c.id) {
+      return console.error('invalid');
+    }
+    this.store.dispatch(
+      new DeleteCategorieAction({
+        category: c,
       }),
     );
   }

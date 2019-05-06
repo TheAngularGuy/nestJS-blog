@@ -31,4 +31,18 @@ export class CategoryService {
     const catToCreate: CategoryEntity = { ...categoryDto };
     return this.categoryRepo.save(catToCreate);
   }
+
+  async updateCtegory(categoryId: number, commentDto: CategoryDto): Promise<CategoryEntity> {
+    await this.categoryRepo.findOneOrFail(categoryId);
+    const commentDtoWithPayload: CategoryEntity = {
+      ...commentDto,
+    };
+    await this.categoryRepo.update(categoryId, commentDtoWithPayload);
+    return await this.categoryRepo.findOneOrFail(categoryId);
+  }
+
+  async removeCtegory(commentId: number): Promise<CategoryEntity> {
+    const comment = await this.categoryRepo.findOneOrFail(commentId);
+    return this.categoryRepo.remove(comment);
+  }
 }

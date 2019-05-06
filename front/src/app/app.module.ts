@@ -12,8 +12,10 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppErrorsHandeler } from './helpers/error.handeler';
 import { AppHttpInterceptor } from './helpers/http.interceptor';
+import { CategoryEffects } from './ngrx/effects/category.effects';
 import { metaReducers, reducers } from './ngrx/reducers';
 import { CustomRouteSerializer } from './ngrx/serializers/custom-oute-serializer';
+import { CategoryService } from './providers/category.service';
 
 const routes: Routes = [
   {
@@ -34,7 +36,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes, { useHash: true, preloadingStrategy: PreloadAllModules }),
     StoreModule.forRoot({ router: routerReducer, ...reducers }, { metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([CategoryEffects]),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',
       serializer: CustomRouteSerializer,
@@ -42,6 +44,7 @@ const routes: Routes = [
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
+    CategoryService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,

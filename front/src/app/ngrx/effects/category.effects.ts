@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { defer, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CategoryService } from 'src/app/providers/category.service';
 
@@ -15,14 +15,14 @@ import {
 } from '../actions/category.actions';
 
 @Injectable()
-export class AdminEffects {
-  constructor(private readonly actions$: Actions, private readonly admService: CategoryService) {}
+export class CategoryEffects {
+  constructor(private readonly actions$: Actions, private readonly service: CategoryService) {}
 
   @Effect()
   loadCategories: Observable<any> = this.actions$.pipe(
     ofType(CategoryActionTypes.LoadCategories),
     mergeMap((action: LoadCategoriesAction) => {
-      return this.admService.getCategories().pipe(
+      return this.service.getCategories().pipe(
         map(list => {
           return new LoadCategoriesActionOK({
             categories: list,
@@ -44,7 +44,7 @@ export class AdminEffects {
   addCategory: Observable<any> = this.actions$.pipe(
     ofType(CategoryActionTypes.AddCategorie),
     mergeMap((action: AddCategorieAction) => {
-      return this.admService.addCategories(action.payload.category).pipe(
+      return this.service.addCategories(action.payload.category).pipe(
         map(c => {
           return new AddCategorieActionOK({
             category: c,
@@ -61,6 +61,11 @@ export class AdminEffects {
       );
     }),
   );
+
+  @Effect()
+  init$: Observable<any> = defer(() => {
+    return of(new LoadCategoriesAction() as any);
+  });
 
   /* End effects */
 }

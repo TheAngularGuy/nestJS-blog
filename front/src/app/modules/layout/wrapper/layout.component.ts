@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
 import { UserModel } from 'src/app/models/user.model';
+import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
 
-import { categoriesSelector } from '../admin/state/admin.selectors';
-import { isLoggedInSelector, userSelector } from '../auth/state/auth.selectors';
+import { isLoggedInSelector, userSelector } from '../../auth/state/auth.selectors';
 
 @Component({
   selector: 'app-layout',

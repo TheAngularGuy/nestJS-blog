@@ -35,8 +35,12 @@
       <nz-list [nzDataSource]="categories$ | async" [nzRenderItem]="item">
         <ng-template #item let-item>
           <nz-list-item [nzContent]="contentTemplate" [nzActions]="[editAction, deleteAction]">
-            <ng-template #editAction><a>edit</a></ng-template>
-            <ng-template #deleteAction><a class="danger">delete</a></ng-template>
+            <ng-template #editAction>
+              <a (click)="editCategory(item)">edit</a>
+            </ng-template>
+            <ng-template #deleteAction>
+              <a class="danger" (click)="deleteCategory(item)">delete</a>
+            </ng-template>
             <ng-template #contentTemplate> {{ item.title }}</ng-template>
           </nz-list-item>
         </ng-template>

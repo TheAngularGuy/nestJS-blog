@@ -99,6 +99,12 @@ export class AuthEffects {
     mergeMap((action: EditUserAction) => {
       return this.authService.editUser(action.payload.user.id, action.payload.user).pipe(
         map(user => {
+          const userData: JwtTokenModel = JSON.parse(localStorage.getItem('jwtToken'));
+          userData.user = {
+            ...userData.user,
+            ...action.payload.user,
+          };
+          localStorage.setItem('jwtToken', JSON.stringify(userData));
           return new EditUserActionOK(action.payload);
         }),
         catchError(errWrapper => {

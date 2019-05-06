@@ -15,4 +15,12 @@ export class CategoryService {
   addCategories(c: CategoryModel): Observable<CategoryModel> {
     return this.httpClient.post(environment.apiRoute + 'category', c) as any;
   }
+
+  editCategories(c: CategoryModel): Observable<CategoryModel> {
+    return this.httpClient.put(environment.apiRoute + 'category/' + c.id, c) as any;
+  }
+
+  deleteCategories(c: CategoryModel): Observable<CategoryModel> {
+    return this.httpClient.delete(environment.apiRoute + 'category/' + c.id) as any;
+  }
 }

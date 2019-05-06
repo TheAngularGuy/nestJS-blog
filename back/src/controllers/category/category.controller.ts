@@ -1,4 +1,16 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CategoryDto } from 'src/models/category/category.dto';
 
@@ -6,10 +18,7 @@ import { CategoryService } from './category.service';
 
 @Controller('api/category')
 export class CategoryController {
-
-  constructor(
-    private readonly service: CategoryService,
-  ) { }
+  constructor(private readonly service: CategoryService) {}
 
   @Get()
   getAll(@Query('page') page: number, @Query('take') take: number) {
@@ -39,4 +48,23 @@ export class CategoryController {
     }
   }
 
+  @Put(':categoryId')
+  @UseGuards(AuthGuard())
+  async update(@Param('categoryId') categoryId: number, @Body() categoryDto: CategoryDto) {
+    try {
+      return await this.service.updateCtegory(categoryId, categoryDto);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
+    }
+  }
+
+  @Delete(':categoryId')
+  @UseGuards(AuthGuard())
+  async remove(@Param('categoryId') articleId: number) {
+    try {
+      return await this.service.removeCtegory(articleId);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NOT_FOUND);
+    }
+  }
 }

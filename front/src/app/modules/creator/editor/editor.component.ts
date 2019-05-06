@@ -10,7 +10,7 @@ import SimpleImage from '@editorjs/simple-image';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
-import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
+import { categoriesSimpleSelector } from 'src/app/ngrx/selectors/category.selectors';
 
 import { SendArticleAction } from '../state/creator.actions';
 
@@ -46,7 +46,7 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     this.setForm();
-    this.categories$ = this.store.select(categoriesSelector);
+    this.categories$ = this.store.select(categoriesSimpleSelector);
 
     setTimeout(() => {
       this.editor =

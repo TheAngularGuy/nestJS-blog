@@ -10,3 +10,10 @@ export const categoriesSelector = createSelector(
     return state.categories;
   },
 );
+
+export const categoriesSimpleSelector = createSelector(
+  appStateSelector,
+  state => {
+    return state.categories.map(el => ({ ...el, articles: undefined }));
+  },
+);

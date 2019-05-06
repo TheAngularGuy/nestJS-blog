@@ -1,10 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { first, tap } from 'rxjs/operators';
 import { CategoryModel } from 'src/app/models/category.model';
-import { AddCategorieAction, DeleteCategorieAction, EditCategorieAction } from 'src/app/ngrx/actions/category.actions';
-import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
+import {
+  AddCategorieAction,
+  CategoryActionTypes,
+  DeleteCategorieAction,
+  DeleteCategorieActionOK,
+  EditCategorieAction,
+  EditCategorieActionOK,
+} from 'src/app/ngrx/actions/category.actions';
+import { categoriesSimpleSelector } from 'src/app/ngrx/selectors/category.selectors';
 
 @Component({
   selector: 'app-category-settings',
@@ -14,16 +23,22 @@ import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
 export class CategorySettingsComponent implements OnInit {
   categories$: Observable<CategoryModel[]>;
   categoryForm: FormGroup;
+  editing: CategoryModel[];
 
-  constructor(private readonly store: Store<any>, private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly store: Store<any>,
+    private readonly fb: FormBuilder,
+    private readonly actions: Actions,
+  ) {}
 
   ngOnInit() {
     this.setForm();
     this.getData();
+    this.editing = [];
   }
 
   getData() {
-    this.categories$ = this.store.pipe(select(categoriesSelector));
+    this.categories$ = this.store.pipe(select(categoriesSimpleSelector));
   }
 
   setForm() {
@@ -39,15 +54,18 @@ export class CategorySettingsComponent implements OnInit {
       : 'null';
   }
 
-  addCategory() {
-    if (!this.categoryForm.valid || this.categoryForm.pristine) {
+  startEditingCategory(c: CategoryModel) {
+    if (!c && !c.id) {
       return console.error('invalid');
     }
-    this.store.dispatch(
-      new AddCategorieAction({
-        category: this.categoryForm.value,
-      }),
-    );
+    this.editing[c.id] = c;
+  }
+
+  stopEditingCategory(c: CategoryModel) {
+    if (!c && !c.id) {
+      return console.error('invalid');
+    }
+    this.editing[c.id] = undefined;
   }
 
   editCategory(c: CategoryModel) {
@@ -59,6 +77,37 @@ export class CategorySettingsComponent implements OnInit {
         category: c,
       }),
     );
+    this.actions
+      .pipe(
+        ofType(CategoryActionTypes.EditCategorieOK),
+        first(),
+        tap((action: EditCategorieActionOK) => {
+          if (action.payload.category.id == c.id) {
+            this.editing[c.id] = undefined;
+          }
+        }),
+      )
+      .subscribe();
+  }
+
+  addCategory() {
+    if (!this.categoryForm.valid || this.categoryForm.pristine) {
+      return console.error('invalid');
+    }
+    this.store.dispatch(
+      new AddCategorieAction({
+        category: this.categoryForm.value,
+      }),
+    );
+    this.actions
+      .pipe(
+        ofType(CategoryActionTypes.AddCategorieOK),
+        first(),
+        tap((action: DeleteCategorieActionOK) => {
+          this.setForm();
+        }),
+      )
+      .subscribe();
   }
 
   deleteCategory(c: CategoryModel) {

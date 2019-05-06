@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CategoryModel } from 'src/app/models/category.model';
 import { UserModel } from 'src/app/models/user.model';
-import { categoriesSelector } from 'src/app/ngrx/selectors/category.selectors';
+import { categoriesSimpleSelector } from 'src/app/ngrx/selectors/category.selectors';
 
 import { isLoggedInSelector, userSelector } from '../../auth/state/auth.selectors';
 
@@ -24,7 +24,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.store.select(userSelector);
     this.isLoggedIn$ = this.store.select(isLoggedInSelector);
-    this.categories$ = this.store.select(categoriesSelector);
+    this.categories$ = this.store.select(categoriesSimpleSelector);
   }
 
   toggleSideBar(): void {

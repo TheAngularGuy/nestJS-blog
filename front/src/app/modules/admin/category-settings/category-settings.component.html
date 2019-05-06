@@ -34,14 +34,52 @@
       <!-- ! list -->
       <nz-list [nzDataSource]="categories$ | async" [nzRenderItem]="item">
         <ng-template #item let-item>
-          <nz-list-item [nzContent]="contentTemplate" [nzActions]="[editAction, deleteAction]">
-            <ng-template #editAction>
-              <a (click)="editCategory(item)">edit</a>
+          <nz-list-item
+            [nzContent]="contentTemplate"
+            [nzActions]="
+              editing[item.id] ? [editAction, stopEditAction] : [startEditAction, deleteAction]
+            "
+          >
+            <ng-template #startEditAction>
+              <a (click)="startEditingCategory(item)">edit</a>
             </ng-template>
             <ng-template #deleteAction>
               <a class="danger" (click)="deleteCategory(item)">delete</a>
             </ng-template>
-            <ng-template #contentTemplate> {{ item.title }}</ng-template>
+            <ng-template #contentTemplate>
+              <span *ngIf="!editing[item.id]">{{ item.title }}</span>
+              <!-- ! edit -->
+              <div style="display: flex" *ngIf="editing[item.id]">
+                <nz-form-item style="width:100%; margin-bottom: 0">
+                  <nz-form-control>
+                    <input
+                      nz-input
+                      type="text"
+                      placeholder="Category title"
+                      [(ngModel)]="editing[item.id].title"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+                &nbsp;
+                <nz-form-item style="width:100%; margin-bottom: 0">
+                  <nz-form-control>
+                    <input
+                      nz-input
+                      type="text"
+                      placeholder="Category description"
+                      [(ngModel)]="editing[item.id].body"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </ng-template>
+            <!-- ! edit actions -->
+            <ng-template #editAction>
+              <a (click)="editCategory(editing[item.id])">save</a>
+            </ng-template>
+            <ng-template #stopEditAction>
+              <a class="danger" (click)="stopEditingCategory(editing[item.id])">cancel</a>
+            </ng-template>
           </nz-list-item>
         </ng-template>
       </nz-list>

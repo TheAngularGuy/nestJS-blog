@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserModel } from 'src/app/models/user.model';
 
-import { userSelector } from '../../auth/state/auth.selectors';
+import { userSelector } from '../state/auth.selectors';
 
 @Component({
   selector: 'app-profile',

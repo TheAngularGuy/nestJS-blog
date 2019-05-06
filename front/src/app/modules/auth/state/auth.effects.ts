@@ -7,14 +7,18 @@ import { JwtTokenModel } from 'src/app/models/jwt.token.model';
 import {
   AuthActions,
   AuthActionTypes,
+  ChangePasswordAction,
+  ChangePasswordActionKO,
+  ChangePasswordActionOK,
+  EditUserAction,
+  EditUserActionKO,
+  EditUserActionOK,
   LoginAction,
   LoginActionKO,
   LoginActionOK,
   LogoutAction,
-  UpdateUserAction,
 } from 'src/app/modules/auth/state/auth.actions';
 
-import { EditUserActionOK, UserActionTypes } from '../../user/state/user.actions';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -71,12 +75,40 @@ export class AuthEffects {
   );
 
   @Effect()
-  updateUser$: Observable<any> = this.actions$.pipe(
-    ofType(UserActionTypes.EditUserOK),
-    map((action: EditUserActionOK) => {
-      return new UpdateUserAction({
-        user: action.payload.user,
-      });
+  changePwd$: Observable<any> = this.actions$.pipe(
+    ofType(AuthActionTypes.ChangePassword),
+    mergeMap((action: ChangePasswordAction) => {
+      return this.authService.changePassword(action.payload.id, action.payload.passwords).pipe(
+        map(user => {
+          return new ChangePasswordActionOK(action.payload);
+        }),
+        catchError(errWrapper => {
+          return of(
+            new ChangePasswordActionKO({
+              errorMessage: 'An error occured, Maybe your password is wrong',
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  editUser$: Observable<any> = this.actions$.pipe(
+    ofType(AuthActionTypes.EditUser),
+    mergeMap((action: EditUserAction) => {
+      return this.authService.editUser(action.payload.user.id, action.payload.user).pipe(
+        map(user => {
+          return new EditUserActionOK(action.payload);
+        }),
+        catchError(errWrapper => {
+          return of(
+            new EditUserActionKO({
+              errorMessage: 'An error occured, contact an admin',
+            }),
+          );
+        }),
+      );
     }),
   );
 

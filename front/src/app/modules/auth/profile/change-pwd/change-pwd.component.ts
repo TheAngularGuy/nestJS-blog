@@ -6,15 +6,15 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UserModel } from 'src/app/models/user.model';
 
-import { UtilitiesService } from '../../shared/utilities.service';
-import { EditUserAction, EditUserActionKO, UserActionTypes } from '../state/user.actions';
+import { AuthActionTypes, ChangePasswordAction, ChangePasswordActionKO } from '../../../auth/state/auth.actions';
+import { UtilitiesService } from '../../../shared/utilities.service';
 
 @Component({
-  selector: 'app-edit-profile',
-  templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss'],
+  selector: 'app-change-pwd',
+  templateUrl: './change-pwd.component.html',
+  styleUrls: ['./change-pwd.component.scss'],
 })
-export class EditProfileComponent implements OnInit, OnDestroy {
+export class ChangePwdComponent implements OnInit, OnDestroy {
   @Input() user: UserModel;
   userForm: FormGroup;
   loading$ = new BehaviorSubject(false);
@@ -39,12 +39,9 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   setForm() {
     this.userForm = this.fb.group({
       id: [this.user.id, []],
-      firstname: [this.user.firstname, [Validators.required]],
-      lastname: [this.user.lastname, [Validators.required]],
-      email: [this.user.email, [Validators.required, Validators.email]],
-      // isAuthor: [this.user.isAuthor, [Validators.required]],
-      // password: [this.user.password, [Validators.required]],
-      // avatar: [this.user.avatar, [Validators.required]],
+      password: [null, [Validators.required, Validators.minLength(4)]],
+      password1: [null, [Validators.required, Validators.minLength(4)]],
+      password2: [null, [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -53,29 +50,36 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   submitForm() {
+    if (this.userForm.value.password1 != this.userForm.value.password2) {
+      this.userForm.get('password2').setErrors({ required: true });
+      this.utils.toastError('The two passwords does not match');
+      return;
+    }
     if (!this.userForm.valid || !this.userForm.dirty) {
       this.utils.toastError('The form is invalid');
       return;
     }
     this.loading$.next(true);
     this.store.dispatch(
-      new EditUserAction({
-        user: {
+      new ChangePasswordAction({
+        id: this.user.id,
+        passwords: {
           ...this.userForm.value,
         },
       }),
     );
   }
+
   listenToRes() {
     this.actions$
       .pipe(
-        ofType(UserActionTypes.EditUserKO),
+        ofType(AuthActionTypes.ChangePasswordKO),
         takeUntil(this.destroyed$),
       )
-      .subscribe((action: EditUserActionKO) => this.changeKO(action.payload.errorMessage));
+      .subscribe((action: ChangePasswordActionKO) => this.changeKO(action.payload.errorMessage));
     this.actions$
       .pipe(
-        ofType(UserActionTypes.EditUserOK),
+        ofType(AuthActionTypes.ChangePasswordOK),
         takeUntil(this.destroyed$),
       )
       .subscribe(() => this.changeOK());
@@ -83,7 +87,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   changeOK() {
     setTimeout(() => {
-      this.utils.toastSuccess('Your information have been updated');
+      this.utils.toastSuccess('Password updated');
       this.loading$.next(false);
     }, 250);
   }

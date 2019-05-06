@@ -8,6 +8,9 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ChangePwdComponent } from './profile/change-pwd/change-pwd.component';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthEffects } from './state/auth.effects';
 import * as fromAuth from './state/auth.reducer';
@@ -26,13 +29,24 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
+    path: 'profile',
+    component: ProfileComponent,
+  },
+  {
     path: '',
     redirectTo: 'login',
   },
 ];
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, LogoutComponent],
+  declarations: [
+    LoginComponent,
+    RegisterComponent,
+    LogoutComponent,
+    ProfileComponent,
+    EditProfileComponent,
+    ChangePwdComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,

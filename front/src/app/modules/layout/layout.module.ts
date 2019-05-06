@@ -17,8 +17,8 @@ const routes: Routes = [
         loadChildren: '../article/article.module#ArticleModule',
       },
       {
-        path: 'my-account',
-        loadChildren: '../user/user.module#UserModule',
+        path: 'my',
+        loadChildren: '../auth/auth.module#AuthModule',
         canActivate: [AuthGuard],
       },
       {

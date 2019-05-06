@@ -29,7 +29,7 @@ export function authReducer(state: AuthState = initialAuthState, action: AuthAct
       newState.loggedIn = false;
       newState.user = null;
       break;
-    case AuthActionTypes.UpdateUser:
+    case AuthActionTypes.EditUserOK:
       newState.user = { ...newState.user, ...action.payload.user };
       break;
   }

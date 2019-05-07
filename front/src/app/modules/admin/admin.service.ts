@@ -8,11 +8,15 @@ import { environment } from 'src/environments/environment';
 export class AdminService {
   constructor(private readonly httpClient: HttpClient) {}
 
+  getCount(): Observable<number> {
+    return this.httpClient.get(environment.apiRoute + 'user/count') as any;
+  }
+
   getUsers(): Observable<UserModel[]> {
     return this.httpClient.get(environment.apiRoute + 'user') as any;
   }
 
-  getCount(): Observable<number> {
-    return this.httpClient.get(environment.apiRoute + 'user/count') as any;
+  editUser(u: UserModel): Observable<UserModel> {
+    return this.httpClient.put(environment.apiRoute + 'user/' + u.id, u) as any;
   }
 }

@@ -4,14 +4,26 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { AdminService } from '../admin.service';
-import { AdminActionTypes, LoadUsersAction, LoadUsersActionKO, LoadUsersActionOK } from './admin.actions';
+import {
+  AdminActionTypes,
+  CountUsersAction,
+  CountUsersActionOK,
+  LoadUsersAction,
+  LoadUsersActionKO,
+  LoadUsersActionOK,
+  SetAdminUserAction,
+  SetAdminUserActionOK,
+  SetAuthorUserAction,
+  SetAuthorUserActionKO,
+  SetAuthorUserActionOK,
+} from './admin.actions';
 
 @Injectable()
 export class AdminEffects {
   constructor(private readonly actions$: Actions, private readonly admService: AdminService) {}
 
   @Effect()
-  loadCategories: Observable<any> = this.actions$.pipe(
+  loadUsers: Observable<any> = this.actions$.pipe(
     ofType(AdminActionTypes.LoadUsers),
     mergeMap((action: LoadUsersAction) => {
       return this.admService.getUsers().pipe(
@@ -23,7 +35,7 @@ export class AdminEffects {
           });
         }),
         catchError(err => {
-          console.error('Debbug log: AdminEffects -> constructor -> err', err);
+          console.error('Debbug log: AdminEffects -> loadUsers -> err', err);
           return of(
             new LoadUsersActionKO({
               errorMessage: 'Error while loading the users',
@@ -33,6 +45,77 @@ export class AdminEffects {
       );
     }),
   );
+
+  @Effect()
+  countUsers: Observable<any> = this.actions$.pipe(
+    ofType(AdminActionTypes.CountUsers),
+    mergeMap((action: CountUsersAction) => {
+      return this.admService.getCount().pipe(
+        map(total => {
+          return new CountUsersActionOK({
+            total,
+          });
+        }),
+        catchError(err => {
+          console.error('Debbug log: AdminEffects -> countUsers -> err', err);
+          return of(
+            new LoadUsersActionKO({
+              errorMessage: 'Error while counting the users',
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  setAdminUser: Observable<any> = this.actions$.pipe(
+    ofType(AdminActionTypes.SetAdminUser),
+    mergeMap((action: SetAdminUserAction) => {
+      return this.admService.editUser(action.payload.user).pipe(
+        map(user => {
+          return new SetAdminUserActionOK({
+            user,
+          });
+        }),
+        catchError(err => {
+          console.error('Debbug log: AdminEffects -> setAdminUser -> err', err);
+          return of(
+            new LoadUsersActionKO({
+              errorMessage: 'Error while set the users as admin',
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  setAuthorUser: Observable<any> = this.actions$.pipe(
+    ofType(AdminActionTypes.SetAuthorUser),
+    mergeMap((action: SetAuthorUserAction) => {
+      return this.admService.editUser(action.payload.user).pipe(
+        map(user => {
+          return new SetAuthorUserActionOK({
+            user,
+          });
+        }),
+        catchError(err => {
+          console.error('Debbug log: AdminEffects -> setAdminUser -> err', err);
+          return of(
+            new SetAuthorUserActionKO({
+              errorMessage: 'Error while set the users as admin',
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
+  /*   @Effect()
+  init$: Observable<any> = defer(() => {
+    return of(new CountUsersAction() as any);
+  }); */
 
   /* End effects */
 }

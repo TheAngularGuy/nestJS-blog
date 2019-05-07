@@ -25,6 +25,37 @@ export function reducer(state = initialAdminState, action: AdminActions): AdminS
         page: action.payload.page,
         take: action.payload.take,
       };
+    case AdminActionTypes.CountUsersOK:
+      return {
+        ...state,
+        total: action.payload.total,
+      };
+    case AdminActionTypes.SetAdminUserOK:
+      const newListAdmin: UserModel[] = [];
+      for (const u of state.users) {
+        if (u.id == action.payload.user.id) {
+          newListAdmin.push(action.payload.user);
+          continue;
+        }
+        newListAdmin.push(u);
+      }
+      return {
+        ...state,
+        users: newListAdmin,
+      };
+    case AdminActionTypes.SetAuthorUserOK:
+      const newListAuthor: UserModel[] = [];
+      for (const u of state.users) {
+        if (u.id == action.payload.user.id) {
+          newListAuthor.push(action.payload.user);
+          continue;
+        }
+        newListAuthor.push(u);
+      }
+      return {
+        ...state,
+        users: newListAuthor,
+      };
     default:
       return state;
   }

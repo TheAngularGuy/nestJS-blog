@@ -19,6 +19,9 @@ export class UserService {
     return this.userRepo.find({
       skip: take * (page - 1),
       take,
+      order: {
+        id: -1,
+      },
     });
   }
 

@@ -9,15 +9,32 @@
         </ng-container>
       </nz-page-header-subtitle>
       <nz-page-header-extra *ngIf="numberOfChecked">
-        <button nz-button nzType="primary">
-          Set as Author
+        <button nz-button nzType="primary" (click)="setCheckedAsAuthors()">
+          Toggle Author rights
         </button>
-        <button nz-button>
-          Set as Admin
+        <button
+          nz-button
+          (nzOnConfirm)="setCheckedAsAdmins()"
+          nz-popconfirm
+          nzPlacement="rightBottom"
+          [nzTitle]="confirmTemplate"
+        >
+          <ng-template #confirmTemplate>
+            Are you sure to toggle the <b>Admin</b> <br />
+            <b>rights</b> of the selected users?
+          </ng-template>
+          Toggle Admin rights
         </button>
-        <button nz-button nzType="danger">
+        <!-- <button
+          nz-button
+          nzType="danger"
+          nz-popover
+          nzTrigger="click"
+          nzPlacement="rightBottom"
+          nzContent="This action is unavailable"
+        >
           Delete
-        </button>
+        </button> -->
       </nz-page-header-extra>
     </nz-page-header>
 
@@ -30,6 +47,8 @@
         nzShowSizeChanger
         nzSize="midle"
         [nzLoading]="false"
+        [nzPageSize]="take"
+        [nzPageIndex]="page"
         [nzTotal]="total$ | async"
         [nzData]="users$ | async"
         [nzFrontPagination]="false"
@@ -59,12 +78,12 @@
             <td>{{ item.firstname }} {{ item.lastname }}</td>
             <td>{{ item.email }}</td>
             <td>
-              <nz-tag *ngIf="!item.isAdmin"> No </nz-tag>
-              <nz-tag nzColor="blue" *ngIf="item.isAdmin"> Yes </nz-tag>
+              <nz-tag *ngIf="!item.isAdmin" (click)="setUserAdmin(item)"> No </nz-tag>
+              <nz-tag nzColor="blue" *ngIf="item.isAdmin" (click)="setUserAdmin(item)"> Yes </nz-tag>
             </td>
             <td>
-              <nz-tag *ngIf="!item.isAuthor"> No </nz-tag>
-              <nz-tag nzColor="blue" *ngIf="item.isAuthor"> Yes </nz-tag>
+              <nz-tag *ngIf="!item.isAuthor" (click)="setUserAuthor(item)"> No </nz-tag>
+              <nz-tag nzColor="blue" *ngIf="item.isAuthor" (click)="setUserAuthor(item)"> Yes </nz-tag>
             </td>
           </tr>
         </tbody>

@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { UserModel } from 'src/app/models/user.model';
 
-import { LoadUsersAction } from '../state/admin.actions';
+import { CountUsersAction, LoadUsersAction, SetAdminUserAction, SetAuthorUserAction } from '../state/admin.actions';
 import { initialAdminState } from '../state/admin.reducer';
 import { usersCountSelector, usersSelector } from '../state/admin.selectors';
 
@@ -67,6 +67,11 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
       select(usersCountSelector),
     );
 
+    this.requestData();
+  }
+
+  requestData() {
+    this.store.dispatch(new CountUsersAction());
     this.store.dispatch(
       new LoadUsersAction({
         page: this.page,
@@ -77,5 +82,35 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroyed$.next(true);
+  }
+
+  setUserAdmin(item: UserModel) {
+    this.store.dispatch(
+      new SetAdminUserAction({
+        user: { ...item, isAdmin: !item.isAdmin },
+      }),
+    );
+  }
+
+  setUserAuthor(item: UserModel) {
+    this.store.dispatch(
+      new SetAuthorUserAction({
+        user: { ...item, isAuthor: !item.isAuthor },
+      }),
+    );
+  }
+
+  setCheckedAsAuthors() {
+    const usersToAuthr = this.users.filter(el => this.mapOfCheckedId[el.id]);
+    for (const u of usersToAuthr) {
+      this.setUserAuthor(u);
+    }
+  }
+
+  setCheckedAsAdmins() {
+    const usersToAdm = this.users.filter(el => this.mapOfCheckedId[el.id]);
+    for (const u of usersToAdm) {
+      this.setUserAdmin(u);
+    }
   }
 }

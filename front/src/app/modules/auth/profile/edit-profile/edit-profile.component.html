@@ -2,8 +2,8 @@
   <form nz-form [formGroup]="userForm" class="login-form" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label [nzSpan]="5">Email</nz-form-label>
-      <nz-form-control [nzSpan]="19" [nzValidateStatus]="isInputError('email')">
-        <input type="email" nz-input formControlName="email" placeholder="Email" />
+      <nz-form-control [nzSpan]="19">
+        <input type="email" nz-input [value]="user.email" placeholder="Email" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

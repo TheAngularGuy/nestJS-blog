@@ -3,9 +3,12 @@
     <nz-page-header>
       <nz-page-header-title>Users</nz-page-header-title>
       <nz-page-header-subtitle>
-        <ng-container *ngIf="numberOfChecked"> Selected {{ numberOfChecked }} items </ng-container>
+        <ng-container *ngIf="numberOfChecked">
+          Selected {{ numberOfChecked }} {{ numberOfChecked > 1 ? 'users' : 'user' }}
+        </ng-container>
         <ng-container *ngIf="!numberOfChecked">
-          Select a user to see the action panel
+          <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+          &nbsp; Select a user to see the action panel
         </ng-container>
       </nz-page-header-subtitle>
       <nz-page-header-extra *ngIf="numberOfChecked">

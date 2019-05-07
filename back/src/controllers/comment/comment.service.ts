@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommentDto } from 'src/models/comment/comment.dto';
 import { CommentEntity } from 'src/models/comment/comment.entity';
@@ -9,15 +9,20 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CommentService {
-
   constructor(
-    @InjectRepository(CommentEntity) private readonly commentRepo: Repository<CommentEntity>,
+    @InjectRepository(CommentEntity)
+    private readonly commentRepo: Repository<CommentEntity>,
+    @Inject(forwardRef(() => ArticleService))
     private readonly articleService: ArticleService,
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
-  ) { }
+  ) {}
 
-
-  async createComment(articleId: number, commentDto: CommentDto, userEmail: string): Promise<CommentEntity> {
+  async createComment(
+    articleId: number,
+    commentDto: CommentDto,
+    userEmail: string,
+  ): Promise<CommentEntity> {
     const article = await this.articleService.getOneArticle(articleId);
     const comment = new CommentEntity();
     comment.article = article;
@@ -36,7 +41,7 @@ export class CommentService {
 
   async getOneComment(commentId: number) {
     return this.commentRepo.findOneOrFail(commentId, {
-      relations: ['article']
+      relations: ['article'],
     });
   }
 
@@ -44,7 +49,7 @@ export class CommentService {
     const comment = await this.commentRepo.findOneOrFail(commentId);
     const commentDtoWithPayload: CommentEntity = {
       editedAt: new Date(),
-      ...commentDto
+      ...commentDto,
     };
     await this.commentRepo.update(commentId, commentDtoWithPayload);
     return await this.commentRepo.findOneOrFail(commentId);
@@ -54,5 +59,4 @@ export class CommentService {
     const comment = await this.commentRepo.findOneOrFail(commentId);
     return this.commentRepo.remove(comment);
   }
-
 }

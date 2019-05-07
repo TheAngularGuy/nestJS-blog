@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ArticleEntity } from 'src/models/article/article.entity';
 import { UserDto } from 'src/models/user/user.dto';
 import { UserEntity } from 'src/models/user/user.entity';
 import { Repository } from 'typeorm';
+
+import { ArticleService } from '../article/article.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepo: Repository<UserEntity>,
+    @Inject(forwardRef(() => ArticleService))
+    private readonly articleService: ArticleService,
   ) {}
 
   getCount(): Promise<number> {
@@ -41,6 +46,27 @@ export class UserService {
         email,
       },
     });
+  }
+
+  async getOneUserArticlesByEmail(
+    email: string,
+    page?: number,
+    take?: number,
+  ): Promise<ArticleEntity[]> {
+    const u = await this.userRepo.findOneOrFail({
+      where: {
+        email,
+      },
+    });
+    return await this.articleService.getUserArticles(u, page, take);
+  }
+  async getOneUserArticlesCountByEmail(email: string): Promise<number> {
+    const u = await this.userRepo.findOneOrFail({
+      where: {
+        email,
+      },
+    });
+    return await this.articleService.getUserCount(u);
   }
 
   async getOneUserSaltByEmail(email: string): Promise<UserEntity> {

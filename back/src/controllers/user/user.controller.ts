@@ -31,8 +31,28 @@ export class UserController {
   @Get('/own')
   async getOwn(@User() user: any) {
     try {
-      const userOwnInfo = this.userService.getOneUserByEmail(user.email);
+      const userOwnInfo = this.userService.getOneUserArticlesByEmail(user.email);
       return userOwnInfo;
+    } catch (err) {
+      throw new HttpException(null, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Get('/own/articles')
+  async getOwnArticles(@User() user: any, @Query('page') page: number, @Query('take') take: number) {
+    try {
+      const articlesOfUser = this.userService.getOneUserArticlesByEmail(user.email, page, take);
+      return articlesOfUser;
+    } catch (err) {
+      throw new HttpException(null, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Get('/own/articles/count')
+  async getOwnArticlesCount(@User() user: any) {
+    try {
+      const countOfUserArticles = this.userService.getOneUserArticlesCountByEmail(user.email);
+      return countOfUserArticles;
     } catch (err) {
       throw new HttpException(null, HttpStatus.NO_CONTENT);
     }

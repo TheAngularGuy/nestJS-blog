@@ -1,11 +1,20 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { CategoryEntity } from '../category/category.entity';
 import { CommentEntity } from '../comment/comment.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Entity('articles')
 export class ArticleEntity {
-
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -24,9 +33,6 @@ export class ArticleEntity {
   @Column({ default: true })
   published?: boolean;
 
-  @Column({ default: 'n/a' })
-  author?: string;
-
   @Column({ default: 0 })
   claps?: number;
 
@@ -36,8 +42,10 @@ export class ArticleEntity {
   @OneToMany(type => CommentEntity, comment => comment.article)
   comments?: CommentEntity[];
 
+  @ManyToOne(type => UserEntity, user => user.articles)
+  author?: UserEntity;
+
   @ManyToMany(type => CategoryEntity, category => category.articles)
   @JoinTable({ name: 'article_categories' })
   categories?: CategoryEntity[];
-
 }

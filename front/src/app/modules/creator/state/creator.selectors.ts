@@ -1,11 +1,20 @@
+import { createSelector } from '@ngrx/store';
+
 import { CreatorState, initialCreatorState } from './creator.reducer';
 
-export const articleStateSelector = (state: any) =>
+export const creatorStateSelector = (state: any) =>
   (state.creator as CreatorState) || initialCreatorState;
 
-/* export const articleListSelector = createSelector(
-  articleStateSelector,
-  articleState => {
-    return articleState.list;
+export const ownArticleListSelector = createSelector(
+  creatorStateSelector,
+  creaState => {
+    return creaState.articles;
   },
-); */
+);
+
+export const ownArticleCountSelector = createSelector(
+  creatorStateSelector,
+  creaState => {
+    return creaState.total;
+  },
+);

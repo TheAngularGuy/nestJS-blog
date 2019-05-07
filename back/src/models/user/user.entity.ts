@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { ArticleEntity } from '../article/article.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -31,4 +33,7 @@ export class UserEntity {
 
   @Column({ default: false })
   isAdmin?: boolean;
+
+  @OneToMany(type => ArticleEntity, article => article.author)
+  articles?: ArticleEntity[];
 }

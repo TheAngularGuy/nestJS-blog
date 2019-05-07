@@ -8,7 +8,15 @@ import { environment } from 'src/environments/environment';
 export class CreatorService {
   constructor(private readonly http: HttpClient) {}
 
-  changePassword(ob: any): Observable<ArticleModel> {
+  sendArticle(ob: any): Observable<ArticleModel> {
     return this.http.post(environment.apiRoute + `article`, ob) as any;
+  }
+
+  getCount(): Observable<number> {
+    return this.http.get(environment.apiRoute + `user/own/articles/count`) as any;
+  }
+
+  getArticles(): Observable<ArticleModel[]> {
+    return this.http.get(environment.apiRoute + `user/own/articles`) as any;
   }
 }

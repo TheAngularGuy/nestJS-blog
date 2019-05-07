@@ -1,11 +1,35 @@
-import { Action } from '@ngrx/store';
+import { ArticleModel } from 'src/app/models/article.model';
 
-export interface CreatorState {}
+import { CreatorActions, CreatorActionTypes } from './creator.actions';
 
-export const initialCreatorState: CreatorState = {};
+export interface CreatorState {
+  articles: ArticleModel[];
+  page: number;
+  take: number;
+  total: number;
+}
 
-export function reducer(state = initialCreatorState, action: Action): CreatorState {
+export const initialCreatorState: CreatorState = {
+  articles: [],
+  page: 1,
+  take: 10,
+  total: 0,
+};
+
+export function reducer(state = initialCreatorState, action: CreatorActions): CreatorState {
   switch (action.type) {
+    case CreatorActionTypes.GetOwnArticlesOK:
+      return {
+        ...state,
+        articles: action.payload.articles,
+        page: action.payload.page,
+        take: action.payload.take,
+      };
+    case CreatorActionTypes.CountArticlesOK:
+      return {
+        ...state,
+        total: action.payload.total,
+      };
     default:
       return state;
   }

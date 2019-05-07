@@ -7,12 +7,14 @@ import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Quote from '@editorjs/quote';
 import SimpleImage from '@editorjs/simple-image';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { first, tap } from 'rxjs/operators';
 import { CategoryModel } from 'src/app/models/category.model';
 import { categoriesSimpleSelector } from 'src/app/ngrx/selectors/category.selectors';
 
-import { SendArticleAction } from '../state/creator.actions';
+import { CreatorActionTypes, SendArticleAction } from '../state/creator.actions';
 
 const NEW_NOTE_INIT = {
   time: Date.now(),
@@ -39,6 +41,7 @@ export class EditorComponent implements OnInit {
 
   constructor(
     private readonly store: Store<any>,
+    private readonly actions: Actions,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
@@ -88,7 +91,16 @@ export class EditorComponent implements OnInit {
       body: JSON.stringify(await this.editor.saver.save()),
     };
     this.store.dispatch(new SendArticleAction({ article: ob }));
-    console.log('Debbug log: EditorComponent -> save -> ob', ob);
+
+    this.actions
+      .pipe(
+        ofType(CreatorActionTypes.sendArticleOK),
+        first(),
+        tap(action => {
+          this.onBack();
+        }),
+      )
+      .subscribe();
   }
 
   onBack() {

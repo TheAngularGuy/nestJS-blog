@@ -1,19 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleDto } from 'src/models/article/article.dto';
 import { ArticleEntity } from 'src/models/article/article.entity';
 import { CategoryEntity } from 'src/models/category/category.entity';
+import { UserEntity } from 'src/models/user/user.entity';
 import { Repository } from 'typeorm';
 
 import { CategoryService } from '../category/category.service';
+import { CommentService } from '../comment/comment.service';
 import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity) private readonly articleRepo: Repository<ArticleEntity>,
+    private readonly catService: CategoryService,
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
-    private readonly catService: CategoryService
+    @Inject(forwardRef(() => CommentService))
+    private readonly commentService: CommentService,
   ) {}
 
   getCount(): Promise<number> {
@@ -26,20 +31,42 @@ export class ArticleService {
       skip: take * (page - 1),
       take,
       order: {
-        createdAt: 'DESC'
-      }
+        createdAt: 'DESC',
+      },
+    });
+  }
+
+  getUserCount(user: UserEntity): Promise<number> {
+    return this.articleRepo.count({
+      where: {
+        author: user,
+      },
+    });
+  }
+
+  getUserArticles(user: UserEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
+    return this.articleRepo.find({
+      relations: ['comments', 'categories'],
+      skip: take * (page - 1),
+      take,
+      order: {
+        createdAt: 'DESC',
+      },
+      where: {
+        author: user,
+      },
     });
   }
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {
     return this.articleRepo.findOneOrFail(articleId, {
-      relations: ['comments', 'categories']
+      relations: ['comments', 'categories'],
     });
   }
 
   async createArticle(articleDto: ArticleDto, userEmail: string): Promise<ArticleEntity> {
     const articleToCreate: ArticleEntity = { ...articleDto };
-    articleToCreate.author = (await this.userService.getOneUserByEmail(userEmail)).username;
+    articleToCreate.author = await this.userService.getOneUserByEmail(userEmail);
     articleToCreate.categories = await this.categoryIdsToEntities(articleDto.categoryIds);
     return this.articleRepo.save(articleToCreate);
   }
@@ -51,7 +78,7 @@ export class ArticleService {
 
     const articleDtoWithPayload: ArticleEntity = {
       editedAt: new Date(),
-      ...articleDto
+      ...articleDto,
     };
     await this.articleRepo.update(articleId, articleDtoWithPayload);
     const articleUpdated = await this.articleRepo.findOneOrFail(articleId);
@@ -60,7 +87,10 @@ export class ArticleService {
   }
 
   async removeArticle(articleId: number): Promise<ArticleEntity> {
-    const article = await this.articleRepo.findOneOrFail(articleId);
+    const article = await this.articleRepo.findOneOrFail(articleId, { relations: ['comments'] });
+    for (const com of article.comments) {
+      await this.commentService.removeComment(com.id);
+    }
     return this.articleRepo.remove(article);
   }
 

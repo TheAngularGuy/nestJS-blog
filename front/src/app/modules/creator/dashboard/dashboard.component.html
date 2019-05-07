@@ -2,7 +2,9 @@
   <div class="card-with-header">
     <nz-page-header>
       <nz-page-header-title>Your articles</nz-page-header-title>
-      <nz-page-header-subtitle>You have written 0 articles and have 0 claps</nz-page-header-subtitle>
+      <nz-page-header-subtitle>
+        You have written {{ total$ | async }} articles and have 0 claps
+      </nz-page-header-subtitle>
       <nz-page-header-extra>
         <button nz-button nzType="primary" [routerLink]="['create']">
           Write something !
@@ -19,9 +21,9 @@
       >
         <ng-template #paginationTemplate>
           <nz-pagination
-            [nzPageIndex]="1"
-            [nzPageSize]="5"
-            [nzTotal]="0"
+            [nzPageIndex]="page"
+            [nzPageSize]="take"
+            [nzTotal]="total$ | async"
             (nzPageIndexChange)="changePage($event)"
           >
           </nz-pagination>

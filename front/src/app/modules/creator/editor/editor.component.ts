@@ -9,7 +9,7 @@ import Quote from '@editorjs/quote';
 import SimpleImage from '@editorjs/simple-image';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 import { CategoryModel } from 'src/app/models/category.model';
@@ -41,7 +41,7 @@ export class EditorComponent implements OnInit {
   editor: EditorJS;
   articleForm: FormGroup;
   article: ArticleModel;
-  ready$ = new Subject();
+  ready$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly store: Store<any>,

@@ -37,14 +37,14 @@
               [nzLoading]="item.loading"
             >
               <ng-template #editAction>
-                <a [routerLink]="['/note', 'edit', item.id]"><i nz-icon type="edit"></i></a>
+                <a [routerLink]="['edit', item.id]"><i nz-icon type="edit"></i></a>
               </ng-template>
               <ng-template #moreAction>
                 <a (click)="delete(item)"><i nz-icon type="delete"></i></a>
               </ng-template>
               <nz-list-item-meta [nzTitle]="titleTemplate" [nzDescription]="descTemplate">
                 <ng-template #titleTemplate>
-                  <a [routerLink]="['/note', 'edit', item.id]" [innerHTML]="item.title"> </a>
+                  <a [routerLink]="['edit', item.id]" [innerHTML]="item.title"> </a>
                 </ng-template>
                 <ng-template #descTemplate>
                   <span [innerHTML]="item.description"> </span>

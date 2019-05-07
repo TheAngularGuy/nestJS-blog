@@ -18,3 +18,10 @@ export const ownArticleCountSelector = createSelector(
     return creaState.total;
   },
 );
+
+export const ownArticleByIdSelector = createSelector(
+  creatorStateSelector,
+  (creaState: CreatorState, prop: { id: number }) => {
+    return creaState.articles.filter(el => el.id == prop.id)[0];
+  },
+);

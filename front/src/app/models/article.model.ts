@@ -1,3 +1,5 @@
+import { CategoryModel } from './category.model';
+
 export interface ArticleModel {
   id?: number;
   title?: string;
@@ -9,5 +11,5 @@ export interface ArticleModel {
   claps?: number;
   views?: number;
   comments?: any[];
-  categories?: any[];
+  categories?: CategoryModel[];
 }

@@ -10,34 +10,36 @@
     </nz-page-header>
 
     <div class="card-with-header-content">
-      <form *ngIf="articleForm" [formGroup]="articleForm">
-        <nz-form-item>
-          <nz-form-label>Title</nz-form-label>
-          <br />
-          <nz-form-control [nzValidateStatus]="formFieldStatus('title')">
-            <input nz-input type="text" placeholder="Title" formControlName="title" />
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label>Categories</nz-form-label>
-          <br />
-          <nz-form-control [nzValidateStatus]="formFieldStatus('categories')">
-            <nz-select
-              nzMode="multiple"
-              style="width: 100%;"
-              nzPlaceHolder="Category"
-              formControlName="categories"
-            >
-              <nz-option
-                *ngFor="let option of categories$ | async"
-                [nzLabel]="option.title"
-                [nzValue]="option.id"
+      <ng-container *ngIf="ready$ | async">
+        <form [formGroup]="articleForm">
+          <nz-form-item>
+            <nz-form-label>Title</nz-form-label>
+            <br />
+            <nz-form-control [nzValidateStatus]="formFieldStatus('title')">
+              <input nz-input type="text" placeholder="Title" formControlName="title" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>Categories</nz-form-label>
+            <br />
+            <nz-form-control [nzValidateStatus]="formFieldStatus('categories')">
+              <nz-select
+                nzMode="multiple"
+                style="width: 100%;"
+                nzPlaceHolder="Category"
+                formControlName="categories"
               >
-              </nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </form>
+                <nz-option
+                  *ngFor="let option of categories$ | async"
+                  [nzLabel]="option.title"
+                  [nzValue]="option.id"
+                >
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </ng-container>
 
       <nz-divider nzText="Article content" nzOrientation="left"></nz-divider>
       <div id="editor"></div>

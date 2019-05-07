@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f9b4c07c-ef6d-4ab7-887d-b1ce7de30d0a",
+		"_postman_id": "723a7f4a-4d97-4b17-991c-5a54fad2e906",
 		"name": "nest_blog",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -117,11 +117,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{apiRoute}}/user",
+							"raw": "localhost:3000/api/user",
 							"host": [
-								"{{apiRoute}}"
+								"localhost"
 							],
+							"port": "3000",
 							"path": [
+								"api",
 								"user"
 							]
 						}
@@ -138,11 +140,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{apiRoute}}/user/own",
+							"raw": "localhost:3000/api/user/own",
 							"host": [
-								"{{apiRoute}}"
+								"localhost"
 							],
+							"port": "3000",
 							"path": [
+								"api",
 								"user",
 								"own"
 							]
@@ -167,11 +171,13 @@
 							"raw": "{\n    \"id\": 1,\n    \"username\": \"muss\",\n    \"avatar\": \"\",\n    \"email\": \"mus@email.com\",\n    \"firstname\": \"mustapha\",\n    \"lastname\": \"aouas\",\n    \"isAuthor\": true\n}"
 						},
 						"url": {
-							"raw": "{{apiRoute}}/user/1",
+							"raw": "localhost:3000/api/user/1",
 							"host": [
-								"{{apiRoute}}"
+								"localhost"
 							],
+							"port": "3000",
 							"path": [
+								"api",
 								"user",
 								"1"
 							]
@@ -180,7 +186,7 @@
 					"response": []
 				},
 				{
-					"name": "get users count",
+					"name": "get own articles",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -189,12 +195,51 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{apiRoute}}/user/count",
+							"raw": "localhost:3000/api/user/own/articles?page=1&take=10",
 							"host": [
-								"{{apiRoute}}"
+								"localhost"
 							],
+							"port": "3000",
 							"path": [
+								"api",
 								"user",
+								"own",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get own articles count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/own/articles/count",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"own",
+								"articles",
 								"count"
 							]
 						}
@@ -317,22 +362,22 @@
 					"response": []
 				},
 				{
-					"name": "get count",
+					"name": "delete article",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{apiRoute}}/article/count",
+							"raw": "{{apiRoute}}/article/6",
 							"host": [
 								"{{apiRoute}}"
 							],
 							"path": [
 								"article",
-								"count"
+								"6"
 							]
 						}
 					},
@@ -344,7 +389,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ3MTA2MTYsImV4cCI6MTU1NTMxNTQxNn0.uEhurAaBGx9Yb59qh-d2U7_y3iSWzr6FSKKkq2ote96zbfFzXCqTWZyM5XuT0DxE72xT8KrIMtjj7xXK-uXk4g",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTcyMzI3NDEsImV4cCI6MTU1NzgzNzU0MX0.j3z1Dgi8nGyUU_PxmC2rTHgedYDFmWsDotODr1gI7xVQMmtTNALL3joxDcvyHGJGunvz9jrjGgzhVkg0PgOltA",
 						"type": "string"
 					}
 				]
@@ -570,22 +615,51 @@
 					"response": []
 				},
 				{
-					"name": "get categories count",
+					"name": "edit category",
 					"request": {
-						"method": "GET",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Angular\",\n\t\"body\": \"All Angular related topics\"\n}"
+						},
+						"url": {
+							"raw": "{{apiRoute}}/category/5",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"category",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category",
+					"request": {
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{apiRoute}}/category/count",
+							"raw": "{{apiRoute}}/category/5",
 							"host": [
 								"{{apiRoute}}"
 							],
 							"path": [
 								"category",
-								"count"
+								"5"
 							]
 						}
 					},
@@ -597,7 +671,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTQ3MTA2MTYsImV4cCI6MTU1NTMxNTQxNn0.uEhurAaBGx9Yb59qh-d2U7_y3iSWzr6FSKKkq2ote96zbfFzXCqTWZyM5XuT0DxE72xT8KrIMtjj7xXK-uXk4g",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im11c0BlbWFpbC5jb20iLCJpYXQiOjE1NTcxNDI1MjksImV4cCI6MTU1Nzc0NzMyOX0.ZdSMhvFkA7wJ2yzJI1SQTLng9-iIrWBgP8GVWyJ7c5mvpk8-CpG3_RoVUG2HAILrGqZhz66a7bKNLwxcd9B6yg",
 						"type": "string"
 					}
 				]

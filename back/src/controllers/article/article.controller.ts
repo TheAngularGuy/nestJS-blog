@@ -13,14 +13,17 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ArticleDto } from 'src/models/article/article.dto';
-import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
 import { User } from '../auth/decorators/user.decorator';
+import { CategoryService } from '../category/category.service';
 import { ArticleService } from './article.service';
 
 @Controller('api/article')
 export class ArticleController {
-  constructor(private readonly service: ArticleService, private readonly utils: UtilitiesService) {}
+  constructor(
+    private readonly service: ArticleService,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   @Get('/count')
   async getCount() {
@@ -76,6 +79,16 @@ export class ArticleController {
       return await this.service.removeArticle(articleId);
     } catch (err) {
       throw new HttpException(err, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @Get('category/:categoryId/count')
+  async getCountByCategory(@Param('categoryId') categoryId: number) {
+    try {
+      const category = await this.categoryService.getOneCategory(categoryId);
+      return await this.service.getArticlesCountByCategory(category);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NO_CONTENT);
     }
   }
 }

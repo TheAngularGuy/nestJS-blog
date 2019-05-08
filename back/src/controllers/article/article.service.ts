@@ -36,7 +36,7 @@ export class ArticleService {
     });
   }
 
-  getUserCount(user: UserEntity): Promise<number> {
+  getArticlesCountByUser(user: UserEntity): Promise<number> {
     return this.articleRepo.count({
       where: {
         author: user,
@@ -44,7 +44,28 @@ export class ArticleService {
     });
   }
 
-  getUserArticles(user: UserEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
+  getArticlesByUser(user: UserEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
+    return this.articleRepo.find({
+      relations: ['comments', 'categories'],
+      skip: take * (page - 1),
+      take,
+      order: {
+        createdAt: 'DESC',
+      },
+      where: {
+        author: user,
+      },
+    });
+  }
+
+  // https://stackoverflow.com/questions/52246722/how-to-query-a-many-to-many-relation-with-typeorm
+  getArticlesCountByCategory(category: CategoryEntity): Promise<number> {
+    return this.articleRepo.count({
+      where: {},
+    });
+  }
+
+  getArticlesByCategory(user: UserEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
     return this.articleRepo.find({
       relations: ['comments', 'categories'],
       skip: take * (page - 1),

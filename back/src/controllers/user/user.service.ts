@@ -30,7 +30,7 @@ export class UserService {
     });
   }
 
-  getUsersAuthors(page = 1, take = 25): Promise<UserEntity[]> {
+  getAuthors(page = 1, take = 25): Promise<UserEntity[]> {
     return this.userRepo.find({
       /* skip: take * (page - 1),
       take, */
@@ -58,7 +58,7 @@ export class UserService {
         email,
       },
     });
-    return await this.articleService.getUserArticles(u, page, take);
+    return await this.articleService.getArticlesByUser(u, page, take);
   }
   async getOneUserArticlesCountByEmail(email: string): Promise<number> {
     const u = await this.userRepo.findOneOrFail({
@@ -66,7 +66,7 @@ export class UserService {
         email,
       },
     });
-    return await this.articleService.getUserCount(u);
+    return await this.articleService.getArticlesCountByUser(u);
   }
 
   async getOneUserSaltByEmail(email: string): Promise<UserEntity> {

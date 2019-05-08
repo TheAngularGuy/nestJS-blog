@@ -82,7 +82,7 @@ export class UserController {
   @Get()
   getAuthors(@Query('page') page: number, @Query('take') take: number) {
     try {
-      return this.userService.getUsersAuthors(page, take);
+      return this.userService.getAuthors(page, take);
     } catch (err) {
       throw new HttpException(null, HttpStatus.NO_CONTENT);
     }

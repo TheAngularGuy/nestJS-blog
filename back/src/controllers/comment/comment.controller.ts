@@ -1,22 +1,32 @@
-import { Body, Controller, Delete, Get, Headers, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtPayload } from 'src/models/auth/jwt.payload';
 import { CommentDto } from 'src/models/comment/comment.dto';
-import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
+import { User } from '../auth/decorators/user.decorator';
 import { CommentService } from './comment.service';
-
 
 @Controller('api/article/:articleId/comment')
 export class CommentController {
-
-  constructor(
-    private readonly service: CommentService,
-    private readonly utils: UtilitiesService
-  ) { }
+  constructor(private readonly service: CommentService) {}
 
   @Get()
-  getAll(@Param('articleId') articleId: number, @Query('page') page: number, @Query('take') take: number) {
+  getAll(
+    @Param('articleId') articleId: number,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ) {
     try {
       return this.service.getComments(articleId, page, take);
     } catch (err) {
@@ -35,10 +45,13 @@ export class CommentController {
 
   @Post()
   @UseGuards(AuthGuard())
-  async create(@Param('articleId') articleId: number, @Body() commentDto: CommentDto, @Headers() headers: any) {
+  async create(
+    @Param('articleId') articleId: number,
+    @Body() commentDto: CommentDto,
+    @User() user: any,
+  ) {
     try {
-      const token: JwtPayload = await this.utils.headersToJwtDecoded(headers);
-      return await this.service.createComment(articleId, commentDto, token.email);
+      return await this.service.createComment(articleId, commentDto, user.email);
     } catch (err) {
       throw new HttpException(err, HttpStatus.NOT_ACCEPTABLE);
     }
@@ -63,5 +76,4 @@ export class CommentController {
       throw new HttpException(err, HttpStatus.NOT_FOUND);
     }
   }
-
 }

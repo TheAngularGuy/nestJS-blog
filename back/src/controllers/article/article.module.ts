@@ -1,7 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArticleEntity } from 'src/models/article/article.entity';
-import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
 import { AuthModule } from '../auth/auth.module';
 import { CategoryModule } from '../category/category.module';
@@ -19,7 +18,7 @@ import { ArticleService } from './article.service';
     forwardRef(() => UserModule),
   ],
   controllers: [ArticleController],
-  providers: [ArticleService, UtilitiesService],
+  providers: [ArticleService],
   exports: [ArticleService],
 })
 export class ArticleModule {}

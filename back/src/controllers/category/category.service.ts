@@ -21,7 +21,7 @@ export class CategoryService {
       order: {
         id: 'DESC',
       },
-      relations: ['articles'],
+      // relations: ['articles'],
     });
   }
 

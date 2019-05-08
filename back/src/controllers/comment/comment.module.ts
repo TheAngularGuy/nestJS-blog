@@ -1,7 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentEntity } from 'src/models/comment/comment.entity';
-import { UtilitiesService } from 'src/services/utilities/utilities.service';
 
 import { ArticleModule } from '../article/article.module';
 import { AuthModule } from '../auth/auth.module';
@@ -17,7 +16,7 @@ import { CommentService } from './comment.service';
     forwardRef(() => ArticleModule),
   ],
   controllers: [CommentController],
-  providers: [CommentService, UtilitiesService],
+  providers: [CommentService],
   exports: [CommentService],
 })
 export class CommentModule {}

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserDto } from 'src/models/user/user.dto';
 
@@ -62,6 +62,17 @@ export class UserController {
   async edit(@Param('userId') userId: number, @Body() userDto: UserDto) {
     try {
       const ret = await this.userService.editUser(userId, userDto);
+      return ret;
+    } catch (err) {
+      throw new HttpException(null, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Delete(':userId')
+  async delete(@Param('userId') userId: number) {
+    try {
+      const user = await this.userService.getOneUserById(userId);
+      const ret = await this.userService.deleteUser(user);
       return ret;
     } catch (err) {
       throw new HttpException(null, HttpStatus.NO_CONTENT);

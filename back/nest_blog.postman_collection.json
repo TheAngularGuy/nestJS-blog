@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "723a7f4a-4d97-4b17-991c-5a54fad2e906",
+		"_postman_id": "35635557-7e0f-4b13-9173-6378d0fb10d8",
 		"name": "nest_blog",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -241,6 +241,28 @@
 								"own",
 								"articles",
 								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete one user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/user/5",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"user",
+								"5"
 							]
 						}
 					},

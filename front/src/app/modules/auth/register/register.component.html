@@ -15,11 +15,7 @@
             <input type="email" nz-input formControlName="email" placeholder="Email" />
           </nz-input-group>
           <nz-form-explain
-            *ngIf="
-              validateForm.get('email')?.touched &&
-              validateForm.get('email')?.dirty &&
-              validateForm.get('email')?.errors
-            "
+            *ngIf="validateForm.get('email')?.touched && validateForm.get('email')?.errors"
           >
             Please input your email
           </nz-form-explain>
@@ -29,17 +25,25 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group [nzPrefix]="prefixLock">
-            <input
-              type="password"
-              nz-input
-              formControlName="password"
-              placeholder="Password"
-            />
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
           </nz-input-group>
           <nz-form-explain
-            *ngIf="validateForm.get('password')?.dirty && validateForm.get('password')?.errors"
+            *ngIf="validateForm.get('password')?.touched && validateForm.get('password')?.errors"
           >
             Please input your Password
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="prefixLock">
+            <input type="password" nz-input formControlName="password2" placeholder="Confirm password" />
+          </nz-input-group>
+          <nz-form-explain
+            *ngIf="validateForm.get('password2')?.touched && validateForm.get('password2')?.errors"
+          >
+            Your passwords doesn't match
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
@@ -49,10 +53,10 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group [nzPrefix]="prefixUser">
-            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+            <input type="text" nz-input formControlName="username" placeholder="Username" />
           </nz-input-group>
           <nz-form-explain
-            *ngIf="validateForm.get('userName')?.dirty && validateForm.get('userName')?.errors"
+            *ngIf="validateForm.get('username')?.touched && validateForm.get('username')?.errors"
           >
             Please input your username
           </nz-form-explain>
@@ -65,9 +69,7 @@
             <input type="text" nz-input formControlName="firstname" placeholder="Firstname" />
           </nz-input-group>
           <nz-form-explain
-            *ngIf="
-              validateForm.get('firstname')?.dirty && validateForm.get('firstname')?.errors
-            "
+            *ngIf="validateForm.get('firstname')?.touched && validateForm.get('firstname')?.errors"
           >
             Please input your firstname
           </nz-form-explain>
@@ -80,18 +82,20 @@
             <input type="text" nz-input formControlName="lastname" placeholder="Lastname" />
           </nz-input-group>
           <nz-form-explain
-            *ngIf="validateForm.get('lastname')?.dirty && validateForm.get('lastname')?.errors"
+            *ngIf="validateForm.get('lastname')?.touched && validateForm.get('lastname')?.errors"
           >
             Please input your lastname
           </nz-form-explain>
         </nz-form-control>
       </nz-form-item>
 
-      <nz-divider nzText="Avatar" nzOrientation="left"></nz-divider>
+      <nz-divider nzText="Avatar (optional)" nzOrientation="left"></nz-divider>
 
       <nz-upload
         nzType="drag"
+        nzListType="picture"
         [nzLimit]="1"
+        [nzShowButton]="fileList.length >= 1 ? false : true"
         [nzBeforeUpload]="beforeUpload"
         [(nzFileList)]="fileList"
       >
@@ -105,7 +109,15 @@
 
       <nz-form-item>
         <nz-form-control>
-          <button nz-button class="login-form-button" nzType="primary">Sign in</button>
+          <button
+            [nzLoading]="loading$ | async"
+            [disabled]="!validateForm.dirty || !validateForm.valid"
+            nz-button
+            class="login-form-button"
+            nzType="primary"
+          >
+            Sign up
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>

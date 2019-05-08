@@ -18,11 +18,13 @@ export class AuthService {
   public async signIn(user: SigninDto): Promise<JwtToken> {
     const newUser: UserEntity = {
       ...user,
+      email: user.email.toLowerCase(),
     };
     newUser.salt = await bcrypt.genSalt();
     newUser.password = await bcrypt.hash(user.password, newUser.salt);
     const createdUser = await this.userService.createUser(newUser);
-    return this.createJwtPayload(createdUser);
+    const u = await this.userService.getOneUserById(createdUser.id);
+    return this.createJwtPayload(u);
   }
 
   public async editPassword(userId: number, passwords: PasswordDto) {
@@ -51,6 +53,7 @@ export class AuthService {
   }
 
   private async validateUserByPassword(user: LoginDto): Promise<UserEntity> {
+    user.email = user.email.toLowerCase();
     const userToCheck = await this.userService.getOneUserSaltByEmail(user.email);
     const hashedPassword = await bcrypt.hash(user.password, userToCheck.salt);
     return await this.userService.getOneUserByEmailAndPassword(user.email, hashedPassword);
@@ -73,5 +76,6 @@ export class AuthService {
     };
   }
 
-  // https://www.joshmorony.com/adding-jwt-authentication-to-an-ionic-application-with-mongodb-and-nestjs/
+  // * tuto for setting up passport-jwt:
+  // * https://www.joshmorony.com/adding-jwt-authentication-to-an-ionic-application-with-mongodb-and-nestjs/
 }

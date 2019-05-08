@@ -10,7 +10,7 @@ export class UserEntity {
   @Column({ unique: true })
   username?: string;
 
-  @Column({ default: '' })
+  @Column({ default: '', type: 'text' })
   avatar?: string;
 
   @Column({ unique: true })

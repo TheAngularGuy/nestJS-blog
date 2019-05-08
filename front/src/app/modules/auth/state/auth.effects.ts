@@ -17,12 +17,39 @@ import {
   LoginActionKO,
   LoginActionOK,
   LogoutAction,
+  RegisterAction,
+  RegisterActionKO,
 } from 'src/app/modules/auth/state/auth.actions';
 
 import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AuthEffects {
+  @Effect()
+  register: Observable<any> = this.actions$.pipe(
+    ofType(AuthActionTypes.RegisterAction),
+    mergeMap((action: RegisterAction) => {
+      return this.authService.register(action.payload.form).pipe(
+        take(1),
+        map((jwtToken: JwtTokenModel) => {
+          return new LoginActionOK({
+            jwtToken,
+            redirect: true,
+            remember: true,
+          });
+        }),
+        catchError((err: any) => {
+          console.error(err);
+          return of(
+            new RegisterActionKO({
+              errorMessage: 'Error : An Error occured',
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
   @Effect()
   login$: Observable<any> = this.actions$.pipe(
     ofType(AuthActionTypes.LoginAction),
@@ -34,6 +61,7 @@ export class AuthEffects {
             jwtToken,
             redirect: action.payload.redirect,
             redirectTo: action.payload.redirectTo,
+            remember: action.payload.form.remember,
           });
         }),
         catchError((err: any) => {
@@ -52,7 +80,9 @@ export class AuthEffects {
   loginOK: Observable<any> = this.actions$.pipe(
     ofType(AuthActionTypes.LoginActionOK),
     tap((action: LoginActionOK) => {
-      localStorage.setItem('jwtToken', JSON.stringify(action.payload.jwtToken));
+      if (action.payload.remember) {
+        localStorage.setItem('jwtToken', JSON.stringify(action.payload.jwtToken));
+      }
       if (action.payload.redirect) {
         const redirectTo =
           action.payload.redirectTo && !action.payload.redirectTo.includes('auth')

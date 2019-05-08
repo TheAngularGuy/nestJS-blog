@@ -16,7 +16,7 @@
       <i nz-icon type="home" style="font-size: 1.3rem" [routerLink]="['/']"></i>
       <span style="width: 1rem"></span>
       <i nz-icon type="info-circle" style="font-size: 1.3rem" [routerLink]="['/info']"></i>
-
+      <!-- ! user panel -->
       <div
         class="user-panel"
         nz-popover
@@ -29,7 +29,11 @@
           <span class="user-panel-email">{{ (user$ | async).email }}</span>
         </p>
         <nz-badge nzDot>
-          <nz-avatar nzIcon="user" nzShape="square"></nz-avatar>
+          <nz-avatar
+            nzShape="square"
+            nzText="{{ (user$ | async).firstname[0] + (user$ | async).lastname[0] }}"
+            nzSrc="{{ (user$ | async).avatar }}"
+          ></nz-avatar>
         </nz-badge>
         <ng-template #userPanelPopOverTemplate>
           <div style="padding: 1rem 0">
@@ -47,14 +51,14 @@
       </div>
       <ng-template #registerTemplate>
         <div style="line-height: 64px; padding:0 1rem; cursor: pointer;" [routerLink]="['/auth']">
-          <!-- * if not logged in -->
+          <!-- ! if not logged in -->
           <span>My account</span>
         </div>
       </ng-template>
     </div>
   </nz-header>
 
-  <!-- * side list -->
+  <!-- ! side list -->
   <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzTheme="light">
       <ul

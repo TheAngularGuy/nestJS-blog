@@ -404,6 +404,52 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get articles count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/count",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get articles count by category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{apiRoute}}/article/category/5/count",
+							"host": [
+								"{{apiRoute}}"
+							],
+							"path": [
+								"article",
+								"category",
+								"5",
+								"count"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {

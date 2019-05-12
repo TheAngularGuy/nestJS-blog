@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 
 import { ArticleService } from '../article.service';
@@ -11,9 +11,10 @@ import {
   ArticleActionTypes,
   CountArticlesAction,
   LoadArticlesAction,
+  LoadArticlesActionKO,
+  LoadArticlesActionOK,
   LoadOneArticleAction,
-  RequestArticlesAction,
-  RequestOneArticleAction,
+  LoadOneArticleActionOK,
 } from './article.actions';
 
 @Injectable()
@@ -26,12 +27,13 @@ export class ArticleEffects {
   ) {}
 
   @Effect()
-  requestToLoad$: Observable<any> = this.actions$.pipe(
-    ofType(ArticleActionTypes.RequestArticles),
-    mergeMap((action: RequestArticlesAction) => {
+  loadArticles$: Observable<any> = this.actions$.pipe(
+    ofType(ArticleActionTypes.Loadarticles),
+    mergeMap((action: LoadArticlesAction) => {
       const page = action.payload.page;
       const take = action.payload.take;
-      return this.articleService.getAll(page, take).pipe(
+      const mode = action.payload.mode;
+      return this.articleService.getAll(page, take, mode).pipe(
         tap(() => {
           this.router.navigate([], {
             relativeTo: this.route,
@@ -44,21 +46,26 @@ export class ArticleEffects {
         }),
         map(
           (articlesList: ArticleModel[]) =>
-            new LoadArticlesAction({
+            new LoadArticlesActionOK({
               list: articlesList,
               page,
               take,
+              mode,
             }),
         ),
+        catchError(err => {
+          console.log('Debbug log: ArticleEffects -> err', err);
+          return of(new LoadArticlesActionKO({ errorMessage: 'Error: Articles not found' }));
+        }),
       );
     }),
   );
 
   @Effect()
-  loadToCount$: Observable<any> = this.actions$.pipe(
-    ofType(ArticleActionTypes.LoadArticles),
-    mergeMap((action: LoadArticlesAction) => {
-      return this.articleService.getCount().pipe(
+  countArticles$: Observable<any> = this.actions$.pipe(
+    ofType(ArticleActionTypes.LoadArticlesOK),
+    mergeMap((action: LoadArticlesActionOK) => {
+      return this.articleService.getCount(action.payload.mode).pipe(
         map((count: number) => {
           return new CountArticlesAction({ count });
         }),
@@ -67,12 +74,12 @@ export class ArticleEffects {
   );
 
   @Effect()
-  requestOneToLoadOne$: Observable<any> = this.actions$.pipe(
-    ofType(ArticleActionTypes.RequestOneArticle),
-    mergeMap((action: RequestOneArticleAction) => {
+  loadOneArticle$: Observable<any> = this.actions$.pipe(
+    ofType(ArticleActionTypes.LoadOneArticle),
+    mergeMap((action: LoadOneArticleAction) => {
       return this.articleService.getOne(action.payload.id).pipe(
         map((article: ArticleModel) => {
-          return new LoadOneArticleAction({ article });
+          return new LoadOneArticleActionOK({ article });
         }),
       );
     }),

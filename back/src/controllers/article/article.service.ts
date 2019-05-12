@@ -58,25 +58,42 @@ export class ArticleService {
     });
   }
 
-  // https://stackoverflow.com/questions/52246722/how-to-query-a-many-to-many-relation-with-typeorm
-  getArticlesCountByCategory(category: CategoryEntity): Promise<number> {
-    return this.articleRepo.count({
-      where: {},
-    });
+  async getArticlesCountByCategory(category: CategoryEntity): Promise<number> {
+    const articlesCount = await this.articleRepo
+      .createQueryBuilder('article')
+      .innerJoin('article.categories', 'category', 'category.id = :catId', { catId: category.id })
+      .getCount();
+    return articlesCount;
   }
 
-  getArticlesByCategory(user: UserEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
-    return this.articleRepo.find({
-      relations: ['comments', 'categories'],
-      skip: take * (page - 1),
-      take,
-      order: {
-        createdAt: 'DESC',
-      },
+  async getArticlesByCategory(category: CategoryEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
+    const articles = await this.articleRepo
+      .createQueryBuilder('article')
+      .innerJoin('article.categories', 'category', 'category.id = :catId', { catId: category.id })
+      .skip((page - 1) * take)
+      .take(take)
+      .getMany();
+    return articles;
+  }
+
+  async getArticlesCountByAuthor(author: UserEntity): Promise<number> {
+    const articlesCount = await this.articleRepo.count({
       where: {
-        author: user,
+        author,
       },
     });
+    return articlesCount;
+  }
+
+  async getArticlesByAuthor(author: UserEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
+    const articles = await this.articleRepo.find({
+      where: {
+        author,
+      },
+      take,
+      skip: (page - 1) * take,
+    });
+    return articles;
   }
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CategoryModel } from 'src/app/models/category.model';
+import { UserModel } from 'src/app/models/user.model';
 
 export enum AuthorsActionTypes {
   LoadAuthors = '[Authors] Load Authors',
@@ -13,7 +13,7 @@ export class LoadAuthorsAction implements Action {
 }
 export class LoadAuthorsActionOK implements Action {
   readonly type = AuthorsActionTypes.LoadAuthorsOK;
-  constructor(public payload: { authors: CategoryModel[] }) {}
+  constructor(public payload: { authors: UserModel[] }) {}
 }
 export class LoadAuthorsActionKO implements Action {
   readonly type = AuthorsActionTypes.LoadAuthorsKO;

@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ArticleModel } from 'src/app/models/article.model';
 
-import { RequestOneArticleAction } from '../state/article.actions';
+import { LoadOneArticleAction } from '../state/article.actions';
 import { articleByIdSelector } from '../state/article.selectors';
 
 @Component({
@@ -24,10 +24,10 @@ export class ArticleSingleComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.params.id;
     this.article$ = this.store.pipe(select(articleByIdSelector, { id }));
-    this.store.dispatch(new RequestOneArticleAction({ id }));
+    this.store.dispatch(new LoadOneArticleAction({ id }));
   }
 
   onGoBack() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.router.navigateByUrl('/article/list');
   }
 }

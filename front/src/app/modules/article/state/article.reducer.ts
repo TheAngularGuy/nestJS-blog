@@ -19,13 +19,19 @@ export const initialArticleState: ArticleState = {
 
 export function reducer(state = initialArticleState, action: ArticleActions): ArticleState {
   switch (action.type) {
-    case ArticleActionTypes.LoadArticles:
+    case ArticleActionTypes.LoadArticlesOK:
       return {
         list: action.payload.list,
         page: action.payload.page,
         take: action.payload.take,
         count: null,
         focusedOn: { ...state.focusedOn },
+      };
+    case ArticleActionTypes.LoadArticlesKO:
+      return {
+        ...initialArticleState,
+        list: [],
+        count: 0,
       };
     case ArticleActionTypes.CountArticles:
       return {
@@ -35,7 +41,7 @@ export function reducer(state = initialArticleState, action: ArticleActions): Ar
         count: action.payload.count,
         focusedOn: { ...state.focusedOn },
       };
-    case ArticleActionTypes.LoadOneArticle:
+    case ArticleActionTypes.LoadOneArticleOK:
       return {
         list: [...(state.list || [])],
         page: state.page,

@@ -17,7 +17,7 @@ const routes: Routes = [
     component: ArticleListComponent,
   },
   {
-    path: 'list/:id',
+    path: 'list/read/:id',
     component: ArticleSingleComponent,
   },
   {

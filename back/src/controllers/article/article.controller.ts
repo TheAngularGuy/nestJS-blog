@@ -16,6 +16,7 @@ import { ArticleDto } from 'src/models/article/article.dto';
 
 import { User } from '../auth/decorators/user.decorator';
 import { CategoryService } from '../category/category.service';
+import { UserService } from '../user/user.service';
 import { ArticleService } from './article.service';
 
 @Controller('api/article')
@@ -23,6 +24,7 @@ export class ArticleController {
   constructor(
     private readonly service: ArticleService,
     private readonly categoryService: CategoryService,
+    private readonly userService: UserService,
   ) {}
 
   @Get('/count')
@@ -87,6 +89,44 @@ export class ArticleController {
     try {
       const category = await this.categoryService.getOneCategory(categoryId);
       return await this.service.getArticlesCountByCategory(category);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Get('category/:categoryId')
+  async getByCategory(
+    @Param('categoryId') categoryId: number,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ) {
+    try {
+      const category = await this.categoryService.getOneCategory(categoryId);
+      return await this.service.getArticlesByCategory(category, page, take);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Get('author/:authorId/count')
+  async getCountByAuthor(@Param('authorId') authorId: number) {
+    try {
+      const author = await this.userService.getOneUserById(authorId);
+      return await this.service.getArticlesCountByAuthor(author);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.NO_CONTENT);
+    }
+  }
+
+  @Get('author/:authorId')
+  async getByAuthor(
+    @Param('authorId') authorId: number,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ) {
+    try {
+      const author = await this.userService.getOneUserById(authorId);
+      return await this.service.getArticlesByAuthor(author, page, take);
     } catch (err) {
       throw new HttpException(err, HttpStatus.NO_CONTENT);
     }

@@ -41,7 +41,7 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       id: [this.user.id, []],
       firstname: [this.user.firstname, [Validators.required]],
       lastname: [this.user.lastname, [Validators.required]],
-      // email: [this.user.email, [Validators.required, Validators.email]],
+      email: [this.user.email, [Validators.required, Validators.email]],
       // isAuthor: [this.user.isAuthor, [Validators.required]],
       // password: [this.user.password, [Validators.required]],
       // avatar: [this.user.avatar, [Validators.required]],

@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { first, take } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 import { AppState } from 'src/app/ngrx/reducers';
 
-import { RequestArticlesAction } from '../state/article.actions';
+import { UtilitiesService } from '../../shared/utilities.service';
+import { ArticleActionTypes, LoadArticlesAction, LoadArticlesActionKO } from '../state/article.actions';
 import {
   articleCountSelector,
   articleListSelector,
@@ -23,34 +25,78 @@ const DEFAULT_TAKE = 5;
   styleUrls: ['./article-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArticleListComponent implements OnInit {
+export class ArticleListComponent implements OnInit, OnDestroy {
   articleList$: Observable<ArticleModel[]>;
+  page: number;
   page$: Observable<number>;
+  take: number;
   take$: Observable<number>;
   max$: Observable<number>;
+  mode: string;
+  destroyed$ = new Subject<boolean>();
 
-  constructor(private readonly store: Store<AppState>, private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly store: Store<AppState>,
+    private readonly actions: Actions,
+    private readonly utils: UtilitiesService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
-    this.page$ = this.store.select(articlePageSelector);
-    this.take$ = this.store.select(articleTakeSelector);
+    this.page$ = this.store.select(articlePageSelector).pipe(tap(p => (this.page = p)));
+    this.take$ = this.store.select(articleTakeSelector).pipe(tap(t => (this.take = t)));
     this.max$ = this.store.select(articleCountSelector);
     this.articleList$ = this.store.select(articleListSelector);
-    this.store.dispatch(
-      new RequestArticlesAction({
-        page: this.route.snapshot.queryParams.page || DEFAULT_PAGE,
-        take: this.route.snapshot.queryParams.take || DEFAULT_TAKE,
-      }),
-    );
+    this.requestData();
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+  }
+
+  requestData() {
+    this.route.queryParams
+      .pipe(
+        takeUntil(this.destroyed$),
+        throttleTime(500),
+        filter(a => {
+          return (
+            !this.page || !this.take || a.page != this.page || a.take != this.take || a.mode != this.mode
+          );
+        }),
+        tap(params => {
+          console.log('Debbug log: ArticleListComponent -> requestData -> params', params);
+        }),
+      )
+      .subscribe(params => {
+        this.mode = params.mode;
+        this.store.dispatch(
+          new LoadArticlesAction({
+            mode: params.mode ? '/' + params.mode + '/' + params.id : '',
+            page: this.route.snapshot.queryParams.page || DEFAULT_PAGE,
+            take: this.route.snapshot.queryParams.take || DEFAULT_TAKE,
+          }),
+        );
+      });
+    this.actions
+      .pipe(ofType(ArticleActionTypes.LoadArticlesKO))
+      .subscribe((action: LoadArticlesActionKO) => {
+        this.utils.toastError(action.payload.errorMessage);
+      });
   }
 
   async changePage(page: number) {
+    if (page == this.page) {
+      return;
+    }
     document.getElementById('content').scroll(0, 0); // TODO: maybe put this in a utilities service
-    this.store.dispatch(
-      new RequestArticlesAction({
+    this.router.navigate([''], {
+      queryParams: {
         page,
-        take: (await this.take$.pipe(first()).toPromise()) || DEFAULT_TAKE,
-      }),
-    );
+      },
+      queryParamsHandling: 'merge',
+      relativeTo: this.route,
+    });
   }
 }

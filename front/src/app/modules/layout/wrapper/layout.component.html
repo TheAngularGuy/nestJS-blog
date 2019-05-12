@@ -64,7 +64,7 @@
       <ul
         nz-menu
         nzMode="inline"
-        [nzSelectable]="false"
+        [nzSelectable]="true"
         [nzInlineCollapsed]="isCollapsed"
         style="height: 100%; border: 0; overflow-y: auto; overflow-x: hidden"
       >
@@ -98,13 +98,20 @@
           </span>
         </li>
 
+        <!-- ! categories -->
         <li nz-submenu>
           <span title>
             <i nz-icon nzType="book"></i>
             <span class="nav-text">Categories</span>
           </span>
-          <ul *ngIf="(categories$ | async)?.length; else noCategoryTemplate">
-            <li nz-menu-item *ngFor="let item of categories$ | async">
+          <ul *ngIf="categories$ | async as categories; else noCategoryTemplate">
+            <li
+              nz-menu-item
+              *ngFor="let item of categories"
+              routerLinkActive="active"
+              [routerLink]="['/article/list']"
+              [queryParams]="{ mode: 'category', id: item.id }"
+            >
               {{ item?.title }}
             </li>
           </ul>
@@ -117,16 +124,31 @@
           </ng-template>
         </li>
 
+        <!-- ! authors -->
         <li nz-submenu>
           <span title>
             <i nz-icon nzType="team"></i>
             <span class="nav-text">Authors</span>
           </span>
-          <ul>
-            <li nz-menu-item>Tom</li>
-            <li nz-menu-item>Bill</li>
-            <li nz-menu-item>Alex</li>
+          <ul *ngIf="authors$ | async as authors; else noauthorTemplate">
+            <li
+              nz-menu-item
+              *ngFor="let item of authors"
+              style="text-transform: capitalize"
+              routerLinkActive="active"
+              [routerLink]="['/article/list']"
+              [queryParams]="{ mode: 'author', id: item.id }"
+            >
+              {{ item?.firstname }} {{ item?.lastname }}
+            </li>
           </ul>
+          <ng-template #noauthorTemplate>
+            <ul>
+              <li nz-menu-item>
+                No category available yet
+              </li>
+            </ul>
+          </ng-template>
         </li>
       </ul>
     </nz-sider>

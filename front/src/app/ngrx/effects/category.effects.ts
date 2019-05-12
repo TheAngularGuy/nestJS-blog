@@ -22,20 +22,20 @@ import {
 
 @Injectable()
 export class CategoryEffects {
-  constructor(private readonly actions$: Actions, private readonly service: CategoryService) {}
+  constructor(private readonly actions$: Actions, private readonly categoryService: CategoryService) {}
 
   @Effect()
   loadCategories: Observable<any> = this.actions$.pipe(
     ofType(CategoryActionTypes.LoadCategories),
     mergeMap((action: LoadCategoriesAction) => {
-      return this.service.getCategories().pipe(
+      return this.categoryService.getCategories().pipe(
         map(list => {
           return new LoadCategoriesActionOK({
             categories: list,
           });
         }),
         catchError(err => {
-          console.error('log: AdminEffects -> constructor -> err', err);
+          console.error('log: AdminEffects -> loadCategories -> err', err);
           return of(
             new LoadCategoriesActionKO({
               errorMessage: 'Error while loading the categories',
@@ -50,14 +50,14 @@ export class CategoryEffects {
   addCategory: Observable<any> = this.actions$.pipe(
     ofType(CategoryActionTypes.AddCategorie),
     mergeMap((action: AddCategorieAction) => {
-      return this.service.addCategories(action.payload.category).pipe(
+      return this.categoryService.addCategories(action.payload.category).pipe(
         map(c => {
           return new AddCategorieActionOK({
             category: c,
           });
         }),
         catchError(err => {
-          console.error('log: AdminEffects -> constructor -> err', err);
+          console.error('log: AdminEffects -> addCategory -> err', err);
           return of(
             new AddCategorieActionKO({
               errorMessage: 'Error while loading the categories',
@@ -72,14 +72,14 @@ export class CategoryEffects {
   editCategory: Observable<any> = this.actions$.pipe(
     ofType(CategoryActionTypes.EditCategorie),
     mergeMap((action: EditCategorieAction) => {
-      return this.service.editCategories(action.payload.category).pipe(
+      return this.categoryService.editCategories(action.payload.category).pipe(
         map(c => {
           return new EditCategorieActionOK({
             category: c,
           });
         }),
         catchError(err => {
-          console.error('log: AdminEffects -> constructor -> err', err);
+          console.error('log: AdminEffects -> editCategory -> err', err);
           return of(
             new EditCategorieActionKO({
               errorMessage: 'Error while saving the category',
@@ -94,14 +94,14 @@ export class CategoryEffects {
   deleteCategory: Observable<any> = this.actions$.pipe(
     ofType(CategoryActionTypes.DeleteCategorie),
     mergeMap((action: DeleteCategorieAction) => {
-      return this.service.deleteCategories(action.payload.category).pipe(
+      return this.categoryService.deleteCategories(action.payload.category).pipe(
         map(c => {
           return new DeleteCategorieActionOK({
             category: action.payload.category,
           });
         }),
         catchError(err => {
-          console.error('log: AdminEffects -> constructor -> err', err);
+          console.error('log: AdminEffects -> deleteCategory -> err', err);
           return of(
             new DeleteCategorieActionKO({
               errorMessage: 'Error while saving the category',

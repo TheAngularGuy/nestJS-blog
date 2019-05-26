@@ -3,7 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export const DATABASE_CONFIG: TypeOrmModuleOptions = {
   type: 'postgres',
   host: '127.0.0.1',
-  port: 5432, // 3306,
+  port: 5432, // * use 3306 for mySQL,
   username: 'local',
   password: 'local',
   database: 'nest_blog',
@@ -13,6 +13,6 @@ export const DATABASE_CONFIG: TypeOrmModuleOptions = {
   migrationsTableName: 'migrations',
   migrations: ['migration/*.js'],
   cli: {
-    migrationsDir: 'migration'
-  }
+    migrationsDir: 'migration',
+  },
 };

@@ -62,8 +62,8 @@
           <ng-template #pagination>
             <nz-pagination
               *ngIf="list && list.length"
-              [nzPageIndex]="page$ | async"
-              [nzPageSize]="take$ | async"
+              [nzPageIndex]="page"
+              [nzPageSize]="take"
               [nzTotal]="max$ | async"
               (nzPageIndexChange)="changePage($event)"
             >

@@ -3,19 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { take, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { take, takeUntil, throttleTime } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 import { AppState } from 'src/app/ngrx/reducers';
 
 import { UtilitiesService } from '../../shared/utilities.service';
 import { ArticleActionTypes, LoadArticlesAction, LoadArticlesActionKO } from '../state/article.actions';
 import { initialArticleState } from '../state/article.reducer';
-import {
-  articleCountSelector,
-  articleListSelector,
-  articlePageSelector,
-  articleTakeSelector,
-} from '../state/article.selectors';
+import { articleCountSelector, articleListSelector } from '../state/article.selectors';
 
 @Component({
   selector: 'app-article-list',
@@ -42,8 +37,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.page$ = this.store.select(articlePageSelector).pipe(tap(p => (this.page = p)));
-    this.take$ = this.store.select(articleTakeSelector).pipe(tap(t => (this.take = t)));
     this.max$ = this.store.select(articleCountSelector);
     this.articleList$ = this.store.select(articleListSelector);
     this.requestData();
@@ -61,11 +54,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       )
       .subscribe(params => {
         this.mode = params.mode;
+        this.page = params.page || initialArticleState.page;
+        this.take = params.take || initialArticleState.take;
         this.store.dispatch(
           new LoadArticlesAction({
             mode: params.mode ? '/' + params.mode + '/' + params.id : '',
-            page: params.page || initialArticleState.page,
-            take: params.take || initialArticleState.take,
+            page: this.page,
+            take: this.take,
           }),
         );
       });

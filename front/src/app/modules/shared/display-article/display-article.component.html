@@ -3,7 +3,7 @@
     <div [ngSwitch]="item.type">
       <ul class="checklist" *ngSwitchCase="'checklist'">
         <li *ngFor="let li of item.data.items">
-          <input type="checkbox" [checked]="li.checked" />
+          <input type="checkbox" [checked]="li.checked" [disabled]="true" />
           {{ li.text }}
         </li>
       </ul>
@@ -34,7 +34,7 @@
     <span [ngSwitch]="item.type">
       <span class="checklist" *ngSwitchCase="'checklist'">
         <span *ngFor="let li of item.data.items">
-          <input type="checkbox" [checked]="li.checked" />
+          <input type="checkbox" [checked]="li.checked" [disabled]="true" />
           {{ li.text }},
         </span>
       </span>

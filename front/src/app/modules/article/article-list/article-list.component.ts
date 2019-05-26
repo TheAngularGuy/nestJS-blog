@@ -3,21 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
+import { take, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 import { AppState } from 'src/app/ngrx/reducers';
 
 import { UtilitiesService } from '../../shared/utilities.service';
 import { ArticleActionTypes, LoadArticlesAction, LoadArticlesActionKO } from '../state/article.actions';
+import { initialArticleState } from '../state/article.reducer';
 import {
   articleCountSelector,
   articleListSelector,
   articlePageSelector,
   articleTakeSelector,
 } from '../state/article.selectors';
-
-const DEFAULT_PAGE = 1;
-const DEFAULT_TAKE = 5;
 
 @Component({
   selector: 'app-article-list',
@@ -26,14 +24,14 @@ const DEFAULT_TAKE = 5;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
+  destroyed$ = new Subject<boolean>();
   articleList$: Observable<ArticleModel[]>;
   page: number;
   page$: Observable<number>;
   take: number;
   take$: Observable<number>;
   max$: Observable<number>;
-  mode: string;
-  destroyed$ = new Subject<boolean>();
+  mode: string; // * category or author
 
   constructor(
     private readonly store: Store<AppState>,
@@ -60,22 +58,14 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroyed$),
         throttleTime(500),
-        filter(a => {
-          return (
-            !this.page || !this.take || a.page != this.page || a.take != this.take || a.mode != this.mode
-          );
-        }),
-        tap(params => {
-          console.log('Debbug log: ArticleListComponent -> requestData -> params', params);
-        }),
       )
       .subscribe(params => {
         this.mode = params.mode;
         this.store.dispatch(
           new LoadArticlesAction({
             mode: params.mode ? '/' + params.mode + '/' + params.id : '',
-            page: this.route.snapshot.queryParams.page || DEFAULT_PAGE,
-            take: this.route.snapshot.queryParams.take || DEFAULT_TAKE,
+            page: params.page || initialArticleState.page,
+            take: params.take || initialArticleState.take,
           }),
         );
       });
@@ -90,7 +80,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     if (page == this.page) {
       return;
     }
-    document.getElementById('content').scroll(0, 0); // TODO: maybe put this in a utilities service
     this.router.navigate([''], {
       queryParams: {
         page,
@@ -98,5 +87,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       queryParamsHandling: 'merge',
       relativeTo: this.route,
     });
+    this.utils.scrollToTop();
   }
 }

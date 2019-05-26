@@ -65,7 +65,7 @@ export class CreatorEffects {
   loadArticles: Observable<any> = this.actions$.pipe(
     ofType(CreatorActionTypes.GetOwnArticles),
     mergeMap((action: GetOwnArticlesAction) => {
-      return this.creService.getArticles().pipe(
+      return this.creService.getArticles(action.payload.page, action.payload.take).pipe(
         tap(() => {
           this.router.navigate([], {
             relativeTo: this.route,
@@ -97,7 +97,7 @@ export class CreatorEffects {
 
   @Effect()
   countArticles: Observable<any> = this.actions$.pipe(
-    ofType(CreatorActionTypes.CountArticles),
+    ofType(CreatorActionTypes.GetOwnArticlesOK),
     mergeMap((action: CountOwnArticlesAction) => {
       return this.creService.getCount().pipe(
         map(total => {

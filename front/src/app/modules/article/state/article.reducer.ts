@@ -12,8 +12,8 @@ export interface ArticleState {
 
 export const initialArticleState: ArticleState = {
   list: null,
-  page: null,
-  take: null,
+  page: 1,
+  take: 5,
   count: null,
 };
 

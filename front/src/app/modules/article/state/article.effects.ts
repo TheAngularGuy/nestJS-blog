@@ -54,7 +54,7 @@ export class ArticleEffects {
             }),
         ),
         catchError(err => {
-          console.log('Debbug log: ArticleEffects -> err', err);
+          console.error('Debbug log: ArticleEffects -> err', err);
           return of(new LoadArticlesActionKO({ errorMessage: 'Error: Articles not found' }));
         }),
       );

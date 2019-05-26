@@ -25,4 +25,8 @@ export class UtilitiesService {
       nzPauseOnHover: true,
     });
   }
+
+  scrollToTop() {
+    document.getElementById('content').scroll(0, 0);
+  }
 }

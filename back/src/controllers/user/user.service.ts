@@ -55,6 +55,8 @@ export class UserService {
   ): Promise<ArticleEntity[]> {
     const u = await this.userRepo.findOneOrFail({
       where: {
+        skip: take * (page - 1),
+        take,
         email,
       },
     });

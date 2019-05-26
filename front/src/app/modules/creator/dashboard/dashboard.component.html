@@ -21,9 +21,11 @@
       >
         <ng-template #paginationTemplate>
           <nz-pagination
+            [nzShowSizeChanger]="true"
             [nzPageIndex]="page"
             [nzPageSize]="take"
             [nzTotal]="total$ | async"
+            (nzPageSizeChange)="changePageSize($event)"
             (nzPageIndexChange)="changePage($event)"
           >
           </nz-pagination>

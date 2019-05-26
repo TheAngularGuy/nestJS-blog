@@ -49,7 +49,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         throttleTime(500),
       )
       .subscribe(params => {
-        this.page = params.page;
+        this.page = params.page || this.page;
+        this.take = params.take || this.take;
         this.store.dispatch(
           new GetOwnArticlesAction({
             page: params.page || this.page,
@@ -66,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   delete(item: ArticleModel) {}
 
-  async changePage(page: number) {
+  changePage(page: number) {
     if (page == this.page) {
       return;
     }
@@ -78,5 +79,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
     });
     this.utils.scrollToTop();
+  }
+
+  changePageSize(take: number) {
+    if (take == this.take) {
+      return;
+    }
+    this.router.navigate([], {
+      queryParams: {
+        take,
+      },
+      queryParamsHandling: 'merge',
+      relativeTo: this.route,
+    });
   }
 }

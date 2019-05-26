@@ -1,0 +1,59 @@
+<ng-container *ngFor="let item of blocks">
+  <ng-container *ngIf="!compact; else compactTemplate">
+    <div [ngSwitch]="item.type">
+      <ul class="checklist" *ngSwitchCase="'checklist'">
+        <li *ngFor="let li of item.data.items">
+          <input type="checkbox" [checked]="li.checked" />
+          {{ li.text }}
+        </li>
+      </ul>
+      <ul *ngSwitchCase="'list'">
+        <li *ngFor="let li of item.data.items">
+          {{ li }}
+        </li>
+      </ul>
+      <blockquote *ngSwitchCase="'quote'">
+        <p>
+          {{ item.data.text }}
+        </p>
+        <caption>
+          {{
+            item.data.caption
+          }}
+        </caption>
+      </blockquote>
+      <h3 *ngSwitchCase="'header'">
+        {{ item.data.text }}
+      </h3>
+      <p *ngSwitchDefault>
+        {{ item.data.text }}
+      </p>
+    </div>
+  </ng-container>
+  <ng-template #compactTemplate>
+    <span [ngSwitch]="item.type">
+      <span class="checklist" *ngSwitchCase="'checklist'">
+        <span *ngFor="let li of item.data.items">
+          <input type="checkbox" [checked]="li.checked" />
+          {{ li.text }},
+        </span>
+      </span>
+      <span *ngSwitchCase="'list'">
+        <span *ngFor="let li of item.data.items"> {{ li }}, </span>
+      </span>
+      <span *ngSwitchCase="'quote'">
+        <span>
+          {{ item.data.text }}
+        </span>
+        <span> ,{{ item.data.caption }} </span>
+      </span>
+      <span *ngSwitchCase="'header'">
+        {{ item.data.text }}
+      </span>
+      <span *ngSwitchDefault>
+        {{ item.data.text }}
+      </span>
+      &nbsp;
+    </span>
+  </ng-template>
+</ng-container>

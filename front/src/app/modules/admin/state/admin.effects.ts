@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AdminService } from '../admin.service';
 import {
   AdminActionTypes,
-  CountUsersAction,
   CountUsersActionOK,
   LoadUsersAction,
   LoadUsersActionKO,
@@ -20,13 +20,28 @@ import {
 
 @Injectable()
 export class AdminEffects {
-  constructor(private readonly actions$: Actions, private readonly admService: AdminService) {}
+  constructor(
+    private readonly actions$: Actions,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly admService: AdminService,
+  ) {}
 
   @Effect()
   loadUsers: Observable<any> = this.actions$.pipe(
     ofType(AdminActionTypes.LoadUsers),
     mergeMap((action: LoadUsersAction) => {
-      return this.admService.getUsers().pipe(
+      return this.admService.getUsers(action.payload.page, action.payload.take).pipe(
+        tap(() => {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {
+              page: action.payload.page,
+              take: action.payload.take,
+            },
+            queryParamsHandling: 'merge',
+          });
+        }),
         map(list => {
           return new LoadUsersActionOK({
             users: list,
@@ -48,8 +63,8 @@ export class AdminEffects {
 
   @Effect()
   countUsers: Observable<any> = this.actions$.pipe(
-    ofType(AdminActionTypes.CountUsers),
-    mergeMap((action: CountUsersAction) => {
+    ofType(AdminActionTypes.LoadUsersOK),
+    mergeMap((action: LoadUsersActionOK) => {
       return this.admService.getCount().pipe(
         map(total => {
           return new CountUsersActionOK({

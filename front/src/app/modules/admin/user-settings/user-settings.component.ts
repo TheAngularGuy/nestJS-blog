@@ -1,12 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Actions } from '@ngrx/effects';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { UserModel } from 'src/app/models/user.model';
 
-import { CountUsersAction, LoadUsersAction, SetAdminUserAction, SetAuthorUserAction } from '../state/admin.actions';
+import { UtilitiesService } from '../../shared/utilities.service';
+import {
+  AdminActionTypes,
+  LoadUsersAction,
+  LoadUsersActionKO,
+  SetAdminUserAction,
+  SetAuthorUserAction,
+} from '../state/admin.actions';
 import { initialAdminState } from '../state/admin.reducer';
 import { usersCountSelector, usersSelector } from '../state/admin.selectors';
 
@@ -31,7 +38,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store<any>,
-    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly utils: UtilitiesService,
     private readonly actions: Actions,
   ) {}
 
@@ -48,11 +57,30 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   }
 
   onPageChanged(page: number) {
-    console.log('Debbug log: UserSettingsComponent -> onPageChanged -> page', page);
+    if (page == this.page) {
+      return;
+    }
+    this.router.navigate([], {
+      queryParams: {
+        page,
+      },
+      queryParamsHandling: 'merge',
+      relativeTo: this.route,
+    });
+    this.utils.scrollToTop();
   }
 
-  onPageSizeChanged(nb: number) {
-    console.log('Debbug log: UserSettingsComponent -> onPageSizeChanged -> nb', nb);
+  onPageSizeChanged(take: number) {
+    if (take == this.take) {
+      return;
+    }
+    this.router.navigate([], {
+      queryParams: {
+        take,
+      },
+      queryParamsHandling: 'merge',
+      relativeTo: this.route,
+    });
   }
 
   ngOnInit(): void {
@@ -71,13 +99,30 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   }
 
   requestData() {
-    this.store.dispatch(new CountUsersAction());
     this.store.dispatch(
       new LoadUsersAction({
         page: this.page,
         take: this.take,
       }),
     );
+    this.route.queryParams
+      .pipe(
+        takeUntil(this.destroyed$),
+        throttleTime(500),
+      )
+      .subscribe(params => {
+        this.page = params.page || this.page;
+        this.take = params.take || this.take;
+        this.store.dispatch(
+          new LoadUsersAction({
+            page: this.page,
+            take: this.take,
+          }),
+        );
+      });
+    this.actions.pipe(ofType(AdminActionTypes.LoadUsersKO)).subscribe((action: LoadUsersActionKO) => {
+      this.utils.toastError(action.payload.errorMessage);
+    });
   }
 
   ngOnDestroy() {

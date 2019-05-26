@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   requestOwnArticles() {
-    this.store.dispatch(new GetOwnArticlesAction({ page: this.page, take: this.take }));
     this.route.queryParams
       .pipe(
         takeUntil(this.destroyed$),
@@ -59,8 +58,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.take = params.take || this.take;
         this.store.dispatch(
           new GetOwnArticlesAction({
-            page: params.page || this.page,
-            take: params.take || this.take,
+            page: this.page,
+            take: this.take,
           }),
         );
       });

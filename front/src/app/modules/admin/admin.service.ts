@@ -12,8 +12,8 @@ export class AdminService {
     return this.httpClient.get(environment.apiRoute + 'user/count') as any;
   }
 
-  getUsers(): Observable<UserModel[]> {
-    return this.httpClient.get(environment.apiRoute + 'user') as any;
+  getUsers(page: number, take: number): Observable<UserModel[]> {
+    return this.httpClient.get(environment.apiRoute + `user?page=${page}&take=${take}`) as any;
   }
 
   editUser(u: UserModel): Observable<UserModel> {

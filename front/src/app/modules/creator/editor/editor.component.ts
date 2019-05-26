@@ -15,6 +15,7 @@ import { ArticleModel } from 'src/app/models/article.model';
 import { CategoryModel } from 'src/app/models/category.model';
 import { categoriesSimpleSelector } from 'src/app/ngrx/selectors/category.selectors';
 
+import { UtilitiesService } from '../../shared/utilities.service';
 import { CreatorActionTypes, SendArticleAction, UpdateArticleAction, UpdateArticleActionOK } from '../state/creator.actions';
 import { ownArticleByIdSelector } from '../state/creator.selectors';
 
@@ -49,6 +50,7 @@ export class EditorComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
+    private readonly utils: UtilitiesService,
   ) {}
 
   ngOnInit() {
@@ -88,7 +90,7 @@ export class EditorComponent implements OnInit {
       this.editor =
         this.editor ||
         new EditorJS({
-          onReady: () => this.formChanged(),
+          onReady: () => this.ready$.next(true),
           onChange: () => this.formChanged(),
           holder: 'editor',
           autofocus: true,
@@ -102,16 +104,21 @@ export class EditorComponent implements OnInit {
           },
         });
     }, 250);
-    this.ready$.next(true);
   }
 
-  formChanged() {}
+  formChanged() {
+    this.articleForm.markAsDirty();
+  }
 
   formFieldStatus(field: string) {
     return !this.articleForm.get(field).valid && this.articleForm.get(field).touched ? 'error' : 'null';
   }
 
   async save() {
+    if (!this.articleForm.valid) {
+      this.utils.toastError('Form is not valid');
+      return;
+    }
     const ob = {
       title: this.articleForm.value.title,
       categoryIds: this.articleForm.value.categories,

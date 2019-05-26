@@ -6,13 +6,13 @@
       <nz-breadcrumb-item>
         <a>Articles</a>
       </nz-breadcrumb-item>
-      <nz-breadcrumb-item>{{ (article$ | async)?.title }}</nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{ article?.title }}</nz-breadcrumb-item>
     </nz-breadcrumb>
   </nz-page-header>
 
   <div class="article">
-    <p>
-      {{ (article$ | async)?.body }}
-    </p>
+    <div class="article-body" *ngIf="articleBody">
+      <app-display-article [blocks]="articleBody.blocks"></app-display-article>
+    </div>
   </div>
 </section>

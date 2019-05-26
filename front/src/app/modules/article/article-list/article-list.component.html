@@ -19,7 +19,10 @@
               >
                 <ng-template #contentItem>
                   <p style="height: 65px; overflow: hidden; text-overflow: ellipsis;">
-                    {{ article.body }}
+                    <app-display-article
+                      [compact]="true"
+                      [blocks]="parseBody(article.body).blocks"
+                    ></app-display-article>
                   </p>
                 </ng-template>
                 <ng-template #viewAction>
@@ -34,14 +37,15 @@
                 </ng-template>
                 <nz-list-item-meta
                   [nzTitle]="title"
-                  [nzAvatar]="'assets/images/user.png'"
+                  [nzAvatar]="article.author?.avatar || 'assets/images/user.png'"
                   [nzDescription]="desc"
                 >
                   <ng-template #title>
                     <a [routerLink]="['read', article.id]">{{ article.title }}</a>
                   </ng-template>
                   <ng-template #desc>
-                    {{ article.author }} — {{ article.createdAt | date }}
+                    {{ article.author?.firstname }} {{ article.author?.lastname }} —
+                    {{ article.createdAt | date }}
                   </ng-template>
                 </nz-list-item-meta>
                 <ng-template #extra>

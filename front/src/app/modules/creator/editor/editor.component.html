@@ -3,7 +3,7 @@
     <nz-page-header (nzBack)="onBack()" nzBackIcon>
       <nz-page-header-title>Write an article</nz-page-header-title>
       <nz-page-header-extra>
-        <button nz-button nzType="primary" [disabled]="!editor" (click)="save()">
+        <button nz-button nzType="primary" [disabled]="!ready$ | async" (click)="save()">
           Save
         </button>
       </nz-page-header-extra>

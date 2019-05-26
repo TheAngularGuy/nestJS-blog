@@ -89,4 +89,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     });
     this.utils.scrollToTop();
   }
+
+  parseBody(str: string) {
+    if (!str) {
+      return { blocks: [] };
+    }
+    return JSON.parse(str);
+  }
 }

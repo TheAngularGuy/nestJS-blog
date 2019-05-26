@@ -27,7 +27,7 @@ export class ArticleService {
 
   getArticles(page = 1, take = 25): Promise<ArticleEntity[]> {
     return this.articleRepo.find({
-      relations: ['comments', 'categories'],
+      relations: ['comments', 'categories', 'author'],
       skip: take * (page - 1),
       take,
       order: {

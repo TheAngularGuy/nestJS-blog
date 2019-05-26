@@ -15,7 +15,7 @@ import { ArticleModel } from 'src/app/models/article.model';
 import { CategoryModel } from 'src/app/models/category.model';
 import { categoriesSimpleSelector } from 'src/app/ngrx/selectors/category.selectors';
 
-import { CreatorActionTypes, SendArticleAction } from '../state/creator.actions';
+import { CreatorActionTypes, SendArticleAction, UpdateArticleAction, UpdateArticleActionOK } from '../state/creator.actions';
 import { ownArticleByIdSelector } from '../state/creator.selectors';
 
 const NEW_NOTE_INIT = {
@@ -66,6 +66,7 @@ export class EditorComponent implements OnInit {
         )
         .toPromise();
       if (!this.article) {
+        // TODO: request the article fron the server instead
         return this.onBack();
       }
     } else {
@@ -116,14 +117,37 @@ export class EditorComponent implements OnInit {
       categoryIds: this.articleForm.value.categories,
       body: JSON.stringify(await this.editor.saver.save()),
     };
-    this.store.dispatch(new SendArticleAction({ article: ob }));
+    const id = this.route.snapshot.params.id;
+    if (id) {
+      this.update(ob, id);
+      return;
+    }
+    this.create(ob);
+  }
 
+  create(ob: any) {
+    this.store.dispatch(new SendArticleAction({ article: ob }));
     this.actions
       .pipe(
         ofType(CreatorActionTypes.sendArticleOK),
         first(),
         tap(action => {
           this.onBack();
+        }),
+      )
+      .subscribe();
+  }
+
+  update(ob: any, id: number) {
+    this.store.dispatch(new UpdateArticleAction({ article: ob, id }));
+    this.actions
+      .pipe(
+        ofType(CreatorActionTypes.updateArticleOK),
+        first(),
+        tap((action: UpdateArticleActionOK) => {
+          if (action.payload.id == id) {
+            this.onBack();
+          }
         }),
       )
       .subscribe();

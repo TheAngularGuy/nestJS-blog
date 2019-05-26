@@ -69,7 +69,11 @@ export class ArticleService {
   async getArticlesByCategory(category: CategoryEntity, page = 1, take = 25): Promise<ArticleEntity[]> {
     const articles = await this.articleRepo
       .createQueryBuilder('article')
-      .innerJoin('article.categories', 'category', 'category.id = :catId', { catId: category.id })
+      .leftJoinAndSelect('article.author', 'user', 'user.id = article.author')
+      .leftJoinAndSelect('article.comments', 'comment', 'comment.article = article.id')
+      .innerJoinAndSelect('article.categories', 'category', 'category.id = :catId', {
+        catId: category.id,
+      })
       .skip((page - 1) * take)
       .take(take)
       .getMany();
@@ -92,13 +96,14 @@ export class ArticleService {
       },
       take,
       skip: (page - 1) * take,
+      relations: ['comments', 'categories', 'author'],
     });
     return articles;
   }
 
   getOneArticle(articleId: number): Promise<ArticleEntity> {
     return this.articleRepo.findOneOrFail(articleId, {
-      relations: ['comments', 'categories'],
+      relations: ['comments', 'categories', 'author'],
     });
   }
 

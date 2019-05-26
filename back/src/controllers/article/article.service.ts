@@ -76,6 +76,7 @@ export class ArticleService {
       })
       .skip((page - 1) * take)
       .take(take)
+      .orderBy('article.createdAt', 'DESC')
       .getMany();
     return articles;
   }
@@ -93,6 +94,9 @@ export class ArticleService {
     const articles = await this.articleRepo.find({
       where: {
         author,
+      },
+      order: {
+        createdAt: 'DESC',
       },
       take,
       skip: (page - 1) * take,

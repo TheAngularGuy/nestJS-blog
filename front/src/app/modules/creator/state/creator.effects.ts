@@ -10,6 +10,9 @@ import {
   CountOwnArticlesActionKO,
   CountOwnArticlesActionOK,
   CreatorActionTypes,
+  DeleteArticleAction,
+  DeleteArticleActionKO,
+  DeleteArticleActionOK,
   GetOwnArticlesAction,
   GetOwnArticlesActionKO,
   GetOwnArticlesActionOK,
@@ -54,6 +57,25 @@ export class CreatorEffects {
           return of(
             new UpdateArticleActionKO({
               errorMessage: 'An error occured while updating the article',
+            }),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  deleteArticle$: Observable<any> = this.actions$.pipe(
+    ofType(CreatorActionTypes.deleteArticle),
+    mergeMap((action: DeleteArticleAction) => {
+      return this.creService.deleteArticle(action.payload.id).pipe(
+        map(article => {
+          return new DeleteArticleActionOK(action.payload);
+        }),
+        catchError(errWrapper => {
+          return of(
+            new DeleteArticleActionKO({
+              errorMessage: 'An error occured while deleting the article',
             }),
           );
         }),

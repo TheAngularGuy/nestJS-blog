@@ -3,11 +3,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, throttleTime } from 'rxjs/operators';
+import { first, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { ArticleModel } from 'src/app/models/article.model';
 
 import { UtilitiesService } from '../../shared/utilities.service';
-import { CreatorActionTypes, GetOwnArticlesAction, UpdateArticleActionKO } from '../state/creator.actions';
+import {
+  CreatorActionTypes,
+  DeleteArticleAction,
+  DeleteArticleActionOK,
+  GetOwnArticlesAction,
+  UpdateArticleActionKO,
+} from '../state/creator.actions';
 import { initialCreatorState } from '../state/creator.reducer';
 import { ownArticleCountSelector, ownArticleListSelector } from '../state/creator.selectors';
 
@@ -65,7 +71,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  delete(item: ArticleModel) {}
+  delete(item: ArticleModel) {
+    this.store.dispatch(
+      new DeleteArticleAction({
+        id: item.id,
+      }),
+    );
+    this.actions
+      .pipe(
+        ofType(CreatorActionTypes.deleteArticleOK),
+        first(),
+        tap((action: DeleteArticleActionOK) => {
+          if (action.payload.id == item.id) {
+            this.utils.toastSuccess(`Article id:${item.id} was deleted`);
+          }
+        }),
+      )
+      .subscribe();
+  }
 
   changePage(page: number) {
     if (page == this.page) {

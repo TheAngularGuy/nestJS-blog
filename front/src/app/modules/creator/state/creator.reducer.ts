@@ -30,6 +30,11 @@ export function reducer(state = initialCreatorState, action: CreatorActions): Cr
         ...state,
         total: action.payload.total,
       };
+    case CreatorActionTypes.deleteArticleOK:
+      return {
+        ...state,
+        articles: state.articles.filter(el => el.id != action.payload.id),
+      };
     default:
       return state;
   }

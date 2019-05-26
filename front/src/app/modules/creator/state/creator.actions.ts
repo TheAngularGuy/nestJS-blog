@@ -11,6 +11,10 @@ export enum CreatorActionTypes {
   updateArticleOK = '[Creator] edit article success',
   updateArticleKO = '[Creator] edit article KO',
 
+  deleteArticle = '[Creator] delete article',
+  deleteArticleOK = '[Creator] delete article success',
+  deleteArticleKO = '[Creator] delete article KO',
+
   GetOwnArticles = '[Creator] Get article',
   GetOwnArticlesOK = '[Creator] Get article success',
   GetOwnArticlesKO = '[Creator] Get article KO',
@@ -46,6 +50,19 @@ export class UpdateArticleActionKO implements Action {
   readonly type = CreatorActionTypes.updateArticleKO;
   constructor(public payload: { errorMessage: string }) {}
 }
+// ! delete
+export class DeleteArticleAction implements Action {
+  readonly type = CreatorActionTypes.deleteArticle;
+  constructor(public payload: { id: number }) {}
+}
+export class DeleteArticleActionOK implements Action {
+  readonly type = CreatorActionTypes.deleteArticleOK;
+  constructor(public payload: { id: number }) {}
+}
+export class DeleteArticleActionKO implements Action {
+  readonly type = CreatorActionTypes.deleteArticleKO;
+  constructor(public payload: { errorMessage: string }) {}
+}
 // ! get all user articles
 export class GetOwnArticlesAction implements Action {
   readonly type = CreatorActionTypes.GetOwnArticles;
@@ -79,6 +96,9 @@ export type CreatorActions =
   | UpdateArticleAction
   | UpdateArticleActionOK
   | UpdateArticleActionKO
+  | DeleteArticleAction
+  | DeleteArticleActionOK
+  | DeleteArticleActionKO
   | GetOwnArticlesAction
   | GetOwnArticlesActionOK
   | GetOwnArticlesActionKO

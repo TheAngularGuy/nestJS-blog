@@ -16,6 +16,10 @@ export class CreatorService {
     return this.http.put(environment.apiRoute + `article/${id}`, ob) as any;
   }
 
+  deleteArticle(id: number): Observable<ArticleModel> {
+    return this.http.delete(environment.apiRoute + `article/${id}`) as any;
+  }
+
   getCount(): Observable<number> {
     return this.http.get(environment.apiRoute + `user/own/articles/count`) as any;
   }

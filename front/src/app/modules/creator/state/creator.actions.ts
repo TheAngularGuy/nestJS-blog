@@ -7,6 +7,10 @@ export enum CreatorActionTypes {
   sendArticleOK = '[Creator] Send article success',
   sendArticleKO = '[Creator] Send article KO',
 
+  updateArticle = '[Creator] edit article',
+  updateArticleOK = '[Creator] edit article success',
+  updateArticleKO = '[Creator] edit article KO',
+
   GetOwnArticles = '[Creator] Get article',
   GetOwnArticlesOK = '[Creator] Get article success',
   GetOwnArticlesKO = '[Creator] Get article KO',
@@ -27,6 +31,19 @@ export class SendArticleActionOK implements Action {
 }
 export class SendArticleActionKO implements Action {
   readonly type = CreatorActionTypes.sendArticleKO;
+  constructor(public payload: { errorMessage: string }) {}
+}
+// ! edit
+export class UpdateArticleAction implements Action {
+  readonly type = CreatorActionTypes.updateArticle;
+  constructor(public payload: { article: ArticleDto; id: number }) {}
+}
+export class UpdateArticleActionOK implements Action {
+  readonly type = CreatorActionTypes.updateArticleOK;
+  constructor(public payload: { article: ArticleDto; id: number }) {}
+}
+export class UpdateArticleActionKO implements Action {
+  readonly type = CreatorActionTypes.updateArticleKO;
   constructor(public payload: { errorMessage: string }) {}
 }
 // ! get all user articles
@@ -59,6 +76,9 @@ export type CreatorActions =
   | SendArticleAction
   | SendArticleActionOK
   | SendArticleActionKO
+  | UpdateArticleAction
+  | UpdateArticleActionOK
+  | UpdateArticleActionKO
   | GetOwnArticlesAction
   | GetOwnArticlesActionOK
   | GetOwnArticlesActionKO

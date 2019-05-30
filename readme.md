@@ -5,7 +5,7 @@ Creating a blog with NestJS in the backend and Angular + NgRx in the frontend.
 ## Screenshot
 
 <p align="center">
-  <img src="screenshot/demo.gif">
+  <img src="screenshot/capture.gif">
 </p>
 
 ## Start the backend: NestJS server

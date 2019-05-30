@@ -2,6 +2,12 @@
 
 Creating a blog with NestJS in the backend and Angular + NgRx in the frontend.
 
+## Demo
+
+<p align="center">
+  <img src="screenshot/demo.gif">
+</p>
+
 ## Start the backend: NestJS server
 
 create a postgres the database called `nest_blog` and configure it to be accessible on port `5432` with user “local” and password “local”, then:

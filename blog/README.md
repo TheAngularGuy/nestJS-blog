@@ -2,41 +2,40 @@
 
 ## Description
 
-A simple implementation of a blog to get used to NestJS 
+A simple implementation of a blog with JWT authentication.
 
 ## Installation
 
+First install postgres and start the pgsql server. Then create a database called `nest_blog` and configure it to be accessible on port `5432` with the following access:
+
+- user: “local”
+- password: “local”
+
+Then:
+
 ```bash
-$ npm install
+cd back/
+$ yarn start # or npm run start
 ```
+
+> ℹ️ The database settings can be changed in the `back/src/config/database.config.js`
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start # or npm run start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev # or npm run start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod # or npm run start:prod
 ```
 
-## Test
+## Postman
 
-```bash
-# unit tests
-$ npm run test
+To use the API with Postman:
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+- Import the environement file named `nest_blog.postman_environment.json` by clicking in the "import" button.
+- Then import the collection file named `nest_blog.postman_collection.json`.

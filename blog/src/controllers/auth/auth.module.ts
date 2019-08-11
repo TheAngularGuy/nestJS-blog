@@ -12,24 +12,16 @@ import { JwtStrategy } from './strategy/jwt.strategy';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secretOrPrivateKey: APP_CONFIG.secretKey,
+      secret: APP_CONFIG.secretKey,
       signOptions: {
         algorithm: 'HS512',
         expiresIn: APP_CONFIG.expiresIn,
-      }
+      },
     }),
     forwardRef(() => UserModule),
   ],
-  controllers: [
-    AuthController
-  ],
-  providers: [
-    AuthService,
-    JwtStrategy,
-  ],
-  exports: [
-    PassportModule,
-    JwtModule
-  ]
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
+  exports: [PassportModule, JwtModule],
 })
-export class AuthModule { }
+export class AuthModule {}

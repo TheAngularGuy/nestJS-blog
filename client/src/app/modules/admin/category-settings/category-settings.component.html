@@ -32,9 +32,10 @@
         </div>
       </form>
       <!-- ! list -->
-      <nz-list [nzDataSource]="categories$ | async" [nzRenderItem]="item">
+      <nz-list [nzItemLayout]="'horizontal'" [nzDataSource]="categories$ | async" [nzRenderItem]="item">
         <ng-template #item let-item>
           <nz-list-item
+            class="list-item"
             [nzContent]="contentTemplate"
             [nzActions]="
               editing[item.id] ? [editAction, stopEditAction] : [startEditAction, deleteAction]
@@ -49,7 +50,7 @@
             <ng-template #contentTemplate>
               <!-- ! display category info -->
               <ng-container *ngIf="!editing[item.id]">
-                <h4>
+                <h4 style="display: inline-block">
                   {{ item.title }}
                 </h4>
                 &nbsp;

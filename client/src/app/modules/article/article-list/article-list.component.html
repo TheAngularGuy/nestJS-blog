@@ -18,7 +18,7 @@
                 [nzExtra]="extra"
               >
                 <ng-template #contentItem>
-                  <p style="height: 65px; overflow: hidden; text-overflow: ellipsis;">
+                  <p style="max-height: 65px; overflow: hidden; text-overflow: ellipsis;">
                     <app-display-article
                       [compact]="true"
                       [blocks]="parseBody(article.body).blocks"
@@ -50,6 +50,7 @@
                 </nz-list-item-meta>
                 <ng-template #extra>
                   <img
+                    style="display: none"
                     width="270"
                     alt="logo"
                     src="https://i1.wp.com/thefrontline.org.uk/wp-content/uploads/2018/10/placeholder.jpg?ssl=1"
